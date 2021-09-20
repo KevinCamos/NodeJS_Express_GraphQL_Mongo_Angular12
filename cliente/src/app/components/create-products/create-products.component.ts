@@ -23,10 +23,20 @@ export class CreateProductsComponent implements OnInit {
     private notifyService: NotificationService
   ) {
     this.productForm = this.fb.group({
-      product: ['', Validators.required],
+      product: [
+        '',
+        [Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(20)]
+      ],
       id_category: ['', Validators.required],
       location: ['', Validators.required],
-      price: ['', Validators.required],
+      price: [
+        '',
+        [ Validators.required,
+          Validators.min(0),
+          Validators.max(1000000)]
+      ],
     });
     this.id = this.aRouter.snapshot.paramMap.get('id'); //obtiene la 'id' del link
   }
@@ -48,14 +58,19 @@ export class CreateProductsComponent implements OnInit {
 
       this._productService.updateProduct(this.id, PRODUCT).subscribe(
         (data) => {
-
-          this.notifyService.showInfo('Este producto ha sido modificado', 'Producto modificado');
+          this.notifyService.showInfo(
+            'Este producto ha sido modificado',
+            'Producto modificado'
+          );
 
           this.router.navigate(['/list-products']);
         },
         (error) => {
           console.log(error);
-          this.notifyService.showWarning('Ha habido algún problema y no se ha modificado el producto', 'Error en update');
+          this.notifyService.showWarning(
+            'Ha habido algún problema y no se ha modificado el producto',
+            'Error en update'
+          );
 
           this.productForm.reset(); //reinicia el formulario
         }
@@ -65,7 +80,10 @@ export class CreateProductsComponent implements OnInit {
         (data) => {
           console.log(data);
 
-          this.notifyService.showInfo('Este producto ha sido guardado con éxito', '¡Producto guardado!');
+          this.notifyService.showInfo(
+            'Este producto ha sido guardado con éxito',
+            '¡Producto guardado!'
+          );
 
           this.router.navigate(['/list-products']);
         },

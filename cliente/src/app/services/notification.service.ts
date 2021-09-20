@@ -7,30 +7,33 @@ import { ToastrService } from 'ngx-toastr';
 export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
-
-  showSuccess(message:any, title:any) {
+  showSuccess(message: any, title: any = 'Bualabob') {
     this.toastr.success(message, title);
   }
-  showWarning(message:any, title:any) {
+  showWarning(message: any, title: any = 'Bualabob') {
     this.toastr.warning(message, title);
   }
 
-  showError(message:any, title:any) {
+  showError(message: any, title: any = 'Bualabob') {
     this.toastr.error(message, title);
   }
-  showInfo(message:any, title:any) {
+  showInfo(message: any, title: any = 'Bualabob') {
     this.toastr.info(message, title);
   }
 
-  showHTMLMessage(message:any, title:any) {
+  showHTMLMessage(message: any, title: any = 'Bualabob') {
     this.toastr.success(message, title, {
-      enableHtml :  true
-    })
+      enableHtml: true,
+    });
   }
 
-  showSuccessWithTimeout(message:any, title:any, timespan:number){
-    this.toastr.success(message, title ,{
-      timeOut :  timespan
-    })
+  showSuccessWithTimeout(
+    message: any,
+    title: any = 'Bualabob',
+    timespan: number = 1000
+  ) {
+    this.toastr.success(message, title, {
+      timeOut: timespan,
+    });
   }
 }

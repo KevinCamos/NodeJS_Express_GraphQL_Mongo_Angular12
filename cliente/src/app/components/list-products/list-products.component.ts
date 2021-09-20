@@ -11,6 +11,9 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
+  /**
+   * Diccionario, de momento temporal para relacionar con id_category
+   */
   dictionaryCategory: { [key: number]: string } = {
     // Vore de com fer una variable única
     0: 'Otros',
@@ -20,6 +23,7 @@ export class ListProductsComponent implements OnInit {
     4: 'Hogar',
     5: 'Libros',
   };
+
   faTrash = faTrash;
   faPlus = faPlus;
   faEdit = faEdit;
@@ -31,31 +35,39 @@ export class ListProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
   }
-
+/**Se obtienen todos los productos de bbdd */
   getProducts() {
     this._productoService.getProducts().subscribe(
       (data) => {
         console.log(data);
+        //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
+        let numberFormat = new Intl.NumberFormat('es', {
+          style: 'currency',
+          currency: 'EUR',
+        });
 
         for (let product in data) {
-          data[product].price = new Intl.NumberFormat('es', {
-            style: 'currency',
-            currency: 'EUR',
-          }).format(data[product].price);
+          data[product].price = numberFormat.format(data[product].price);
         }
         this.listProducts = data; //ListProducts es un objeto Product[]
       },
       (error) => {
+        this.notifyService.showWarning(
+          'Ha habido un error en el proceso',
+          'Producto eliminado'
+        );
         console.log(error);
       }
     );
   }
-
+/**
+ * Se envia una "id" para eliminar el producto en el servidor
+ */
   deleteProduct(id: any) {
     this._productoService.deleteProduct(id).subscribe(
       (data) => {
         this.notifyService.showError(
-          'sEl producto se ha eliminado con éxito',
+          'El producto se ha eliminado con éxito',
           'Producto eliminado'
         );
 
