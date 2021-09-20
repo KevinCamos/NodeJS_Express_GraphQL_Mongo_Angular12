@@ -5,6 +5,7 @@ exports.createProduct = async (req, res) => {
     let product;
     product = new Product(req.body);
     await product.save();
+    console.log(product)
     res.send(product);
   } catch (error) {
     console.log(error);

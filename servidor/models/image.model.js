@@ -5,7 +5,7 @@ const ProductSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  idProduct: {
+  id_product: {
     type: String,
     required: true,
   },
