@@ -1,16 +1,16 @@
 var router = require("express").Router();
 
-const Image = require("../../models/image.model")
+const Category = require("../../models/category.model")
 
 
 
 router.post("/", async (req, res) => {
     try {
-      let image;
-      image = new Image(req.body);
-      await image.save();
+      let category;
+      category = new Category(req.body);
+      await category.save();
       console.log(req.body)
-      res.send(image);
+      res.send(category);
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");
@@ -19,8 +19,8 @@ router.post("/", async (req, res) => {
   
   router.get("/", async (req, res) => {
     try {
-      const images = await Image.find();
-      res.json(images);
+      const categorys = await Category.find();
+      res.json(categorys);
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");
@@ -29,11 +29,11 @@ router.post("/", async (req, res) => {
   
   router.get('/:id', async (req, res) => {
     try {
-      let image = await Image.findById(req.params.id);
-      if (!image) {
-        res.status(404).json({ msg: "No existe la imagen" });
+      let category = await Category.findById(req.params.id);
+      if (!category) {
+        res.status(404).json({ msg: "No existe la categoria" });
       }
-      res.json(image);
+      res.json(category);
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");
@@ -42,12 +42,12 @@ router.post("/", async (req, res) => {
   
   router.delete('/:id',async (req, res) => {
     try {
-      let image = await Image.findById(req.params.id);
-      if (!image) {
-        res.status(404).json({ msg: "No existe la imagen" });
+      let category = await Category.findById(req.params.id);
+      if (!category) {
+        res.status(404).json({ msg: "No existe la categoria" });
       }
-      await Image.findOneAndRemove({ _id: req.params.id });
-      res.json({ msg: "image eliminado con éxito!" });
+      await Category.findOneAndRemove({ _id: req.params.id });
+      res.json({ msg: "categoria eliminado con éxito!" });
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");

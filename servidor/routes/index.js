@@ -1,6 +1,7 @@
 var router = require("express").Router();
 const products = require("./products");
 const images = require("./images");
+const categories = require("./categories");
 
 
 /**
@@ -9,5 +10,6 @@ const images = require("./images");
  */
 router.use("/products/", products);  
 router.use("/images/", images);  
+router.use("/categories/", categories);  
 
 module.exports = router;
