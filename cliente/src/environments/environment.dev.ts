@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    url:'http://localhost:4000/products/' //Ha d'acabar en barra "/"
+    cat_url:'http://localhost:4000/categories/', //Ha d'acabar en barra "/"
+    url:'http://localhost:4000/products/'
   };
