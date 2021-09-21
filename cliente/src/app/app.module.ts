@@ -7,6 +7,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CreateProductsComponent } from './components/create-products/create-products.component';
 import { ListProductsComponent } from './components/list-products/list-products.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+
 // import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 // Librería FontAwesome para Iconos
@@ -25,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
     NotFoundComponent,
     CreateProductsComponent,
     ListProductsComponent,
+    CategoriesComponent,
   ],
   imports: [
     //modulos que importamos al proyecto
