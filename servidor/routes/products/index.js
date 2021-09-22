@@ -19,9 +19,10 @@ router.post("/", async (req, res) => {
     try {
       let product;
       product = new Product(req.body);
-      await product.save();
+      await product.save(); //Almacena el producte
       console.log(req.body)
       res.send(product);
+      //res.json({product:toJSONfor(param)}) -> preguntar en clase para qué sirve, y si hay que poner o no return 
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");
@@ -66,9 +67,11 @@ router.post("/", async (req, res) => {
     }
   });
   
-  router.get('/:id', async (req, res) => {
+  router.get('/:slug', async (req, res) => {
     try {
-      let product = await Product.findById(req.params.id);
+      // let product = await Product.find({$or:[{slug:req.params.id},{_id:req.params.id}]}); //DONA error en l'altre parametre si també busca per '_id'
+      let product = await Product.find({slug:req.params.slug});
+      console.log(product)
       if (!product) {
         res.status(404).json({ msg: "No existe el product" });
       }
