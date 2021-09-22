@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CreateProductsComponent } from './components/create-products/create-products.component';
-import { ListProductsComponent } from './components/list-products/list-products.component';
+import { ListCrudComponent } from './components/list-crud/list-crud.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 
 // import { HttpModule } from '@angular/http';
@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 // importart toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ListProductsComponent } from './components/list-products/list-products.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,9 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     NotFoundComponent,
     CreateProductsComponent,
-    ListProductsComponent,
+    ListCrudComponent,
     CategoriesComponent,
+    ListProductsComponent,
   ],
   imports: [
     //modulos que importamos al proyecto

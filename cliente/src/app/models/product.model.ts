@@ -6,6 +6,8 @@ export class Product {
   price: number;
   view?: number;
   id_user?: string;
+  updateDate?:Date;
+  creationDate?:Date;
   slug?: string;
 
   constructor(
@@ -17,7 +19,10 @@ export class Product {
     price: number,
     view?: number,
     id_user?: string,
-    slug?: string
+    creationDate?:Date,
+    updateDate?:Date,
+    slug?: string,
+
   ) {
     this.name = name;
     this.id_category = id_category;
@@ -25,6 +30,9 @@ export class Product {
     this.price = price;
     this.view = view ? view : 0;
     this.id_user = id_user ? id_user : 'undefined';
+    this.creationDate = creationDate
+    this.updateDate = updateDate
+
     this.slug = slug;
   }
 }

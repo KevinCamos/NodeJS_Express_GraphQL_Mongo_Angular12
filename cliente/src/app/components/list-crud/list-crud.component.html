@@ -1,0 +1,35 @@
+<section class="list-product">
+  <span class="titulo">LISTADO DE PRODUCTOS</span>
+  <button class="addProduct" routerLink="/create-products">NUEVO</button>
+
+
+  <table *ngIf="listProducts.length > 0">
+    <thead>
+      <tr class="rowTitle">
+        <th scope="col">Producto</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Ubicación</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of listProducts">
+        <td>{{ product.name }}</td>
+        <td>{{ dictionaryCategory[product.id_category]}}</td>
+        <td>{{ product.location }}</td>
+        <td class="price">{{ product.price}}</td>
+        <!-- <td class="price">{{ product.price | currency:'EUR':''}}€</td> -->
+        <td class="farIcon">
+          <fa-icon [icon]="faTrash" class="delete" id={{product._id}} (click)="deleteProduct(product._id)">
+          </fa-icon>
+          <fa-icon [icon]="faEdit" class="update" id={{product._id}} [routerLink]="['/update-product', product._id ]">
+          </fa-icon>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 *ngIf="listProducts.length == 0">No hay productos para mostrar</h5>
+</section>

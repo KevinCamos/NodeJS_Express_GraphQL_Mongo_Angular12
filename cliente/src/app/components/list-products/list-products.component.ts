@@ -1,7 +1,6 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
-import { Product } from 'src/app/models/product.model';
+import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { faTrash, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Product } from 'src/app/models/product.model';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -11,31 +10,13 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
-  /**
-   * Diccionario, de momento temporal para relacionar con id_category
-   */
-  dictionaryCategory: { [key: number]: string } = {
-    // Vore de com fer una variable única
-    0: 'Otros',
-    1: 'Electrónicos',
-    2: 'Música',
-    3: 'Informática',
-    4: 'Hogar',
-    5: 'Libros',
-  };
-
-  faTrash = faTrash;
-  faPlus = faPlus;
-  faEdit = faEdit;
+  public classList: String = '';
   constructor(
     private _productoService: ProductService,
-    private notifyService: NotificationService // ,               private toastr: ToastrServic
+    private notifyService: NotificationService
   ) {}
 
-  ngOnInit(): void {
-    this.getProducts();
-  }
-/**Se obtienen todos los productos de bbdd */
+  ngOnInit(): void {this.getProducts();}
   getProducts() {
     this._productoService.getProducts().subscribe(
       (data) => {
@@ -50,6 +31,7 @@ export class ListProductsComponent implements OnInit {
           data[product].price = numberFormat.format(data[product].price);
         }
         this.listProducts = data; //ListProducts es un objeto Product[]
+        console.log(this.listProducts)
       },
       (error) => {
         this.notifyService.showWarning(
@@ -60,22 +42,8 @@ export class ListProductsComponent implements OnInit {
       }
     );
   }
-/**
- * Se envia una "id" para eliminar el producto en el servidor
- */
-  deleteProduct(id: any) {
-    this._productoService.deleteProduct(id).subscribe(
-      (data) => {
-        this.notifyService.showError(
-          'El producto se ha eliminado con éxito',
-          'Producto eliminado'
-        );
 
-        this.getProducts();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  ShowList(thisClass:Boolean) {
+    this.classList = thisClass?"":"list";
   }
 }

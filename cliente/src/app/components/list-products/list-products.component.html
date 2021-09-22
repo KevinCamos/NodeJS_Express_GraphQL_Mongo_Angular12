@@ -1,35 +1,31 @@
-<section class="list-product">
-  <span class="titulo">LISTADO DE PRODUCTOS</span>
-  <button class="addProduct" routerLink="/create-products">NUEVO</button>
+<div class="wrapper">
+  <div class="view">
+    <p>View as:</p>
+    <a class="icon-grid" (click)="ShowList(true)"></a>
+    <a class="icon-list" (click)="ShowList(false)"></a>
 
+  </div>
 
-  <table *ngIf="listProducts.length > 0">
-    <thead>
-      <tr class="rowTitle">
-        <th scope="col">Producto</th>
-        <th scope="col">Categoria</th>
-        <th scope="col">Ubicación</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of listProducts">
-        <td>{{ product.name }}</td>
-        <td>{{ dictionaryCategory[product.id_category]}}</td>
-        <td>{{ product.location }}</td>
-        <td class="price">{{ product.price}}</td>
-        <!-- <td class="price">{{ product.price | currency:'EUR':''}}€</td> -->
-        <td class="farIcon">
-          <fa-icon [icon]="faTrash" class="delete" id={{product._id}} (click)="deleteProduct(product._id)">
-          </fa-icon>
-          <fa-icon [icon]="faEdit" class="update" id={{product._id}} [routerLink]="['/update-product', product._id ]">
-          </fa-icon>
-        </td>
-        <td>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 *ngIf="listProducts.length == 0">No hay productos para mostrar</h5>
-</section>
+  <div class="products category">
+    <ul class={{classList}} *ngFor="let product of listProducts">
+
+      <li>
+        <div class="wrapimg">
+          <!-- imagen temporal -->
+          <img src="">
+          <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>
+          </div>
+        </div>
+        <div class="titlePro"> <a href={{product.slug}}>{{ product.name }}</a>
+          <span>{{product.price}}</span>
+
+          <p class="descTitle">Localidad: {{product.location}}</p>
+          <p class="descTitle">Creado: {{product.creationDate | date}}</p>
+          <p class="descTitle">Modificado: {{product.updateDate | date}}</p>
+          <p>Hay que poner la descripción del producto en la BBDD.</p>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>
