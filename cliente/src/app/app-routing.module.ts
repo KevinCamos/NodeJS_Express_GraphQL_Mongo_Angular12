@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'list-products', component: ListCrudComponent }, //al crear una página como componente "ng generate component pages/home", hay que añadirlo aquí!!!! IMPORTANTE!
   { path: 'create-products', component: CreateProductsComponent }, //al crear una página como componente "ng generate component pages/home", hay que añadirlo aquí!!!! IMPORTANTE!
   { path: 'update-product/:id', component: CreateProductsComponent }, //al crear una página como componente "ng generate component pages/home", hay que añadirlo aquí!!!! IMPORTANTE!
-   { path: 'shop', component: ListProductsComponent },
+  { path: 'shop', component: ListProductsComponent },
+  { path: 'shop/categories/:id', component: ListProductsComponent },
   // { path: 'categories', component: CategoriesComponent },
 
   { path: '404', component: NotFoundComponent }, //El asterisco es la página "default" si no existe la ruta, se coloca al final"
