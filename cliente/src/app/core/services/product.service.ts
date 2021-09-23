@@ -27,11 +27,11 @@ export class ProductService {
     return this.http.post(environment.url + "products", product);
   }
 
-  getProduct(id: string): Observable<any> {
-    return this.http.get<Product>(environment.url + "products" + id);
+  getProduct(slug: string): Observable<any> {
+    return this.http.get<Product>(environment.url + "products/" + slug);
   }
 
   updateProduct(id: string, product: Product): Observable<any> {
-    return this.http.put(environment.url + "products" + id, product);
+    return this.http.put(environment.url + "products/" + id, product);
   }
 }

@@ -10,7 +10,7 @@
     <ul class={{classList}} *ngFor="let product of listProducts">
 
       <li>
-        <div class="wrapimg">
+        <div class="wrapimg" [routerLink]="['/details', product.slug]">
           <!-- imagen temporal -->
           <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}">
           <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>

@@ -71,10 +71,10 @@ router.put("/:id", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    let product = await Product.findOne({
+    /* let product = await Product.findOne({
       $or: [{ slug: req.params.id }, { _id: req.params.id }],
-    }); //DONA error en l'altre parametre si també busca per '_id'
-    // let product = await Product.findOne({ slug: req.params.id });
+    }); */ //DONA error en l'altre parametre si també busca per '_id'
+    let product = await Product.findOne({ slug: req.params.id });
     console.log(product);
 
     if (!product) {
