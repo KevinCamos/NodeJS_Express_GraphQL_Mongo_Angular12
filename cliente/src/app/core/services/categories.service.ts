@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { Category } from '../models/categories.model';
-
-console.log(environment.url+"categories/");
 @Injectable({
   providedIn: 'root',
 })
@@ -15,4 +13,10 @@ export class CategoriesService {
   getCategories(): Observable<any> {
     return this.http.get<Category[]>(environment.url+"categories");
   }
+
+  getCategory(id: string): Observable<any> {
+    console.log(environment.url + "categories/" + id);
+    return this.http.get<Category>(environment.url + "categories/" + id);
+  }
+
 }

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { CategoriesService, Category } from 'src/app/core';
-
+import { CategoriesService, Category, NotificationService } from '../../core';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -25,7 +23,6 @@ export class CategoriesComponent implements OnInit {
       (data) => {
         this.categories = data;
         console.log(data);
-        console.log("hola");
       },
       (error) => {
         this.notifyService.showWarning(

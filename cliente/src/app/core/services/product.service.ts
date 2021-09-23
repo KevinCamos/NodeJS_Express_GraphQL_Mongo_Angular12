@@ -11,7 +11,7 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<any> {
-    return this.http.get<Product[]>(environment.url)
+    return this.http.get<Product[]>(environment.url + "products")
     // .pipe(map(data=>{
     //   console.log(data);
     //   return data;
@@ -20,18 +20,18 @@ export class ProductService {
   }
 
   deleteProduct(id: string): Observable<any> {
-    return this.http.delete(environment.url + id);
+    return this.http.delete(environment.url + "products" + id);
   }
 
   saveProduct(product: Product): Observable<any> {
-    return this.http.post(environment.url, product);
+    return this.http.post(environment.url + "products", product);
   }
 
   getProduct(id: string): Observable<any> {
-    return this.http.get<Product>(environment.url + id);
+    return this.http.get<Product>(environment.url + "products" + id);
   }
 
   updateProduct(id: string, product: Product): Observable<any> {
-    return this.http.put(environment.url + id, product);
+    return this.http.put(environment.url + "products" + id, product);
   }
 }

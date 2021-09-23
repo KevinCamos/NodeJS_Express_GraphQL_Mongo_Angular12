@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <div class="view">
+    <p>View as:</p>
+    <a class="icon-grid" (click)="ShowList(true)"></a>
+    <a class="icon-list" (click)="ShowList(false)"></a>
+
+  </div>
+
+  <div class="products category">
+    <ul class={{classList}} *ngFor="let product of listProducts">
+
+      <li>
+        <div class="wrapimg">
+          <!-- imagen temporal -->
+          <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}">
+          <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>
+          </div>
+        </div>
+        <div class="titlePro"> <a href={{product.slug}}>{{ product.name }}</a>
+          <span>{{product.price}}</span>
+
+          <p class="descTitle">Localidad: {{product.location}}</p>
+          <p class="descTitle">Creado: {{product.creationDate | date}}</p>
+          <p class="descTitle">Modificado: {{product.updateDate | date}}</p>
+          <p>Hay que poner la descripción del producto en la BBDD.</p>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>
