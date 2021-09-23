@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Category } from 'src/app/models/categories.model';
-import { CategoriesService } from 'src/app/services/categories.service';
-import { NotificationService } from 'src/app/services/notification.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { CategoriesService, Category } from 'src/app/core';
 
 @Component({
   selector: 'app-categories',
@@ -14,7 +13,7 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     private _categoriesServices: CategoriesService,
-    private notifyService: NotificationService // ,               private toastr: ToastrServic
+    private notifyService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -26,6 +25,7 @@ export class CategoriesComponent implements OnInit {
       (data) => {
         this.categories = data;
         console.log(data);
+        console.log("hola");
       },
       (error) => {
         this.notifyService.showWarning(

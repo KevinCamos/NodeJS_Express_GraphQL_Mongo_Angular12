@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-// https://npm.io/package/@fortawesome/angular-fontawesome
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'cliente';
-  // faCoffee = faCoffee;
+export class AppComponent implements OnInit {
+  constructor () {}
 
+  ngOnInit() {
+  }
 }

@@ -10,7 +10,6 @@ export class Product {
 
   constructor(
     _id: number,
-
     name: string,
     id_category: number,
     location: string,
