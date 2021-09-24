@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
   router.get('/:id', async (req, res) => {
     try {
       // let category = await Category.findOne({name_category:req.params.name}).populate('products');
-      let category = await Category.findById(req.params.id).populate('products');
+      let category = await Category.findOne({slug:req.params.id}).populate('products');
       if (!category) {
         res.status(404).json({ msg: "No existe la categoria" });
       }

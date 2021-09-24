@@ -1,14 +1,14 @@
 var router = require("express").Router();
 
-const Product = require("../../models/product.model");
+const Product = require("../../models/Product.model");
 const Category = require("../../models/category.model");
 // const productModel = require("../../models/product.model");
 
 router.post("/", async (req, res) => {
+
   try {
     let product;
     product = new Product(req.body);
-
     //La siguiente operación busca en la tabla 'categories' y le añade en ella el _id del producto, para su posterior poulate("products")
     const category = await Category.updateOne(
       { reference: product.id_category },
@@ -69,12 +69,12 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:slug", async (req, res) => {
   try {
     /* let product = await Product.findOne({
       $or: [{ slug: req.params.id }, { _id: req.params.id }],
     }); */ //DONA error en l'altre parametre si també busca per '_id'
-    let product = await Product.findOne({ slug: req.params.id });
+    let product = await Product.findOne({ slug: req.params.slug });
     console.log(product);
 
     if (!product) {
