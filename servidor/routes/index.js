@@ -1,7 +1,7 @@
 var router = require("express").Router();
-const products = require("./products");
-const images = require("./images");
-const categories = require("./categories");
+const products = require("./products/products.controller");
+const images = require("./images/images.controller");
+const categories = require("./categories/categories.controller");
 
 
 /**

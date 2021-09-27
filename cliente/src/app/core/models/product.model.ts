@@ -1,6 +1,7 @@
 export class Product {
   _id?: number;
   name: string;
+  description: string;
   id_category: number;
   location: string;
   price: number;
@@ -13,6 +14,7 @@ export class Product {
   constructor(
     _id: number,
     name: string,
+    description: string,
     id_category: number,
     location: string,
     price: number,
@@ -24,6 +26,7 @@ export class Product {
 
   ) {
     this.name = name;
+    this.description = description;
     this.id_category = id_category;
     this.location = location;
     this.price = price;

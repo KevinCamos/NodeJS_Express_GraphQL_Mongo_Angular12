@@ -16,6 +16,11 @@ const ProductSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    default: "",
+    maxLength: 300,
+  },
   id_category: {
     type: Number,
     required: true,
@@ -65,6 +70,20 @@ ProductSchema.methods.slugify = function () {
     slug(this.name) +
     "-" +
     ((Math.random() * Math.pow(36, 6)) | 0).toString(36);
+};
+
+ProductSchema.methods.toJSONFor = function () {
+  return {
+    slug: this.slug,
+    name: this.name,
+    description: this.description,
+    location: this.location,
+    price: this.price,
+    view: this.view,
+    creationDate: this.creationDate,
+    updateDate: this.updateDate,
+    // id_user: this.id_user.toProfileJSONFor(user)
+  };
 };
 
 module.exports = mongoose.model("Product", ProductSchema);
