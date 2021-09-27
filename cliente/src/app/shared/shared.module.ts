@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { CategoriesComponent } from './categories/categories.component'
-import { ListProductsComponent } from './list-products/list-products.component'
+import { ListProductsComponent } from './list-products/list-products.component';
+import { CarouselComponent } from './carousel/carousel.component'
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { ListProductsComponent } from './list-products/list-products.component'
     ],
     declarations: [
         CategoriesComponent,
-        ListProductsComponent
+        ListProductsComponent,
+        CarouselComponent
     ],
     exports: [
         CategoriesComponent,
