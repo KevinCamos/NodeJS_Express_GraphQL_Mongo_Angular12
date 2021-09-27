@@ -14,9 +14,9 @@ export class CategoriesService {
     return this.http.get<Category[]>(environment.url+"categories");
   }
 
-  getCategory(id: string): Observable<any> {
-    console.log(environment.url + "categories/" + id);
-    return this.http.get<Category>(environment.url + "categories/" + id);
+  getCategory(slug: string): Observable<any> {
+    console.log(environment.url + "categories/" + slug);
+    return this.http.get<Category>(environment.url + "categories/" + slug);
   }
 
 }

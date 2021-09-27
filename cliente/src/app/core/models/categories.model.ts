@@ -3,17 +3,19 @@ export class Category {
     reference: number;
     name_category: string;
     products: string[];
+    slug: string;
 
     constructor(
         _id: number,
         reference: number,
         name_category: string,
-        products: string[]
+        products: string[],
+        slug: string,
     ) {
         this._id = _id;
         this.reference = reference;
         this.name_category = name_category;
-        this.products= products
-
+        this.products= products;
+        this.slug=slug
     }
 }
