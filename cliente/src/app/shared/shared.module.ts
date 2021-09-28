@@ -24,6 +24,7 @@ import { CarouselComponent } from './carousel/carousel.component'
     exports: [
         CategoriesComponent,
         ListProductsComponent,
+        CarouselComponent, //Carousel
         CommonModule,
         FormsModule,
         ReactiveFormsModule,

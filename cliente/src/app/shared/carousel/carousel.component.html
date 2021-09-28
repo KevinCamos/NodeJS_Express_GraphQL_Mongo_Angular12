@@ -1,4 +1,23 @@
 <!-- <div [@thumbState]="idx === counter ? 'active' : 'inactive'" class="tmb"
-*ngFor="let img of images; let idx = index">
-<img [src]="img" (click)="onClickThumb($event)"/>
+  *ngFor="let carousel of listCarousel; let idx = index">
+  <img [src]="carousel.img" (click)="onClickThumb($event)" />
+
 </div> -->
+
+<div class="container">
+
+  <div class="carousel">
+    <ng-container *ngFor="let carousel of listCarousel; let i = index">
+      <img *ngIf="i === counter" [src]="carousel.img" class="slide" @carouselAnimation />
+      <!--con @carouselAnimation se activan las animaciones -->
+    </ng-container>
+
+    <!-- controls -->
+    <button class="control prev" (click)="onPreviousClick()">
+      <span class="arrow left"></span>
+    </button>
+    <button class="control next" (click)="onNextClick()">
+      <span class="arrow right"></span>
+    </button>
+  </div>
+</div>
