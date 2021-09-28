@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core'; //Ens fa falta "onInit?"
+import { Component, OnInit , Input} from '@angular/core'; //Ens fa falta "onInit?"
 import { trigger, transition,useAnimation } from '@angular/animations';
 
 import { Carousel } from 'src/app/core/models/carousel.model';
-import { CarouselService } from 'src/app/core/services/carousel.service';
 import { fadeIn, fadeOut } from './carousel.animations';
 //Tutorial Carousel https://medium.com/showpad-engineering/angular-animations-lets-create-a-carousel-with-reusable-animations-81c0dd8847e8
 @Component({
@@ -18,25 +17,16 @@ import { fadeIn, fadeOut } from './carousel.animations';
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
-  listCarousel: Carousel[] = [];
+  @Input() listCarousel: Carousel[] = [];
+  // @Input() items: Carousel[]= [];
   // @Output() change: EventEmitter<number> = new EventEmitter<number>();
   counter = 0;
 
-  constructor(private _carouselService: CarouselService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.getCarousel();
 
   }
-  /**
-   * Obtiene un carousel
-   */
-  getCarousel() {
-    this._carouselService
-      .getCarousel()
-      .subscribe((data) => (this.listCarousel = data));
-  }
-
 
   onPreviousClick() {
     const previous = this.counter - 1;

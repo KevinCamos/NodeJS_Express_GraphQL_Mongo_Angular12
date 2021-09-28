@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const ImageSchema = mongoose.Schema({
-  routeImg: {
+  img: {
     type: String,
     required: true,
   },
   id_product: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

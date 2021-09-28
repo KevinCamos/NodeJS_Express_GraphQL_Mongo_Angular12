@@ -37,22 +37,25 @@ router.param("slug", async (req, res, next, slug) => {
 router.get("/:slug", async (req, res) => {
   //A petició de yolanda, de moment comentem aquesta funció
   res.json(req.product);
+//   if(!req.product){
+//  // try {
+//   //   console.log("Ha entrat");
+
+//   //   let product = await Product.findOne({ slug: req.params.slug });
+//   //   console.log(product);
+
+//   //   if (!product) {
+
+//   //     res.status(404).json({ msg: "No existe el product" });
+//   //   }
+//   //   res.json(product);
+//   // } catch (error) {
+//   //   console.log(error);
+//   //   res.status(500).send("Hubo un error");
+//   // }
+//   }
   // return next
-  // try {
-  //   console.log("Ha entrat");
-
-  //   let product = await Product.findOne({ slug: req.params.slug });
-  //   console.log(product);
-
-  //   if (!product) {
-
-  //     res.status(404).json({ msg: "No existe el product" });
-  //   }
-  //   res.json(product);
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(500).send("Hubo un error");
-  // }
+ 
 });
 
 router.get("/", async (req, res) => {

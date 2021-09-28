@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { CategoriesComponent } from './categories/categories.component'
 import { ListProductsComponent } from './list-products/list-products.component';
-import { CarouselComponent } from './carousel/carousel.component'
+import { CarouselComponent } from './carousel/carousel.component';
+import { CarouselItemsComponent } from './carousel-items/carousel-items.component'
 
 @NgModule({
     imports: [
@@ -19,12 +20,14 @@ import { CarouselComponent } from './carousel/carousel.component'
     declarations: [
         CategoriesComponent,
         ListProductsComponent,
-        CarouselComponent
+        CarouselComponent,
+        CarouselItemsComponent
     ],
     exports: [
         CategoriesComponent,
         ListProductsComponent,
         CarouselComponent, //Carousel
+        CarouselItemsComponent,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
