@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable  } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment.dev';
 import { Product } from '../models/product.model';
 
@@ -12,10 +14,10 @@ export class ProductService {
 
   getProducts(): Observable<any> {
     return this.http.get<Product[]>(environment.url + "products")
-    // .pipe(map(data=>{
-    //   console.log(data);
-    //   return data;
-    // }))
+    .pipe(map(data=>{
+      console.log(data);
+      return data;
+    }))
     ;
   }
 
@@ -28,8 +30,16 @@ export class ProductService {
   }
 
   getProduct(slug: string): Observable<any> {
-    return this.http.get<Product>(environment.url + "products/" + slug);
+    return this.http.get<Product>(environment.url + "products/" + slug)
+    .pipe(map(data=>{
+      console.log(data);
+      return data;
+    }))
+    ;
   }
+
+
+
 
   updateProduct(id: string, product: Product): Observable<any> {
     return this.http.put(environment.url + "products/" + id, product);

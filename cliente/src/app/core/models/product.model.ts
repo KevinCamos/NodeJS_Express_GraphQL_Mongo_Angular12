@@ -1,16 +1,27 @@
 export class Product {
+  // _id?: number;
+  // name: string;
+  // description: string;
+  // id_category: number;
+  // location: string;
+  // price: number;
+  // view?: number;
+  // id_user?: string;
+  // updateDate?:Date;
+  // creationDate?:Date;
+  // slug?: string;
   _id?: number;
-  name: string;
-  description: string;
-  id_category: number;
-  location: string;
-  price: number;
+  name?: string;
+  description?: string;
+  id_category?: number;
+  location?: string;
+  price?: number;
   view?: number;
   id_user?: string;
-  updateDate?:Date;
-  creationDate?:Date;
+  updateDate?: Date;
+  creationDate?: Date;
   slug?: string;
-
+  images?: string[];
   constructor(
     _id: number,
     name: string,
@@ -20,9 +31,10 @@ export class Product {
     price: number,
     view?: number,
     id_user?: string,
-    creationDate?:Date,
-    updateDate?:Date,
+    creationDate?: Date,
+    updateDate?: Date,
     slug?: string,
+    images?: string[]
 
   ) {
     this.name = name;
@@ -32,9 +44,10 @@ export class Product {
     this.price = price;
     this.view = view ? view : 0;
     this.id_user = id_user ? id_user : 'undefined';
-    this.creationDate = creationDate
-    this.updateDate = updateDate
+    this.creationDate = creationDate;
+    this.updateDate = updateDate;
 
     this.slug = slug;
+    this.images = images;
   }
 }

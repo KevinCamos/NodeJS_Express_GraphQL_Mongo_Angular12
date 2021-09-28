@@ -37,8 +37,6 @@ export class ListProductsComponent implements OnInit {
     } else {
       this._productoService.getProducts().subscribe(
         (data) => {
-          console.log(data);
-
           this.dataIsListProducts(data);
         },
         (error) => {
@@ -85,10 +83,9 @@ export class ListProductsComponent implements OnInit {
   dataIsListProducts(data: any) {
     for (let i: number = 0; i < data.length; i++) {
       data[i].price = this.numberFormat.format(data[i].price);
-      console.log(data[i]);
+      // console.log(data[i]);
     }
     this.listProducts = data; //ListProducts es un objeto Product[]
-    console.log(this.listProducts);
   }
 
   ShowList(thisClass: Boolean) {

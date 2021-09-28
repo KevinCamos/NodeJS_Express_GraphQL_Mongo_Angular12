@@ -2,7 +2,8 @@ var router = require("express").Router();
 
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
-// const productModel = require("../../models/product.model");
+const Image = require("../../models/image.model");
+const { exists } = require("../../models/image.model");
 
 router.param("username", function (req, res, next, username) {
   User.findOne({ username: username })
@@ -61,10 +62,8 @@ router.get("/:slug", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
-    // res.json(products.toJSONFor());
     res.json(products.map((product) => product.toJSONFor()));
 
-    // res.json(product.toJsonfor())
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error");
@@ -92,6 +91,10 @@ router.put("/:id", async (req, res) => {
     product = await Product.findOneAndUpdate({ _id: req.params.id }, product, {
       new: true,
     });
+
+
+
+    
     res.json(product);
   } catch (error) {
     console.log(error);
@@ -102,19 +105,23 @@ router.put("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let product;
+  
     product = new Product(req.body);
     //La siguiente operación busca en la tabla 'categories' y le añade en ella el _id del producto, para su posterior poulate("products")
     const category = await Category.updateOne(
       { reference: product.id_category },
       { $push: { products: product._id } }
     );
+
+    //Probem d'ací 
+
+
+
+
+    //a ací
+
+
     console.log(category);
-
-    // Category.updateOne(
-    //   { reference: product.id_category },
-    //   { $push: { products: product._id } }
-    // );
-
     await product.save(); //Almacena el producte
     console.log(req.body);
     res.send(product);

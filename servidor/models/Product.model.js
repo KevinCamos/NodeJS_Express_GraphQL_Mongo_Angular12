@@ -49,8 +49,10 @@ const ProductSchema = mongoose.Schema({
     type: String,
     default: "undefined",
   },
-  Images: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
-
+  images: {
+    type: [String],
+    required: false,
+  },
 });
 
 ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
