@@ -1,10 +1,21 @@
 export class Product {
+  // _id?: number;
+  // name: string;
+  // description: string;
+  // id_category: number;
+  // location: string;
+  // price: number;
+  // view?: number;
+  // id_user?: string;
+  // updateDate?:Date;
+  // creationDate?:Date;
+  // slug?: string;
   _id?: number;
-  name: string;
-  description: string;
-  id_category: number;
-  location: string;
-  price: number;
+  name?: string;
+  description?: string;
+  id_category?: number;
+  location?: string;
+  price?: number;
   view?: number;
   id_user?: string;
   updateDate?:Date;

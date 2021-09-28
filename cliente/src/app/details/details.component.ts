@@ -5,11 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit {
-
-  details: Product[] = [];
+  product: Product ={};
   public classList: String = '';
   slug: string | null;
 
@@ -17,8 +16,9 @@ export class DetailsComponent implements OnInit {
     private _productoService: ProductService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-  ) { 
-    this.slug = this.aRouter.snapshot.paramMap.get('slug'); //obtiene la 'id' del link
+    private router: Router
+  ) {
+    this.slug = this.aRouter.snapshot.paramMap.get('slug'); //obtiene la 'slug' del link
   }
 
   ngOnInit(): void {
@@ -30,17 +30,20 @@ export class DetailsComponent implements OnInit {
     if (typeof this.slug === 'string') {
       this._productoService.getProduct(this.slug).subscribe(
         (data) => {
-          console.log(data);
-          this.details = data;
+          this.product = data;
         },
         (error) => {
+
           this.notifyService.showWarning(
-            'Ha habido un error en el proceso',
-            'Producto eliminado'
+            'Este producto no existe',
+            'Bualabob informa'
           );
           console.log(error);
+          this.router.navigate(['/']);
+
         }
       );
+    } else {
     }
   }
 }
