@@ -19,7 +19,8 @@ router.post("/", async (req, res) => {
   
   router.get("/", async (req, res) => {
     try {
-      const categorys = await Category.find();
+      const { offset, limit } = req.query;
+      const categorys = await Category.find({}, {}, { skip: Number(offset), limit: Number(limit)});
       res.json(categorys);
     } catch (error) {
       console.log(error);

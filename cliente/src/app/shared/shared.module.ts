@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { CategoriesComponent } from './categories/categories.component'
 import { ListProductsComponent } from './list-products/list-products.component';
+import { CardProductComponent } from './card-product/card-product.component'
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { SearchComponent } from './search/search.component'
@@ -16,11 +18,13 @@ import { SearchComponent } from './search/search.component'
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        RouterModule
+        RouterModule,
+        InfiniteScrollModule
     ],
     declarations: [
         CategoriesComponent,
         ListProductsComponent,
+        CardProductComponent,
         CarouselComponent,
         CarouselItemsComponent,
         SearchComponent

@@ -1,4 +1,9 @@
-<section class="categories">
+<section class="categories" 
+infinite-scroll
+[infiniteScrollDistance] = "2"
+[infiniteScrollThrottle] = "50"
+[infiniteScrollDisabled] = "disabled()"
+(scrolled)="onScroll()">
     <h2>Categorias</h2>
     <div class="row">
         <div class="column" *ngFor="let category of categories">
@@ -10,3 +15,4 @@
         </div>
     </div>
 </section>
+

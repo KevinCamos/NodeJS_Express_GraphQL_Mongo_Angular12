@@ -8,7 +8,8 @@ import { CategoriesService, Category, NotificationService } from '../../core';
 export class CategoriesComponent implements OnInit {
 
   categories: Category[] = [];
-
+  offset = 0;
+  
   constructor(
     private _categoriesServices: CategoriesService,
     private notifyService: NotificationService
@@ -18,11 +19,22 @@ export class CategoriesComponent implements OnInit {
     this.getCategories();
   }
 
+  getRequestParams(offset: number, limit: number): any {
+    let params: any = {};
+
+    params[`offset`] = offset;
+    params[`limit`] = limit;
+
+    return params;
+  }
+
   getCategories() {
-    this._categoriesServices.getCategories().subscribe(
+    const params = this.getRequestParams(this.offset, 8);
+
+    this._categoriesServices.getCategories(params).subscribe(
       (data) => {
-        this.categories = data;
-        console.log(data);
+        this.categories = this.categories.concat(data);
+        this.offset = this.offset + 8;
       },
       (error) => {
         this.notifyService.showWarning(
@@ -31,5 +43,16 @@ export class CategoriesComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  disabled(){
+    if(this.offset >= 20){
+      return true;
+    }
+    return false;
+  }
+
+  onScroll() {
+    this.getCategories();
   }
 }
