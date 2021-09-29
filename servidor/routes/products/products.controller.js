@@ -38,32 +38,73 @@ router.param("slug", async (req, res, next, slug) => {
 router.get("/:slug", async (req, res) => {
   //A petició de yolanda, de moment comentem aquesta funció
   res.json(req.product);
-//   if(!req.product){
-//  // try {
-//   //   console.log("Ha entrat");
+  //   if(!req.product){
+  //  // try {
+  //   //   console.log("Ha entrat");
 
-//   //   let product = await Product.findOne({ slug: req.params.slug });
-//   //   console.log(product);
+  //   //   let product = await Product.findOne({ slug: req.params.slug });
+  //   //   console.log(product);
 
-//   //   if (!product) {
+  //   //   if (!product) {
 
-//   //     res.status(404).json({ msg: "No existe el product" });
-//   //   }
-//   //   res.json(product);
-//   // } catch (error) {
-//   //   console.log(error);
-//   //   res.status(500).send("Hubo un error");
-//   // }
-//   }
+  //   //     res.status(404).json({ msg: "No existe el product" });
+  //   //   }
+  //   //   res.json(product);
+  //   // } catch (error) {
+  //   //   console.log(error);
+  //   //   res.status(500).send("Hubo un error");
+  //   // }
+  //   }
   // return next
- 
 });
 
+/**
+ * router.get /search/:search es una función para buscar productos slug
+ */
+router.get("/list-search/:search", async (req, res) => {
+  try {
+    console.log("Ha entrat a search");
+    let search = new RegExp(req.params.search);
+    console.log(search);
+
+    // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
+    const product = await Product.find({ name: { $regex: search } }).limit(20);
+
+    if (!product) {
+      res.status(404).json({ msg: "No existe el product" });
+    }
+    res.json(product.map((product) => product.toListJSONFor()));
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Hubo un error en router.get /search/:search");
+  }
+});
+
+router.get("/search/:search", async (req, res) => {
+  try {
+    console.log("Ha entrat a search");
+    let search = new RegExp(req.params.search);
+    console.log(search);
+
+    // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
+    const product = await Product.find({ name: { $regex: search } });
+
+    if (!product) {
+      res.status(404).json({ msg: "No existe el product" });
+    }
+    res.json(product.map((product) => product.toJSONFor()));
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Hubo un error en router.get /search/:search");
+  }
+});
+/**
+ * Devuelve todos los productos de BBDD
+ */
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products.map((product) => product.toJSONFor()));
-
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error");
@@ -92,9 +133,6 @@ router.put("/:id", async (req, res) => {
       new: true,
     });
 
-
-
-    
     res.json(product);
   } catch (error) {
     console.log(error);
@@ -105,7 +143,7 @@ router.put("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let product;
-  
+
     product = new Product(req.body);
     //La siguiente operación busca en la tabla 'categories' y le añade en ella el _id del producto, para su posterior poulate("products")
     const category = await Category.updateOne(
@@ -113,13 +151,9 @@ router.post("/", async (req, res) => {
       { $push: { products: product._id } }
     );
 
-    //Probem d'ací 
-
-
-
+    //Probem d'ací
 
     //a ací
-
 
     console.log(category);
     await product.save(); //Almacena el producte

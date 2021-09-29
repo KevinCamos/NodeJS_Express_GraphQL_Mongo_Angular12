@@ -90,4 +90,10 @@ ProductSchema.methods.toJSONFor = function () {
   };
 };
 
+ProductSchema.methods.toListJSONFor = function () {
+  return {
+    name: this.name,
+  };
+};
+
 module.exports = mongoose.model("Product", ProductSchema);

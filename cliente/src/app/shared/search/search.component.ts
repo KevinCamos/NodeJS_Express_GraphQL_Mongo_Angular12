@@ -10,18 +10,18 @@ import { ProductService, Product } from '../../core';
 export class SearchComponent implements OnInit {
   searchValue: string = '';
   productList: Product[] = [];
+  regex: RegExp =new RegExp(' ');
 
   constructor(
     private _productoService: ProductService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.getList();
-  }
+  ngOnInit(): void {}
 
-  getList() {
-    this._productoService.getProducts().subscribe(
+  getList(search: string) {
+    //modificar a getNamesForProducts
+    this._productoService.getNamesForProducts(search).subscribe(
       (data) => {
         this.productList = data;
         console.log(data);
@@ -37,10 +37,14 @@ export class SearchComponent implements OnInit {
     // console.log(find?.id);
     console.log(data.searchValue);
 
-    this.router.navigate(['/shop',"/asd"])
+    this.router.navigate(['/shop', '/asd']);
   }
 
   public writtingEvent(writtingValue: any): void {
+    // this.regex = writtingValue;
+    // this.productList.filter(product => product == this.regex).length
+// console.log(this.productList.filter(product =>console.log(product)))
     console.log(writtingValue);
+    this.getList(writtingValue); //probar a partir d'ací
   }
 }
