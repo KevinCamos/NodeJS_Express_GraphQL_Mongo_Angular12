@@ -1,6 +1,7 @@
 <div>
-<input type="text" list="search" [(ngModel)]="searchValue" (change)="keyEnterEvent(this)" (input)="writtingEvent($any($event.target).value)">
-<datalist id="search">
-  <option *ngFor="let product of productList" [value]="product.name" >{{product.name}}</option>
-</datalist>
+  <input type="text" list="search" [(ngModel)]="searchValue" (change)="keyEnterEvent(this)"
+    (input)="writtingEvent($any($event.target).value)">
+  <datalist id="search">
+    <option *ngFor="let product of productList" [value]="product.name">{{product.name}}</option>
+  </datalist>
 </div>

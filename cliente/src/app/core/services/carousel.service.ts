@@ -12,10 +12,7 @@ export class CarouselService {
 
   getCarousel(): Observable<any> {
     return this.http.get<Carousel[]>(environment.url + "carousel")
-    // .pipe(map(data=>{
-    //   console.log(data);
-    //   return data;
-    // }))
+
     ;
   }
 

@@ -37,7 +37,7 @@ router.param("slug", async (req, res, next, slug) => {
 
 router.get("/:slug", async (req, res) => {
   //A petició de yolanda, de moment comentem aquesta funció
-  res.json(req.product);
+  res.json(req.product); 
   //   if(!req.product){
   //  // try {
   //   //   console.log("Ha entrat");
@@ -57,6 +57,8 @@ router.get("/:slug", async (req, res) => {
   //   }
   // return next
 });
+
+
 
 /**
  * router.get /search/:search es una función para buscar productos slug

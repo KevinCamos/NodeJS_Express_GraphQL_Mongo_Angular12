@@ -5,26 +5,34 @@
 </div> -->
 
 
-  <div class="carousel">
-    <div *ngIf="listCarousel.length >0" >
+<div class="carousel">
+  <div *ngIf="listCarousel.length >0">
     <ng-container *ngFor="let carousel of listCarousel; let i = index">
 
       <img *ngIf="i === counter" [src]="carousel.img" class="slide" @carouselAnimation />
       <!--con @carouselAnimation se activan las animaciones -->
     </ng-container>
   </div>
-  <div *ngIf="listImages.length >0" >
+
+
+
+
+
+  <div *ngIf="listImages.length >0">
     <ng-container *ngFor="let images of listImages; let i = index">
 
       <img *ngIf="i === counter" [src]="'/assets/images'+images+'.jpg'" class="slide" @carouselAnimation />
       <!--con @carouselAnimation se activan las animaciones -->
     </ng-container>
   </div>
-    <!-- controls -->
-    <button class="control prev" (click)="onPreviousClick()">
-      <span class="arrow left"></span>
-    </button>
-    <button class="control next" (click)="onNextClick()">
-      <span class="arrow right"></span>
-    </button>
-  </div>
+
+
+
+  <!-- controls -->
+  <button class="control prev" (click)="onPreviousClick()">
+    <span class="arrow left"></span>
+  </button>
+  <button class="control next" (click)="onNextClick()">
+    <span class="arrow right"></span>
+  </button>
+</div>

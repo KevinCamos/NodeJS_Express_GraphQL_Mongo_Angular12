@@ -46,6 +46,15 @@ export class ProductService {
     );
   }
 
+  getSearchProducts(search: string): Observable<any> {
+    return this.http.get<Product>(environment.url + 'products/search/' + search).pipe(
+      map((data) => {
+        console.log(data);
+        return data;
+      })
+    );
+  }
+
   updateProduct(id: string, product: Product): Observable<any> {
     return this.http.put(environment.url + 'products/' + id, product);
   }
