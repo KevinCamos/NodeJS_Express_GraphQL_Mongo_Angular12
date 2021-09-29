@@ -7,7 +7,8 @@ import { RouterModule } from '@angular/router';
 import { CategoriesComponent } from './categories/categories.component'
 import { ListProductsComponent } from './list-products/list-products.component';
 import { CarouselComponent } from './carousel/carousel.component';
-import { CarouselItemsComponent } from './carousel-items/carousel-items.component'
+import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
+import { SearchComponent } from './search/search.component'
 
 @NgModule({
     imports: [
@@ -21,13 +22,15 @@ import { CarouselItemsComponent } from './carousel-items/carousel-items.componen
         CategoriesComponent,
         ListProductsComponent,
         CarouselComponent,
-        CarouselItemsComponent
+        CarouselItemsComponent,
+        SearchComponent
     ],
     exports: [
         CategoriesComponent,
         ListProductsComponent,
         CarouselComponent, //Carousel
         CarouselItemsComponent,
+        SearchComponent, //Search component, hi ha que ficar-ho ací?
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
