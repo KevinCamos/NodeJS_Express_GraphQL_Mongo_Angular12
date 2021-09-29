@@ -10,8 +10,8 @@ import { Category } from '../models/categories.model';
 export class CategoriesService {
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<any> {
-    return this.http.get<Category[]>(environment.url+"categories");
+  getCategories(params: any): Observable<any> {
+    return this.http.get<Category[]>(environment.url+"categories", {params});
   }
 
   getCategory(slug: string): Observable<any> {
