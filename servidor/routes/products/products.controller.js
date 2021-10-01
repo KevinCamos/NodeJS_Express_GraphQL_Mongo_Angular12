@@ -101,15 +101,25 @@ router.get("/search/:search", async (req, res) => {
 
 router.post("/filters/", async (req, res) => {
   try {
-    console.log("req");
     // console.log(res)
 
-    console.log(req.query);
-    // console.log("Ha entrat a search");
-    // let search = new RegExp(req.params.search);
-    // console.log(search);
+    console.log(req.body.params);
+    let { name, location, priceMin, priceMax } = req.body.params;
 
-    // // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
+    name = name ? name : "";
+    location = location ? location : "";
+    priceMin = priceMin ? priceMin : 0;
+    priceMax = priceMax ? priceMax : Number.MAX_SAFE_INTEGER;
+    console.log(name)
+    console.log(location)
+    console.log(priceMin)
+    console.log(priceMax)
+    let nameReg = new RegExp(name);
+    let locationReg = new RegExp(location);
+
+    const product = await Product.find({ name: {$regex: nameReg   }, location: {$regex: locationReg } , $and:[{ price: { $gte : priceMin }},{price:{ $lte :priceMax }}]});
+
+    console.log(product)
     // const product = await Product.find({ name: { $regex: search } });
 
     // if (!product) {
