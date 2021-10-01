@@ -1,0 +1,37 @@
+<div class="container-filter">
+
+
+  Nombre del producto
+  <input type="search" id="name" [(ngModel)]="name" min="0" max="10000" placeholder="Guitarra Strat..."
+    (input)="writtingEvent(this)">
+
+  Localidad
+  <input type="search" id="location" [(ngModel)]="location" min="0" placeholder="Ontinyent"
+    (input)="writtingEvent(this)">
+
+
+  Precio Mínimo
+  <input type="number" id="priceMin" [(ngModel)]="priceMin" min="0" step="10" placeholder="0"
+    (input)="writtingEvent(this)">
+  Precio Máximo
+
+  <input type="number" id="priceMax" [(ngModel)]="priceMax" min="0" step="10" placeholder="20"
+    (input)="writtingEvent(this)">
+
+
+
+  <!-- Precio Mínimo
+  <input type="range" id="priceMin" [(ngModel)]="priceMin" min="0" max="10000" value="0" step="10"
+    (input)="clickEvent($any($event.target))"><span class="recibeMin">{{priceMin}}</span>
+
+  Precio Máximo
+
+  <input type="range" id="priceMax" [(ngModel)]="priceMax" min="0" max="10000" value="10000" step="10"
+    (input)="clickEvent($any($event))">
+  <span *ngIf="priceMax<10000">
+    <span class="recibeMax">{{priceMax}}€</span>
+  </span>
+  <span *ngIf="priceMax==10000">
+    <span class="recibeMax"><small>Me da igual el precio</small></span>
+  </span> -->
+</div>

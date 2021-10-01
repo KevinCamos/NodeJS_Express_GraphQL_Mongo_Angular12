@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment.dev';
+import { Filters } from '..';
 import { Product } from '../models/product.model';
 
 @Injectable({
@@ -48,6 +49,15 @@ export class ProductService {
 
   getSearchProducts(search: string): Observable<any> {
     return this.http.get<Product>(environment.url + 'products/search/' + search).pipe(
+      map((data) => {
+        console.log(data);
+        return data;
+      })
+    );
+  }
+  getListFiltered(params: Filters): Observable<any> {
+console.log(params)
+    return this.http.post<Product>(environment.url + 'products/filters/', {params}).pipe(
       map((data) => {
         console.log(data);
         return data;

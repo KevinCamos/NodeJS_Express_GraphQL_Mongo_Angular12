@@ -10,7 +10,8 @@ import { ListProductsComponent } from './list-products/list-products.component';
 import { CardProductComponent } from './card-product/card-product.component'
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
-import { SearchComponent } from './search/search.component'
+import { SearchComponent } from './search/search.component';
+import { FiltersComponent } from './filters/filters.component'
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { SearchComponent } from './search/search.component'
         CardProductComponent,
         CarouselComponent,
         CarouselItemsComponent,
-        SearchComponent
+        SearchComponent,
+        FiltersComponent
     ],
     exports: [
         CategoriesComponent,
@@ -35,6 +37,7 @@ import { SearchComponent } from './search/search.component'
         CarouselComponent, //Carousel
         CarouselItemsComponent,
         SearchComponent, //Search component, hi ha que ficar-ho ací?
+        FiltersComponent,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,

@@ -37,7 +37,7 @@ router.param("slug", async (req, res, next, slug) => {
 
 router.get("/:slug", async (req, res) => {
   //A petició de yolanda, de moment comentem aquesta funció
-  res.json(req.product); 
+  res.json(req.product);
   //   if(!req.product){
   //  // try {
   //   //   console.log("Ha entrat");
@@ -57,8 +57,6 @@ router.get("/:slug", async (req, res) => {
   //   }
   // return next
 });
-
-
 
 /**
  * router.get /search/:search es una función para buscar productos slug
@@ -95,6 +93,29 @@ router.get("/search/:search", async (req, res) => {
       res.status(404).json({ msg: "No existe el product" });
     }
     res.json(product.map((product) => product.toJSONFor()));
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Hubo un error en router.get /search/:search");
+  }
+});
+
+router.post("/filters/", async (req, res) => {
+  try {
+    console.log("req");
+    // console.log(res)
+
+    console.log(req.query);
+    // console.log("Ha entrat a search");
+    // let search = new RegExp(req.params.search);
+    // console.log(search);
+
+    // // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
+    // const product = await Product.find({ name: { $regex: search } });
+
+    // if (!product) {
+    //   res.status(404).json({ msg: "No existe el product" });
+    // }
+    // res.json(product.map((product) => product.toJSONFor()));
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error en router.get /search/:search");

@@ -9,7 +9,7 @@ export class CategoriesComponent implements OnInit {
 
   categories: Category[] = [];
   offset = 0;
-  
+
   constructor(
     private _categoriesServices: CategoriesService,
     private notifyService: NotificationService

@@ -3,8 +3,10 @@ import {
   ProductService,
   CategoriesService,
   Product,
+  Filters,
   NotificationService,
 } from '../../core';
+
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,9 +16,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
-  public classList: String = '';
+  public classList: string = '';
   idCategory: string | null;
   idSearch: string | null;
+
   //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
     style: 'currency',
@@ -75,8 +78,7 @@ export class ListProductsComponent implements OnInit {
       this._categoriesService.getCategory(this.idCategory).subscribe(
         (data) => {
           this.listProducts = data.products;
-          data = data.products;
-          console.log(data);
+          console.log(data.products);
           this.dataIsListProducts(data);
         },
         (error) => {
@@ -96,10 +98,8 @@ export class ListProductsComponent implements OnInit {
       console.log(this.idSearch);
       this._productoService.getSearchProducts(this.idSearch).subscribe(
         (data) => {
-
-          console.log(data)
-          this.listProducts = data;
           console.log(data);
+          this.listProducts = data;
           this.dataIsListProducts(data);
         },
         (error) => {
@@ -112,7 +112,25 @@ export class ListProductsComponent implements OnInit {
       );
     }
   }
+  getListFiltered(filters:Filters) {
+    console.log(filters)
 
+    this._productoService.getListFiltered(filters).subscribe(
+      (data) => {
+        console.log(data);
+        this.listProducts = data;
+        console.log(data);
+        this.dataIsListProducts(data);
+      },
+      (error) => {
+        this.notifyService.showWarning(
+          'Ha habido un error en el proceso',
+          'Lo sentimos mucho'
+        );
+        console.log(error);
+      }
+    );
+  }
   /**
    *Esta función recoge los datos obtenidos del servidor, formatea 'price' y lo convierte en this.listProducts
    * @param data
@@ -125,7 +143,7 @@ export class ListProductsComponent implements OnInit {
     this.listProducts = data; //ListProducts es un objeto Product[]
   }
 
-  ShowList(thisClass: Boolean) {
+  ShowList(thisClass: boolean) {
     this.classList = thisClass ? '' : 'list';
   }
 }
