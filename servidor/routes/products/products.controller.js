@@ -120,12 +120,11 @@ router.post("/filters/", async (req, res) => {
     const product = await Product.find({ name: {$regex: nameReg   }, location: {$regex: locationReg } , $and:[{ price: { $gte : priceMin }},{price:{ $lte :priceMax }}]});
 
     console.log(product)
-    // const product = await Product.find({ name: { $regex: search } });
-
-    // if (!product) {
-    //   res.status(404).json({ msg: "No existe el product" });
-    // }
-    // res.json(product.map((product) => product.toJSONFor()));
+     if (!product) {
+      res.status(404).json({ msg: "No existe el product" });
+    }
+    res.json(product.map((product) => product.toJSONFor()));
+   
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error en router.get /search/:search");
