@@ -11,6 +11,7 @@ export class SearchComponent implements OnInit {
   searchValue: string = '';
   productList: Product[] = [];
   regex: RegExp = new RegExp(' ');
+  search: any;
 
   constructor(
     private _productoService: ProductService,
@@ -19,9 +20,9 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getList(search: string) {
+  getList() {
     //modificar a getNamesForProducts
-    this._productoService.getNamesForProducts(search).subscribe(
+    this._productoService.getNamesForProducts(this.search).subscribe(
       (data) => {
         this.productList = data;
         console.log(data);
@@ -31,6 +32,18 @@ export class SearchComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Esta función evita un envío e innecesarios envíos de datos al servidor.
+   * Cuando el usuario deja de escribir durante un mínimo espacio de tiempo, la función permite enviar los datos de búsqueda.
+   * @param filters
+   */
+   private checkTime(writtingValue: any) {
+    setTimeout(() => {
+      if (writtingValue === this.search) this.getList();
+    }, 200);
+  }
+
 
   public keyEnterEvent(data: any): void {
     // let find = this.codeList.find((x) => x?.name === e.target.value);
@@ -44,7 +57,7 @@ export class SearchComponent implements OnInit {
     // this.regex = writtingValue;
     // this.productList.filter(product => product == this.regex).length
     // console.log(this.productList.filter(product =>console.log(product)))
-    console.log(writtingValue);
-    this.getList(writtingValue); //probar a partir d'ací
+    this.search= writtingValue;
+    this.checkTime(writtingValue); //probar a partir d'ací
   }
 }

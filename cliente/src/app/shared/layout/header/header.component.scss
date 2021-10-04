@@ -1,6 +1,7 @@
 .navbarI {
     overflow: hidden;
-    background-color: rgb(94, 152, 211);
+    // background-color: rgb(94, 152, 211);
+    background-color:#5AC0A9;
     margin-left: -10px;
     margin-right: -8px;
     margin-top: -10px;
@@ -32,14 +33,18 @@
 }
 
 .navbarI a:hover, .subnavI:hover .subnavbtnI {
-    background-color: rgb(32, 100, 168);
+    // background-color: rgb(32, 100, 168);
+    background-color: teal;
+
 }
 
 .subnav-contentI {
     display: none;
     position: absolute;
     left: 0;
-    background-color: rgb(32, 100, 168);
+    // background-color: rgb(32, 100, 168);
+    background-color: teal;
+
     width: 100%;
     z-index: 1;
 }
@@ -51,7 +56,7 @@
 }
 
 .subnav-contentI a:hover {
-    background-color: rgb(0, 40, 80);
+    background-color: #2C6E5F;
     color: white;
 }
 
