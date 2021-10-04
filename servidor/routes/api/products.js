@@ -2,8 +2,7 @@ var router = require("express").Router();
 
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
-const Image = require("../../models/image.model");
-const { exists } = require("../../models/image.model");
+
 
 router.param("username", function (req, res, next, username) {
   User.findOne({ username: username })
