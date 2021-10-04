@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'search/:search',
     component: ShopComponent,
     resolve: {},
+  },  {
+    path: 'filters/:filters',
+    component: ShopComponent,
+    resolve: {},
   },
 ];
 

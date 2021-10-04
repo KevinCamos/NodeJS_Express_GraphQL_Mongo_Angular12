@@ -6,6 +6,7 @@ import {
   Filters,
   NotificationService,
 } from '../../core';
+import { Location } from '@angular/common';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -19,7 +20,7 @@ export class ListProductsComponent implements OnInit {
   public classList: string = '';
   idCategory: string | null;
   idSearch: string | null;
-
+  filters: Filters;
   //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
     style: 'currency',
@@ -30,7 +31,8 @@ export class ListProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
     this.idSearch = this.aRouter.snapshot.paramMap.get('search'); //obtiene la 'id' del link
@@ -43,10 +45,18 @@ export class ListProductsComponent implements OnInit {
     this.getProducts();
   }
   getProducts() {
+    let filters = this.aRouter.snapshot.paramMap.get('filters');
+    console.log(filters);
     if (this.idCategory !== null) {
       this.getProductsForCategory();
     } else if (this.idSearch !== null) {
       this.getProductsForSearch();
+    } else if (filters) {
+      this.filters = JSON.parse(atob(filters));
+      // Object.assign(this.filters, JSON.parse(atob(filters)));
+      console.log(this.filters);
+      this.getListFiltered(this.filters)
+
     } else {
       this.getAllProducts();
     }
@@ -112,8 +122,16 @@ export class ListProductsComponent implements OnInit {
       );
     }
   }
-  getListFiltered(filters:Filters) {
-    console.log(filters)
+  getListFiltered(filters: Filters) {
+    console.log(filters);
+    console.log(btoa(JSON.stringify(filters)));
+    this.location.replaceState('/shop/filters/' + JSON.stringify(filters));
+    console.log(this.aRouter.snapshot.params.filters);
+
+    this.location.replaceState(
+      '/shop/filters/' + btoa(JSON.stringify(filters))
+    );
+    console.log(this.aRouter.snapshot.params.filters);
 
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
@@ -143,6 +161,7 @@ export class ListProductsComponent implements OnInit {
     this.listProducts = data; //ListProducts es un objeto Product[]
   }
 
+  /**Esta función sirve para modificar la forma de ver los productos*/
   ShowList(thisClass: boolean) {
     this.classList = thisClass ? '' : 'list';
   }
