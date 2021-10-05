@@ -1,4 +1,3 @@
-
 export class Filters {
   name?: string;
   location?: string;
@@ -21,7 +20,7 @@ export class Filters {
     let count: number = 0;
     if (this.name) count++;
     if (this.location) count++;
-    if (this.priceMin)count++;
+    if (this.priceMin) count++;
     if (this.priceMax) count++;
     console.log(count);
     console.log(this.name);

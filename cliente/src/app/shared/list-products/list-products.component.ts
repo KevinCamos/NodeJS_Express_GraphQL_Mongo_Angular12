@@ -19,7 +19,7 @@ export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
   public classList: string = '';
   idCategory: string | null;
-  idSearch: string | null;
+  routeFilters: string | null;
   filters: Filters;
   //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
@@ -35,47 +35,65 @@ export class ListProductsComponent implements OnInit {
     private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
-    this.idSearch = this.aRouter.snapshot.paramMap.get('search'); //obtiene la 'id' del link
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
   }
 
   ngOnInit(): void {
     console.log(this.idCategory);
-    console.log(this.idSearch);
+    console.log(this.routeFilters);
 
     this.getProducts();
   }
   getProducts() {
-    let filters = this.aRouter.snapshot.paramMap.get('filters');
-    console.log(filters);
+    console.log(this.routeFilters);
     if (this.idCategory !== null) {
       this.getProductsForCategory();
-    } else if (this.idSearch !== null) {
-      this.getProductsForSearch();
-    } else if (filters) {
-      this.filters = JSON.parse(atob(filters));
-      // Object.assign(this.filters, JSON.parse(atob(filters)));
-      console.log(this.filters);
-      this.getListFiltered(this.filters)
-
+    } else if (this.routeFilters !== null) {
+      this.filters = JSON.parse(atob(this.routeFilters));
+      this.getListFiltered(this.filters);
     } else {
-      this.getAllProducts();
+      this.getListFiltered(this.filters=new Filters);
+
+      // this.getAllProducts(); //NO BORRAR HASTA PREGUNTAR A YOLANDA
     }
   }
 
-  getAllProducts() {
-    this._productoService.getProducts().subscribe(
-      (data) => {
-        this.dataIsListProducts(data);
-      },
-      (error) => {
-        this.notifyService.showWarning(
-          'Ha habido un error en el proceso',
-          'Producto eliminado'
-        );
-        console.log(error);
-      }
-    );
-  }
+
+  // █▄░█ █▀█   █▄▄ █▀█ █▀█ █▀█ ▄▀█ █▀█ ░   █▀█ █▀█ █▀▀ █▀▀ █░█ █▄░█ ▀█▀ ▄▀█ █▀█   ▄▀█   █▄█ █▀█ █░░ ▄▀█ █▄░█ █▀▄ ▄▀█   █▀ █
+  // █░▀█ █▄█   █▄█ █▄█ █▀▄ █▀▄ █▀█ █▀▄ █   █▀▀ █▀▄ ██▄ █▄█ █▄█ █░▀█ ░█░ █▀█ █▀▄   █▀█   ░█░ █▄█ █▄▄ █▀█ █░▀█ █▄▀ █▀█   ▄█ █
+
+  // █▀▀ █▄░█ █░█ █ ▄▀█ █▀█   █░█ █▄░█   █▀▀ █ █░░ ▀█▀ █▀█ █▀█   █░█ ▄▀█ █▀▀ █ █▀█   █▀▀ █▀ ▀█▀ ▄▀█   █▄▄ █ █▀▀ █▄░█
+  // ██▄ █░▀█ ▀▄▀ █ █▀█ █▀▄   █▄█ █░▀█   █▀░ █ █▄▄ ░█░ █▀▄ █▄█   ▀▄▀ █▀█ █▄▄ █ █▄█   ██▄ ▄█ ░█░ █▀█   █▄█ █ ██▄ █░▀█
+
+  // █▀█ ▄▀█ █▀█ ▄▀█   █▀▀ █░░   ▀ █▀▀ █▀▀ ▀█▀   ▄▀█ █░░ █░░ ▀
+  // █▀▀ █▀█ █▀▄ █▀█   ██▄ █▄▄   ░ █▄█ ██▄ ░█░   █▀█ █▄▄ █▄▄ ░
+
+  // getAllProducts() {
+  //   this._productoService.getProducts().subscribe(
+  //     (data) => {
+  //       this.dataIsListProducts(data);
+  //     },
+  //     (error) => {
+  //       this.notifyService.showWarning(
+  //         'Ha habido un error en el proceso',
+  //         'Producto eliminado'
+  //       );
+  //       console.log(error);
+  //     }
+  //   );
+  // }
+
+  // █▄░█ █▀█   █▄▄ █▀█ █▀█ █▀█ ▄▀█ █▀█ ░   █▀█ █▀█ █▀▀ █▀▀ █░█ █▄░█ ▀█▀ ▄▀█ █▀█   ▄▀█   █▄█ █▀█ █░░ ▄▀█ █▄░█ █▀▄ ▄▀█   █▀ █
+  // █░▀█ █▄█   █▄█ █▄█ █▀▄ █▀▄ █▀█ █▀▄ █   █▀▀ █▀▄ ██▄ █▄█ █▄█ █░▀█ ░█░ █▀█ █▀▄   █▀█   ░█░ █▄█ █▄▄ █▀█ █░▀█ █▄▀ █▀█   ▄█ █
+
+  // █▀▀ █▄░█ █░█ █ ▄▀█ █▀█   █░█ █▄░█   █▀▀ █ █░░ ▀█▀ █▀█ █▀█   █░█ ▄▀█ █▀▀ █ █▀█   █▀▀ █▀ ▀█▀ ▄▀█   █▄▄ █ █▀▀ █▄░█
+  // ██▄ █░▀█ ▀▄▀ █ █▀█ █▀▄   █▄█ █░▀█   █▀░ █ █▄▄ ░█░ █▀▄ █▄█   ▀▄▀ █▀█ █▄▄ █ █▄█   ██▄ ▄█ ░█░ █▀█   █▄█ █ ██▄ █░▀█
+
+  // █▀█ ▄▀█ █▀█ ▄▀█   █▀▀ █░░   ▀ █▀▀ █▀▀ ▀█▀   ▄▀█ █░░ █░░ ▀
+  // █▀▀ █▀█ █▀▄ █▀█   ██▄ █▄▄   ░ █▄█ ██▄ ░█░   █▀█ █▄▄ █▄▄ ░
+
+
+
   /**
    * En el caso de que en la función getProducts() localice que 'this.id' no es null,
    * realiza esta función, vuelve a realizar una comprovación ya que la variable al poder
@@ -88,8 +106,8 @@ export class ListProductsComponent implements OnInit {
       this._categoriesService.getCategory(this.idCategory).subscribe(
         (data) => {
           this.listProducts = data.products;
-          console.log(data.products);
-          this.dataIsListProducts(data);
+          // console.log(data.products);
+          this.dataIsListProducts(this.listProducts);
         },
         (error) => {
           this.notifyService.showWarning(
@@ -102,35 +120,13 @@ export class ListProductsComponent implements OnInit {
     }
   }
 
-  getProductsForSearch() {
-    if (typeof this.idSearch === 'string') {
-      // console.log('hi ha string!');
-      console.log(this.idSearch);
-      this._productoService.getSearchProducts(this.idSearch).subscribe(
-        (data) => {
-          console.log(data);
-          this.listProducts = data;
-          this.dataIsListProducts(data);
-        },
-        (error) => {
-          this.notifyService.showWarning(
-            'Ha habido un error en el proceso',
-            'Producto eliminado'
-          );
-          console.log(error);
-        }
-      );
-    }
-  }
   getListFiltered(filters: Filters) {
     console.log(filters);
-    console.log(btoa(JSON.stringify(filters)));
-    this.location.replaceState('/shop/filters/' + JSON.stringify(filters));
+    // console.log(btoa(JSON.stringify(filters)));
+    // this.location.replaceState('/shop/filters/' + JSON.stringify(filters));
     console.log(this.aRouter.snapshot.params.filters);
 
-    this.location.replaceState(
-      '/shop/filters/' + btoa(JSON.stringify(filters))
-    );
+    this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
     console.log(this.aRouter.snapshot.params.filters);
 
     this._productoService.getListFiltered(filters).subscribe(
@@ -149,6 +145,7 @@ export class ListProductsComponent implements OnInit {
       }
     );
   }
+
   /**
    *Esta función recoge los datos obtenidos del servidor, formatea 'price' y lo convierte en this.listProducts
    * @param data

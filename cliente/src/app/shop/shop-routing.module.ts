@@ -9,19 +9,20 @@ const routes: Routes = [
     resolve: {},
   },
   {
-    path: ':category_id',
+    path: 'categories/:category_id',
     component: ShopComponent,
     resolve: {},
   },
   {
-    path: 'search/:search',
-    component: ShopComponent,
-    resolve: {},
-  },  {
-    path: 'filters/:filters',
+    path: ':filters',
     component: ShopComponent,
     resolve: {},
   },
+  //  {
+  //   path: 'filters/:filters',
+  //   component: ShopComponent,
+  //   resolve: {},
+  // },
 ];
 
 @NgModule({
