@@ -99,36 +99,46 @@ router.get("/search/:search", async (req, res) => {
   }
 });
 
-router.post("/filters/", async (req, res) => {
-  try {
-    // console.log(res)
+router.get("/", async (req, res) => {
 
-    console.log(req.body.params);
-    let { name, location, priceMin, priceMax } = req.body.params;
+    var query = {};
+    let { limit, offset, name, location, priceMin, priceMax } = req.query;
 
-    name = name ? name : "";
-    location = location ? location : "";
-    priceMin = priceMin ? priceMin : 0;
-    priceMax = priceMax ? priceMax : Number.MAX_SAFE_INTEGER;
-    console.log(name)
-    console.log(location)
-    console.log(priceMin)
-    console.log(priceMax)
+    limit = limit ? limit : 20;
+    offset = offset ? offset : 0;
+    name = name !== 'undefined' ? name : "";
+    location = location !== 'undefined' ? location : "";
+    priceMin = priceMin !== 'undefined' ? priceMin : 0;
+    priceMax = priceMax !== 'undefined' ? priceMax : Number.MAX_SAFE_INTEGER;
+
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
-    const product = await Product.find({ name: {$regex: nameReg   }, location: {$regex: locationReg } , $and:[{ price: { $gte : priceMin }},{price:{ $lte :priceMax }}]});
-
-    console.log(product)
-     if (!product) {
-      res.status(404).json({ msg: "No existe el product" });
+    if(name.length != 0){
+      query.name = {$regex: nameReg };
     }
-    res.json(product.map((product) => product.toJSONFor()));
-   
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Hubo un error en router.get /search/:search");
-  }
+    if(location.length != 0){
+      query.location = {$regex: locationReg };
+    }
+    if(priceMin.length != 0 && priceMax.length != 0){
+      query.$and = [{ price: { "$gte" : priceMin }},{price:{ "$lte" : priceMax }}];
+    }
+
+    return Promise.all([
+      Product.find(query).limit(Number(limit)).skip(Number(offset)),
+      Product.find(query).countDocuments()
+    ]).then(function(results){
+      
+      var products = results[0];
+      var productCount = results[1];
+      console.log(productCount);
+      return res.json({
+        products: products.map(function(product){
+          return product.toJSONFor();
+        }),
+        productCount: productCount
+      });
+    });
 });
 /**
  * Devuelve todos los productos de BBDD

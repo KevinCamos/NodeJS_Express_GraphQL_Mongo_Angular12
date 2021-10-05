@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   ProductService,
   CategoriesService,
@@ -20,7 +20,13 @@ export class ListProductsComponent implements OnInit {
   idCategory: string | null;
   idSearch: string | null;
 
-  //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
+  limit: number = 1;
+  currentPage: number = 1;
+  totalPages: Array<number> = [1];
+  filters: Filters;
+
+  // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, 
+  // para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
     style: 'currency',
     currency: 'EUR',
@@ -37,44 +43,21 @@ export class ListProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.idCategory);
-    console.log(this.idSearch);
-
     this.getProducts();
+    console.log(this.aRouter.snapshot.paramMap.get('category_id'));
+    console.log(this.aRouter.snapshot.paramMap.get('search'));
   }
+
   getProducts() {
     if (this.idCategory !== null) {
       this.getProductsForCategory();
-    } else if (this.idSearch !== null) {
-      this.getProductsForSearch();
     } else {
-      this.getAllProducts();
+      this.setPageTo(1);
     }
   }
 
-  getAllProducts() {
-    this._productoService.getProducts().subscribe(
-      (data) => {
-        this.dataIsListProducts(data);
-      },
-      (error) => {
-        this.notifyService.showWarning(
-          'Ha habido un error en el proceso',
-          'Producto eliminado'
-        );
-        console.log(error);
-      }
-    );
-  }
-  /**
-   * En el caso de que en la función getProducts() localice que 'this.id' no es null,
-   * realiza esta función, vuelve a realizar una comprovación ya que la variable al poder
-   * ser string o null, no permite usar la variable sin una previa comprobación
-   */
   getProductsForCategory() {
     if (typeof this.idCategory === 'string') {
-      console.log('hi ha string!');
-      console.log(this.idCategory);
       this._categoriesService.getCategory(this.idCategory).subscribe(
         (data) => {
           this.listProducts = data.products;
@@ -91,46 +74,7 @@ export class ListProductsComponent implements OnInit {
       );
     }
   }
-
-  getProductsForSearch() {
-    if (typeof this.idSearch === 'string') {
-      // console.log('hi ha string!');
-      console.log(this.idSearch);
-      this._productoService.getSearchProducts(this.idSearch).subscribe(
-        (data) => {
-          console.log(data);
-          this.listProducts = data;
-          this.dataIsListProducts(data);
-        },
-        (error) => {
-          this.notifyService.showWarning(
-            'Ha habido un error en el proceso',
-            'Producto eliminado'
-          );
-          console.log(error);
-        }
-      );
-    }
-  }
-  getListFiltered(filters:Filters) {
-    console.log(filters)
-
-    this._productoService.getListFiltered(filters).subscribe(
-      (data) => {
-        console.log(data);
-        this.listProducts = data;
-        console.log(data);
-        this.dataIsListProducts(data);
-      },
-      (error) => {
-        this.notifyService.showWarning(
-          'Ha habido un error en el proceso',
-          'Lo sentimos mucho'
-        );
-        console.log(error);
-      }
-    );
-  }
+  
   /**
    *Esta función recoge los datos obtenidos del servidor, formatea 'price' y lo convierte en this.listProducts
    * @param data
@@ -145,5 +89,40 @@ export class ListProductsComponent implements OnInit {
 
   ShowList(thisClass: boolean) {
     this.classList = thisClass ? '' : 'list';
+  }
+
+  setPageTo(pageNumber: number){
+
+    this.currentPage = pageNumber;
+    this.listProducts = [];
+    this.filters = new Filters();
+
+    if(this.limit){
+      this.filters.limit = this.limit;
+      this.filters.offset = (this.limit*(this.currentPage -1));
+    }
+
+    if (typeof this.idSearch === 'string') {
+        this.filters.name = this.idSearch;
+    }
+
+    this.getFiltersProducts(this.filters);
+  }
+
+  getFiltersProducts(filters: Filters){
+    this._productoService.getFiltersProducts(filters).subscribe( 
+      data => {
+        this.listProducts = data.products
+        this.dataIsListProducts(data.products);
+        this.totalPages = Array.from(new Array(Math.ceil(data.productCount / this.limit)),(val, index) => index + 1);
+      },
+      (error) => {
+        this.notifyService.showWarning(
+          'Ha habido un error en el proceso',
+          'Lo sentimos mucho'
+        );
+        console.log(error);
+      }
+    );
   }
 }

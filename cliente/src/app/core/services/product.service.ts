@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment.dev';
-import { Filters } from '..';
-import { Product } from '../models/product.model';
+import { Product, Filters } from '../models';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private apiService: ApiService) {}
 
   getProducts(): Observable<any> {
     return this.http.get<Product[]>(environment.url + 'products').pipe(
@@ -30,6 +30,10 @@ export class ProductService {
     return this.http.post(environment.url + 'products', product);
   }
 
+  updateProduct(id: string, product: Product): Observable<any> {
+    return this.http.put(environment.url + 'products/' + id, product);
+  }
+
   getProduct(slug: string): Observable<any> {
     return this.http.get<Product>(environment.url + 'products/' + slug).pipe(
       map((data) => {
@@ -38,6 +42,7 @@ export class ProductService {
       })
     );
   }
+
   getNamesForProducts(search: string): Observable<any> {
     return this.http.get<Product>(environment.url + 'products/list-search/' + search).pipe(
       map((data) => {
@@ -47,25 +52,9 @@ export class ProductService {
     );
   }
 
-  getSearchProducts(search: string): Observable<any> {
-    return this.http.get<Product>(environment.url + 'products/search/' + search).pipe(
-      map((data) => {
-        console.log(data);
-        return data;
-      })
-    );
-  }
-  getListFiltered(params: Filters): Observable<any> {
-console.log(params)
-    return this.http.post<Product>(environment.url + 'products/filters/', {params}).pipe(
-      map((data) => {
-        console.log(data);
-        return data;
-      })
-    );
-  }
-
-  updateProduct(id: string, product: Product): Observable<any> {
-    return this.http.put(environment.url + 'products/' + id, product);
+  getFiltersProducts(filters: Filters): Observable <{products: Product[], productCount: number}>{
+    var params = {};
+    params = filters;
+    return this.apiService.get('products', new HttpParams({fromObject:params}));
   }
 }
