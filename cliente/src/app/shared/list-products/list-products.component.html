@@ -1,4 +1,4 @@
-<app-filters   (searchEvent)="getFiltersProducts($event)" ></app-filters>
+<app-filters   (searchEvent)="getListFiltered($event)" ></app-filters>
 
 <div class="wrapper">
   <br><br><br><br><br>
@@ -23,7 +23,7 @@
     <ul class="pagination">
       <li class="page-item" [ngClass]="{'active': pageNumber === currentPage}" 
       *ngFor="let pageNumber of totalPages" (click)="setPageTo(pageNumber)">
-        <a class="page-link">{{ pageNumber }}</a>
+        <a class="">{{ pageNumber }}</a>
       </li>
     </ul>
   </nav>

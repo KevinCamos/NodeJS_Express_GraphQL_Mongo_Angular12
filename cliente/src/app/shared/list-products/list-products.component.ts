@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   ProductService,
   CategoriesService,
@@ -18,11 +19,11 @@ export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
   public classList: string = '';
   idCategory: string | null;
-  idSearch: string | null;
+  routeFilters: string | null;
 
   limit: number = 1;
   currentPage: number = 1;
-  totalPages: Array<number> = [1];
+  totalPages: Array<number> = [];
   filters: Filters;
 
   // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, 
@@ -36,38 +37,48 @@ export class ListProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
-    this.idSearch = this.aRouter.snapshot.paramMap.get('search'); //obtiene la 'id' del link
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
   }
 
   ngOnInit(): void {
     this.getProducts();
-    console.log(this.aRouter.snapshot.paramMap.get('category_id'));
-    console.log(this.aRouter.snapshot.paramMap.get('search'));
+    //console.log(this.aRouter.snapshot.paramMap.get('category_id'));
+    //console.log(this.aRouter.snapshot.paramMap.get('search'));
   }
 
   getProducts() {
     if (this.idCategory !== null) {
       this.getProductsForCategory();
+    } else if (this.routeFilters !== null) {
+      this.filters = JSON.parse(atob(this.routeFilters));
+      console.log(this.filters);
+      this.getListFiltered(this.filters);
     } else {
-      this.setPageTo(1);
+      this.currentPage = 1;
+      this.getListFiltered(this.filters = new Filters);
+      // this.getAllProducts(); //NO BORRAR HASTA PREGUNTAR A YOLANDA
     }
   }
 
+  /**
+   * En el caso de que en la función getProducts() localice que 'this.id' no es null,
+   * realiza esta función, vuelve a realizar una comprovación ya que la variable al poder
+   * ser string o null, no permite usar la variable sin una previa comprobación
+   */
   getProductsForCategory() {
     if (typeof this.idCategory === 'string') {
       this._categoriesService.getCategory(this.idCategory).subscribe(
         (data) => {
           this.listProducts = data.products;
-          console.log(data.products);
-          this.dataIsListProducts(data);
+          this.dataIsListProducts(this.listProducts);
         },
         (error) => {
           this.notifyService.showWarning(
             'Ha habido un error en el proceso',
-            'Producto eliminado'
           );
           console.log(error);
         }
@@ -75,6 +86,35 @@ export class ListProductsComponent implements OnInit {
     }
   }
   
+  getListFiltered(filters: Filters) {
+    // console.log(btoa(JSON.stringify(filters)));
+    this.filters = filters;
+
+    if(this.limit){
+      this.filters.limit = this.limit;
+      this.filters.offset = (this.limit*(this.currentPage -1));
+    }
+    console.log(this.filters);
+    
+    this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
+    //console.log(this.aRouter.snapshot.params.filters);
+
+    this._productoService.getListFiltered(filters).subscribe(
+      (data) => {
+        this.listProducts = data.products
+        this.dataIsListProducts(data.products);
+        this.totalPages = Array.from(new Array(Math.ceil(data.productCount / this.limit)),(val, index) => index + 1);
+      },
+      (error) => {
+        this.notifyService.showWarning(
+          'Ha habido un error en el proceso',
+          'Lo sentimos mucho'
+        );
+        console.log(error);
+      }
+    );
+  }
+
   /**
    *Esta función recoge los datos obtenidos del servidor, formatea 'price' y lo convierte en this.listProducts
    * @param data
@@ -92,37 +132,27 @@ export class ListProductsComponent implements OnInit {
   }
 
   setPageTo(pageNumber: number){
-
     this.currentPage = pageNumber;
-    this.listProducts = [];
-    this.filters = new Filters();
 
-    if(this.limit){
-      this.filters.limit = this.limit;
-      this.filters.offset = (this.limit*(this.currentPage -1));
+    if (typeof this.routeFilters === 'string') {
+        this.filters = JSON.parse(atob(this.routeFilters));
     }
 
-    if (typeof this.idSearch === 'string') {
-        this.filters.name = this.idSearch;
-    }
-
-    this.getFiltersProducts(this.filters);
+    this.getListFiltered(this.filters);
   }
 
-  getFiltersProducts(filters: Filters){
-    this._productoService.getFiltersProducts(filters).subscribe( 
-      data => {
-        this.listProducts = data.products
-        this.dataIsListProducts(data.products);
-        this.totalPages = Array.from(new Array(Math.ceil(data.productCount / this.limit)),(val, index) => index + 1);
-      },
-      (error) => {
-        this.notifyService.showWarning(
-          'Ha habido un error en el proceso',
-          'Lo sentimos mucho'
-        );
-        console.log(error);
-      }
-    );
-  }
+  // getAllProducts() {
+  //   this._productoService.getProducts().subscribe(
+  //     (data) => {
+  //       this.dataIsListProducts(data);
+  //     },
+  //     (error) => {
+  //       this.notifyService.showWarning(
+  //         'Ha habido un error en el proceso',
+  //         'Producto eliminado'
+  //       );
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 }

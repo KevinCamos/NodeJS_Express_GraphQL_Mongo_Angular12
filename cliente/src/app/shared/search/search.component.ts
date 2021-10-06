@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductService, Product } from '../../core';
+import { ProductService, Product, Filters } from '../../core';
 
 @Component({
   selector: 'app-search',
@@ -11,6 +11,8 @@ export class SearchComponent implements OnInit {
   searchValue: string = '';
   productList: Product[] = [];
   regex: RegExp = new RegExp(' ');
+  search: any;
+  filters: Filters = new Filters;
 
   constructor(
     private _productoService: ProductService,
@@ -19,9 +21,9 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getList(search: string) {
+  getList() {
     //modificar a getNamesForProducts
-    this._productoService.getNamesForProducts(search).subscribe(
+    this._productoService.getNamesForProducts(this.search).subscribe(
       (data) => {
         this.productList = data;
         console.log(data);
@@ -32,19 +34,33 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  /**
+   * Esta función evita un envío e innecesarios envíos de datos al servidor.
+   * Cuando el usuario deja de escribir durante un mínimo espacio de tiempo, la función permite enviar los datos de búsqueda.
+   * @param filters
+   */
+  private checkTime(writtingValue: any) {
+    setTimeout(() => {
+      if (writtingValue === this.search && this.search.length != 0) this.getList(), console.log(this.search);
+    }, 200);
+  }
+
   public keyEnterEvent(data: any): void {
     // let find = this.codeList.find((x) => x?.name === e.target.value);
     // console.log(find?.id);
-    console.log(data.searchValue);
-
-    this.router.navigate(['/shop/search/', data.searchValue]);
+    
+    if (typeof data.searchValue === 'string') {
+      console.log(data.searchValue);
+      this.filters.name = data.searchValue;
+      this.router.navigate(['/shop/' + btoa(JSON.stringify(this.filters))]);
+    }
   }
 
   public writtingEvent(writtingValue: any): void {
     // this.regex = writtingValue;
     // this.productList.filter(product => product == this.regex).length
     // console.log(this.productList.filter(product =>console.log(product)))
-    console.log(writtingValue);
-    this.getList(writtingValue); //probar a partir d'ací
+    this.search = writtingValue;
+    this.checkTime(writtingValue); //probar a partir d'ací
   }
 }

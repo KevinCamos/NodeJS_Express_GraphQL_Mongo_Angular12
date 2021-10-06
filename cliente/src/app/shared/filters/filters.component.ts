@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Filters } from '../../core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filters',
@@ -11,29 +12,34 @@ export class FiltersComponent {
   location: string;
   priceMin: number | undefined;
   priceMax: number;
+  routeFilters: string | null;
 
   filters: Filters;
 
   // timer: ReturnType<typeof setTimeout>
   @Output() searchEvent: EventEmitter<Filters> = new EventEmitter();
 
-  constructor() {}
+  constructor(
+    private aRouter: ActivatedRoute,
+  ) {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');
+  }
   public clickEvent(value: any) {
-    console.log(value);
+    //console.log(value);
   }
 
   public whatsPrice(priceMin: number, priceMax: number) {
-    console.log(typeof priceMin);
-    console.log(typeof priceMax);
+    //console.log(typeof priceMin);
+    //console.log(typeof priceMax);
 
     if (typeof priceMin == 'number' && typeof priceMax == 'number') {
-      console.log(priceMin);
+      //console.log(priceMin);
       if (priceMin >= priceMax && priceMax !== 0) {
         priceMin = priceMax;
         priceMax = priceMin + 10;
       }
 
-      console.log(priceMax);
+      //console.log(priceMax);
 
       this.priceMin = priceMin;
       this.priceMax = priceMax;
@@ -52,7 +58,12 @@ export class FiltersComponent {
     }, 200);
   }
   public writtingEvent(value: any) {
-    this.filters = new Filters();
+    if(this.routeFilters){
+      this.filters = JSON.parse(atob(this.routeFilters));
+    }else{
+      this.filters = new Filters();
+    }
+    
     this.whatsPrice(value.priceMin, value.priceMax);
 
     if (value.name) {
@@ -65,7 +76,7 @@ export class FiltersComponent {
 
     this.filters.priceMin = this.priceMin ? this.priceMin : undefined;
     this.filters.priceMax = this.priceMax == 0 ? undefined : this.priceMax;
-    console.log(this.filters);
+    //console.log(this.filters);
 
     this.checkTime(this.filters);
   }

@@ -102,33 +102,35 @@ router.get("/search/:search", async (req, res) => {
 router.get("/", async (req, res) => {
 
     var query = {};
-    let { limit, offset, name, location, priceMin, priceMax } = req.query;
-
-    limit = limit ? limit : 20;
-    offset = offset ? offset : 0;
-    name = name !== 'undefined' ? name : "";
-    location = location !== 'undefined' ? location : "";
-    priceMin = priceMin !== 'undefined' ? priceMin : 0;
-    priceMax = priceMax !== 'undefined' ? priceMax : Number.MAX_SAFE_INTEGER;
+    
+    let limit = req.query.limit && req.query.limit != 'undefined' ? req.query.limit : 20;
+    let offset = req.query.offset && req.query.offset != 'undefined' ? req.query.offset : 0;
+    let name = req.query.name && req.query.name != 'undefined' ? req.query.name : "";
+    let location = req.query.location && req.query.location != 'undefined' ? req.query.location : "";
+    let priceMin = req.query.priceMin && req.query.priceMin != 'undefined' ? req.query.priceMin : 0;
+    let priceMax = req.query.priceMax && req.query.priceMax != 'undefined' ? req.query.priceMax : Number.MAX_SAFE_INTEGER;
 
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
-    if(name.length != 0){
-      query.name = {$regex: nameReg };
-    }
-    if(location.length != 0){
-      query.location = {$regex: locationReg };
-    }
-    if(priceMin.length != 0 && priceMax.length != 0){
-      query.$and = [{ price: { "$gte" : priceMin }},{price:{ "$lte" : priceMax }}];
-    }
+    console.log(req.query);
+    console.log("limit:" + limit);
+    console.log("offset:" + offset);
+    console.log("name:" + name);
+    console.log("location:" + location);
+    console.log("priceMin:" + priceMin);
+    console.log("priceMax:" + priceMin);
+
+    if(name.length != 0) query.name = {$regex: nameReg };
+    if(location.length != 0) query.location = {$regex: locationReg };
+    if(priceMin.length != 0 && priceMax.length != 0) query.$and = [{ price: { "$gte" : priceMin }},{price:{ "$lte" : priceMax }}];
 
     return Promise.all([
-      Product.find(query).limit(Number(limit)).skip(Number(offset)),
+      Product.find(query)
+      .limit(Number(limit))
+      .skip(Number(offset)),
       Product.find(query).countDocuments()
     ]).then(function(results){
-      
       var products = results[0];
       var productCount = results[1];
       console.log(productCount);

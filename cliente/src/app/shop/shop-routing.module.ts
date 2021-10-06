@@ -9,12 +9,12 @@ const routes: Routes = [
     resolve: {},
   },
   {
-    path: ':category_id',
+    path: 'categories/:category_id',
     component: ShopComponent,
     resolve: {},
   },
   {
-    path: 'search/:search',
+    path: ':filters',
     component: ShopComponent,
     resolve: {},
   },

@@ -46,13 +46,13 @@ export class ProductService {
   getNamesForProducts(search: string): Observable<any> {
     return this.http.get<Product>(environment.url + 'products/list-search/' + search).pipe(
       map((data) => {
-        console.log(data);
+        //console.log(data);
         return data;
       })
     );
   }
 
-  getFiltersProducts(filters: Filters): Observable <{products: Product[], productCount: number}>{
+  getListFiltered(filters: Filters): Observable <{products: Product[], productCount: number}>{
     var params = {};
     params = filters;
     return this.apiService.get('products', new HttpParams({fromObject:params}));

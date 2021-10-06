@@ -201,3 +201,26 @@ a:hover{
   height: 32px;
   width: 32px;
 }
+
+
+
+.pagination {
+  margin: 0;
+  padding: 0;
+}
+
+.page-item {
+  background-color: white;
+  float: left;
+}
+
+.page-item a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.page-item a:hover{
+  background-color: #ddd;
+} 
