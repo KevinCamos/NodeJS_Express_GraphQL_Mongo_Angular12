@@ -42,6 +42,13 @@ CategorySchema.methods.slugify = function () {
 };
 
 
+CategorySchema.methods.toListJSONFor = function () {
+  return {
+    reference: this.reference,
+    name_category: this.name_category,
+  };
+};
+
 
 
 module.exports = mongoose.model("Category", CategorySchema);

@@ -2,8 +2,6 @@ var router = require("express").Router();
 
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
-const Image = require("../../models/image.model");
-const { exists } = require("../../models/image.model");
 
 router.param("username", function (req, res, next, username) {
   User.findOne({ username: username })
@@ -11,9 +9,7 @@ router.param("username", function (req, res, next, username) {
       if (!user) {
         return res.sendStatus(404);
       }
-
       req.profile = user;
-
       return next();
     })
     .catch(next);
@@ -100,47 +96,72 @@ router.get("/search/:search", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  try {
+    let query = {};
+    let transUndefined = (varQuery, otherResult) => {
+      return varQuery != "undefined" && varQuery ? varQuery : otherResult;
+    };
 
-    var query = {};
-    
-    let limit = req.query.limit && req.query.limit != 'undefined' ? req.query.limit : 20;
-    let offset = req.query.offset && req.query.offset != 'undefined' ? req.query.offset : 0;
-    let name = req.query.name && req.query.name != 'undefined' ? req.query.name : "";
-    let location = req.query.location && req.query.location != 'undefined' ? req.query.location : "";
-    let priceMin = req.query.priceMin && req.query.priceMin != 'undefined' ? req.query.priceMin : 0;
-    let priceMax = req.query.priceMax && req.query.priceMax != 'undefined' ? req.query.priceMax : Number.MAX_SAFE_INTEGER;
+    let limit = transUndefined(req.query.limit, 6);
+    let offset = transUndefined(req.query.offset, 0);
+    let name = transUndefined(req.query.name, "");
+    let location = transUndefined(req.query.location, "");
+    let priceMin = transUndefined(req.query.priceMin, 0);
+    let category = transUndefined(req.query.category, -1);
+    let priceMax = transUndefined(req.query.priceMax, Number.MAX_SAFE_INTEGER);
 
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
-    console.log(req.query);
-    console.log("limit:" + limit);
-    console.log("offset:" + offset);
-    console.log("name:" + name);
-    console.log("location:" + location);
-    console.log("priceMin:" + priceMin);
-    console.log("priceMax:" + priceMin);
+    // console.log("limit:" + limit);
+    // console.log("offset:" + offset);
+    // console.log("name:" + nameReg);
+    // console.log("location:" + location);
+    // console.log("req.location:" + req.query.location);
+    // console.log("locationReg:" + locationReg);
+    // console.log("priceMin:" + priceMin);
+    // console.log("priceMax:" + priceMax);
+    console.log(category)
+    query = {
+      name: { $regex: nameReg },
+      location: { $regex: locationReg },
+      $and: [{ price: { $gte: priceMin } }, { price: { $lte: priceMax } }],
+    };
 
-    if(name.length != 0) query.name = {$regex: nameReg };
-    if(location.length != 0) query.location = {$regex: locationReg };
-    if(priceMin.length != 0 && priceMax.length != 0) query.$and = [{ price: { "$gte" : priceMin }},{price:{ "$lte" : priceMax }}];
-
-    return Promise.all([
-      Product.find(query)
+    const products = await Product.find(query)
       .limit(Number(limit))
-      .skip(Number(offset)),
-      Product.find(query).countDocuments()
-    ]).then(function(results){
-      var products = results[0];
-      var productCount = results[1];
-      console.log(productCount);
-      return res.json({
-        products: products.map(function(product){
-          return product.toJSONFor();
-        }),
-        productCount: productCount
-      });
+      .skip(Number(offset));
+    const productCount = await Product.find(query).countDocuments();
+
+    if (!products) {
+      res.status(404).json({ msg: "No existe el product" });
+    }
+
+    return res.json({
+      products: products.map(function (product) {
+        return product.toJSONFor();
+      }),
+      productCount: productCount,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Hubo un error en router.get /search/:search");
+  }
+  // console.log(Product)
+  // return Promise.all([
+  //   Product.find(query).limit(Number(limit)).skip(Number(offset)),
+  //   Product.find(query).countDocuments(),
+  // ]).then(function (results) {
+  //   var products = results[0];
+  //   var productCount = results[1];
+  //   console.log(productCount);
+  //   return res.json({
+  //     products: products.map(function (product) {
+  //       return product.toJSONFor();
+  //     }),
+  //     productCount: productCount,
+  //   });
+  // });
 });
 /**
  * Devuelve todos los productos de BBDD

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import {
   ProductService,
@@ -6,9 +6,10 @@ import {
   Product,
   Filters,
   NotificationService,
+  Category,
 } from '../../core';
 
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-products',
@@ -17,6 +18,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
+  listCategories: Category[] = [];
   public classList: string = '';
   idCategory: string | null;
   routeFilters: string | null;
@@ -26,7 +28,7 @@ export class ListProductsComponent implements OnInit {
   totalPages: Array<number> = [];
   filters: Filters;
 
-  // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, 
+  // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos,
   // para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
     style: 'currency',
@@ -37,7 +39,6 @@ export class ListProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-    private router: Router,
     private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
@@ -46,8 +47,7 @@ export class ListProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
-    //console.log(this.aRouter.snapshot.paramMap.get('category_id'));
-    //console.log(this.aRouter.snapshot.paramMap.get('search'));
+    this.getListForCategory();
   }
 
   getProducts() {
@@ -59,8 +59,7 @@ export class ListProductsComponent implements OnInit {
       this.getListFiltered(this.filters);
     } else {
       this.currentPage = 1;
-      this.getListFiltered(this.filters = new Filters);
-      // this.getAllProducts(); //NO BORRAR HASTA PREGUNTAR A YOLANDA
+      this.getListFiltered((this.filters = new Filters()));
     }
   }
 
@@ -77,33 +76,50 @@ export class ListProductsComponent implements OnInit {
           this.dataIsListProducts(this.listProducts);
         },
         (error) => {
-          this.notifyService.showWarning(
-            'Ha habido un error en el proceso',
-          );
+          this.notifyService.showWarning('Ha habido un error en el proceso');
           console.log(error);
         }
       );
     }
   }
-  
-  getListFiltered(filters: Filters) {
+  getListForCategory() {
+    this._categoriesService.getListCategory().subscribe(
+      (data) => {
+        this.listCategories = data;
+        console.log(data);
+        // this.dataIsListProducts(this.listProducts);
+      },
+      (error) => {
+        this.notifyService.showWarning('Ha habido un error en el proceso');
+        console.log(error);
+      }
+    );
+  }
+
+  public getListFiltered(filters: Filters) {
     // console.log(btoa(JSON.stringify(filters)));
     this.filters = filters;
 
-    if(this.limit){
+    if (this.limit) {
       this.filters.limit = this.limit;
       this.filters.offset = (this.limit*(this.currentPage -1));
     }
+
     console.log(this.filters);
-    
+
     this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
     //console.log(this.aRouter.snapshot.params.filters);
 
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
-        this.listProducts = data.products
+        console.log(data);
+        this.listProducts = data.products;
         this.dataIsListProducts(data.products);
-        this.totalPages = Array.from(new Array(Math.ceil(data.productCount / this.limit)),(val, index) => index + 1);
+
+        this.totalPages = Array.from(
+          new Array(Math.ceil(data.productCount / this.limit)),
+          (val, index) => index + 1
+        );
       },
       (error) => {
         this.notifyService.showWarning(
@@ -131,11 +147,11 @@ export class ListProductsComponent implements OnInit {
     this.classList = thisClass ? '' : 'list';
   }
 
-  setPageTo(pageNumber: number){
+  setPageTo(pageNumber: number) {
     this.currentPage = pageNumber;
 
     if (typeof this.routeFilters === 'string') {
-        this.filters = JSON.parse(atob(this.routeFilters));
+      this.filters = JSON.parse(atob(this.routeFilters));
     }
 
     this.getListFiltered(this.filters);
