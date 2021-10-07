@@ -107,30 +107,33 @@ router.get("/", async (req, res) => {
     let name = transUndefined(req.query.name, "");
     let location = transUndefined(req.query.location, "");
     let priceMin = transUndefined(req.query.priceMin, 0);
-    let category = transUndefined(req.query.category, -1);
+    let category = transUndefined(Number(req.query.category), -1);
     let priceMax = transUndefined(req.query.priceMax, Number.MAX_SAFE_INTEGER);
 
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
-    // console.log("limit:" + limit);
-    // console.log("offset:" + offset);
-    // console.log("name:" + nameReg);
-    // console.log("location:" + location);
-    // console.log("req.location:" + req.query.location);
-    // console.log("locationReg:" + locationReg);
-    // console.log("priceMin:" + priceMin);
-    // console.log("priceMax:" + priceMax);
-    console.log(category)
+    console.log("limit:" + limit);
+    console.log("offset:" + offset);
+    console.log("name:" + nameReg);
+    console.log("location:" + locationReg);
+    console.log("priceMin:" + priceMin);
+    console.log("priceMax:" + priceMax);
+    console.log("category:" + category);
+
     query = {
       name: { $regex: nameReg },
       location: { $regex: locationReg },
       $and: [{ price: { $gte: priceMin } }, { price: { $lte: priceMax } }],
     };
 
+    if(category != -1){
+      query.id_category = category;
+    }
+
     const products = await Product.find(query)
-      .limit(Number(limit))
-      .skip(Number(offset));
+                                  .limit(Number(limit))
+                                  .skip(Number(offset));
     const productCount = await Product.find(query).countDocuments();
 
     if (!products) {

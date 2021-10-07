@@ -93,6 +93,7 @@ ProductSchema.methods.toJSONFor = function () {
     name: this.name,
     description: this.description,
     location: this.location,
+    id_category: this.id_category,
     price: this.price,
     view: this.view,
     creationDate: this.creationDate,

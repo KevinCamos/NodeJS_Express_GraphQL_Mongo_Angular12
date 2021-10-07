@@ -98,15 +98,6 @@ export class ListProductsComponent implements OnInit {
 
   public getListFiltered(filters: Filters) {
     // console.log(btoa(JSON.stringify(filters)));
-    this.filters = filters;
-
-    if (this.limit) {
-      this.filters.limit = this.limit;
-      this.filters.offset = (this.limit*(this.currentPage -1));
-    }
-
-    console.log(this.filters);
-
     this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
     //console.log(this.aRouter.snapshot.params.filters);
 
@@ -152,6 +143,11 @@ export class ListProductsComponent implements OnInit {
 
     if (typeof this.routeFilters === 'string') {
       this.filters = JSON.parse(atob(this.routeFilters));
+    }
+
+    if (this.limit) {
+      this.filters.limit = this.limit;
+      this.filters.offset = (this.limit*(this.currentPage -1));
     }
 
     this.getListFiltered(this.filters);

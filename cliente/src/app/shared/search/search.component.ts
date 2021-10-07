@@ -76,9 +76,8 @@ export class SearchComponent implements OnInit {
     if (typeof data.searchValue === 'string') {
       console.log(data.searchValue);
       this.filters.name = data.searchValue;
+      this.filters.offset = 0;
       this.router.navigate(['/shop/' + btoa(JSON.stringify(this.filters))]);
-
-
     }
   }
 

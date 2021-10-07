@@ -70,6 +70,9 @@ export class FiltersComponent {
     if (value.location) {
       this.filters.location = value.location;
     }
+    if (value.ref_category) {
+      this.filters.category = value.ref_category;
+    }
 
     this.filters.priceMin = this.priceMin ? this.priceMin : undefined;
     this.filters.priceMax = this.priceMax == 0 ? undefined : this.priceMax;

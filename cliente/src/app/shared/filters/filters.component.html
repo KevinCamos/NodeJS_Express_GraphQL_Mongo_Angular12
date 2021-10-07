@@ -13,13 +13,13 @@
   Precio Mínimo
   <input type="number" id="priceMin" [(ngModel)]="priceMin" min="0" step="10" placeholder="0"
     (input)="changeEvent(this)">
+  
   Precio Máximo
-
   <input type="number" id="priceMax" [(ngModel)]="priceMax" min="0" step="10" placeholder="20"
     (input)="changeEvent(this)">
 
-
-    <select name="category" id="category" [(ngModel)]="ref_category" (change)="changeEvent(this)"  >
+  Categoria
+    <select name="category" id="category" [(ngModel)]="ref_category" (change)="changeEvent(this)">
     <!-- formControlName="mySelect" -->
 
 
