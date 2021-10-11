@@ -46,6 +46,7 @@ CategorySchema.methods.toListJSONFor = function () {
   return {
     reference: this.reference,
     name_category: this.name_category,
+    slug: this.slug,
   };
 };
 

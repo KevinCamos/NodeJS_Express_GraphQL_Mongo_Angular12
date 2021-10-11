@@ -57,9 +57,12 @@ export class SearchComponent implements OnInit {
   private checkTime(writtingValue: any) {
     let isShop: string = this.router.url.split('/')[1];
     setTimeout(() => {
-      if (writtingValue === this.search)
+      if (writtingValue === this.search){
         if (isShop === 'shop') {
+          console.log(isShop)
+
           console.log('entra');
+btoa(JSON.stringify(this.filters))
           this.notNamefilters();
           this.location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
 
@@ -68,7 +71,7 @@ export class SearchComponent implements OnInit {
 
         } else if (this.search.length != 0) {
           this.getList();
-        }
+        }}
     }, 200);
   }
 
@@ -99,8 +102,8 @@ export class SearchComponent implements OnInit {
   public notNamefilters() {
     if (this.routeFilters !== null) {
       this.filters = JSON.parse(atob(this.routeFilters));
-      this.filters.name = this.searchValue;
-      console.log(this.filters);
     }
+    this.filters.name =this.search;
+    this.filters.offset = 0;
   }
 }

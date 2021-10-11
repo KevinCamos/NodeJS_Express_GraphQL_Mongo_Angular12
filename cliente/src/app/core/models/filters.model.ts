@@ -22,7 +22,7 @@ export class Filters {
     this.location = location;
     this.priceMin = priceMin;
     this.priceMax = priceMax;
-    this.category = category;
+    this.category = category ;
   }
 
   public length(): number {

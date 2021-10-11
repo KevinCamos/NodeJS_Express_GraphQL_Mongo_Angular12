@@ -26,7 +26,7 @@ export class ListProductsComponent implements OnInit {
   limit: number = 1;
   currentPage: number = 1;
   totalPages: Array<number> = [];
-  filters: Filters;
+  filters: Filters = new Filters();
 
   // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos,
   // para que luego en el for modifique el formato del precio
@@ -42,19 +42,24 @@ export class ListProductsComponent implements OnInit {
     private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
-    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
+    this.routeFilters = this.refresRouteFilter(); //obtiene la 'id' del link
   }
 
   ngOnInit(): void {
     this.getProducts();
-    this.getListForCategory();
   }
 
   getProducts() {
+    this.getListForCategory();
+
     if (this.idCategory !== null) {
-      this.getProductsForCategory();
+      //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
+      // this.getProductsForCategory();
+      // console.log(this.listCategories)
+      // this.filters.category= this.idCategory;
+      // this.getListFiltered(this.filters);
     } else if (this.routeFilters !== null) {
-      this.filters = JSON.parse(atob(this.routeFilters));
+      this.filters = JSON.parse(atob(this.refresRouteFilter()));
       console.log(this.filters);
       this.getListFiltered(this.filters);
     } else {
@@ -69,17 +74,20 @@ export class ListProductsComponent implements OnInit {
    * ser string o null, no permite usar la variable sin una previa comprobación
    */
   getProductsForCategory() {
-    if (typeof this.idCategory === 'string') {
-      this._categoriesService.getCategory(this.idCategory).subscribe(
-        (data) => {
-          this.listProducts = data.products;
-          this.dataIsListProducts(this.listProducts);
-        },
-        (error) => {
-          this.notifyService.showWarning('Ha habido un error en el proceso');
-          console.log(error);
-        }
+    if (this.idCategory !== null) {
+      // this.getProductsForCategory();
+      console.log(this.listCategories);
+      console.log(this.idCategory);
+      let findCategory = this.listCategories.find(
+        (category) => category.slug === this.idCategory
       );
+
+      if (typeof findCategory?.reference == 'number') {
+        console.log(findCategory.reference);
+
+        this.filters.category = findCategory.reference;
+      }
+      this.getListFiltered(this.filters);
     }
   }
   getListForCategory() {
@@ -87,7 +95,7 @@ export class ListProductsComponent implements OnInit {
       (data) => {
         this.listCategories = data;
         console.log(data);
-        // this.dataIsListProducts(this.listProducts);
+        this.getProductsForCategory();
       },
       (error) => {
         this.notifyService.showWarning('Ha habido un error en el proceso');
@@ -142,29 +150,25 @@ export class ListProductsComponent implements OnInit {
     this.currentPage = pageNumber;
 
     if (typeof this.routeFilters === 'string') {
-      this.filters = JSON.parse(atob(this.routeFilters));
+      console.log('entra');
+      this.filters = JSON.parse(atob(this.refresRouteFilter()));
+      console.log(this.filters);
     }
 
     if (this.limit) {
       this.filters.limit = this.limit;
-      this.filters.offset = (this.limit*(this.currentPage -1));
+      this.filters.offset = this.limit * (this.currentPage - 1);
     }
+    console.log(this.filters);
 
     this.getListFiltered(this.filters);
   }
 
-  // getAllProducts() {
-  //   this._productoService.getProducts().subscribe(
-  //     (data) => {
-  //       this.dataIsListProducts(data);
-  //     },
-  //     (error) => {
-  //       this.notifyService.showWarning(
-  //         'Ha habido un error en el proceso',
-  //         'Producto eliminado'
-  //       );
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  refresRouteFilter() {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
+    if(typeof(this.routeFilters) =="string" ){
+      return this.routeFilters;
+    }
+    return ""
+  }
 }

@@ -102,7 +102,8 @@ router.get("/", async (req, res) => {
       return varQuery != "undefined" && varQuery ? varQuery : otherResult;
     };
 
-    let limit = transUndefined(req.query.limit, 6);
+    // let limit = transUndefined(req.query.limit, 6);
+    let limit= 3;
     let offset = transUndefined(req.query.offset, 0);
     let name = transUndefined(req.query.name, "");
     let location = transUndefined(req.query.location, "");
@@ -144,7 +145,7 @@ router.get("/", async (req, res) => {
       products: products.map(function (product) {
         return product.toJSONFor();
       }),
-      productCount: productCount,
+      productCount: productCount/limit,
     });
   } catch (error) {
     console.log(error);
