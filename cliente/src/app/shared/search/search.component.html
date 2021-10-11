@@ -1,5 +1,5 @@
 <div>
-  <input type="text" list="search" [(ngModel)]="searchValue" (change)="keyEnterEvent(this)"
+  <input type="text" list="search" placeholder="Guitarra Strat.." [(ngModel)]="searchValue"  (change)="keyEnterEvent(this)"
     (input)="writtingEvent($any($event.target).value)">
   <datalist id="search">
     <option *ngFor="let product of productList" [value]="product.name">{{product.name}}</option>

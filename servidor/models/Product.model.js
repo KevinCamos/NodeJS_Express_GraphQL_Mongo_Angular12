@@ -14,10 +14,12 @@ const ProductSchema = mongoose.Schema({
   },
   name: {
     type: String,
+    lowecase: true,
     required: true,
   },
   description: {
     type: String,
+    lowecase: true,
     default: "",
     maxLength: 300,
   },
@@ -27,6 +29,8 @@ const ProductSchema = mongoose.Schema({
   },
   location: {
     type: String,
+    lowecase: true,
+
     required: true,
   },
   price: {
@@ -63,6 +67,7 @@ ProductSchema.pre("validate", function (next) {
   if (!this.slug) {
     this.slugify(); // ProductSchema.methods.slugify = function()
   }
+  this.lowercase();
   next();
 });
 
@@ -76,12 +81,19 @@ ProductSchema.methods.slugify = function () {
     ((Math.random() * Math.pow(36, 6)) | 0).toString(36);
 };
 
+ProductSchema.methods.lowercase = function () {
+  this.name = this.name.toLowerCase();
+  this.location = this.location.toLowerCase();
+  this.description = this.description.toLowerCase();
+};
+
 ProductSchema.methods.toJSONFor = function () {
   return {
     slug: this.slug,
     name: this.name,
     description: this.description,
     location: this.location,
+    id_category: this.id_category,
     price: this.price,
     view: this.view,
     creationDate: this.creationDate,

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   ProductService,
   CategoriesService,
   Product,
   Filters,
   NotificationService,
+  Category,
 } from '../../core';
-import { Location } from '@angular/common';
 
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-products',
@@ -17,11 +18,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
+  listCategories: Category[] = [];
   public classList: string = '';
   idCategory: string | null;
   routeFilters: string | null;
-  filters: Filters;
-  //new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos, para que luego en el for modifique el formato del precio
+
+  limit: number = 1;
+  currentPage: number = 1;
+  totalPages: Array<number> = [];
+  filters: Filters = new Filters();
+
+  // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos,
+  // para que luego en el for modifique el formato del precio
   private numberFormat = new Intl.NumberFormat('es', {
     style: 'currency',
     currency: 'EUR',
@@ -31,68 +39,39 @@ export class ListProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-    private router: Router,
     private location: Location
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
-    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
+    this.routeFilters =this.aRouter.snapshot.paramMap.get('filters');//obtiene la 'id' del link
   }
 
   ngOnInit(): void {
-    console.log(this.idCategory);
-    console.log(this.routeFilters);
-
     this.getProducts();
   }
+
   getProducts() {
-    console.log(this.routeFilters);
+    this.getListForCategory();
+
     if (this.idCategory !== null) {
-      this.getProductsForCategory();
+      console.log("Es una categoría")
+      //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
+      // this.getProductsForCategory();
+      // console.log(this.listCategories)
+      // this.filters.category= this.idCategory;
+      // this.getListFiltered(this.filters);
     } else if (this.routeFilters !== null) {
-      this.filters = JSON.parse(atob(this.routeFilters));
+      console.log("son filtros")
+      this.refresRouteFilter()     ;
+
+      console.log(this.filters);
       this.getListFiltered(this.filters);
     } else {
-      this.getListFiltered(this.filters=new Filters);
+      console.log("default")
 
-      // this.getAllProducts(); //NO BORRAR HASTA PREGUNTAR A YOLANDA
+      this.currentPage = 1;
+      this.getListFiltered((this.filters = new Filters()));
     }
   }
-
-
-  // █▄░█ █▀█   █▄▄ █▀█ █▀█ █▀█ ▄▀█ █▀█ ░   █▀█ █▀█ █▀▀ █▀▀ █░█ █▄░█ ▀█▀ ▄▀█ █▀█   ▄▀█   █▄█ █▀█ █░░ ▄▀█ █▄░█ █▀▄ ▄▀█   █▀ █
-  // █░▀█ █▄█   █▄█ █▄█ █▀▄ █▀▄ █▀█ █▀▄ █   █▀▀ █▀▄ ██▄ █▄█ █▄█ █░▀█ ░█░ █▀█ █▀▄   █▀█   ░█░ █▄█ █▄▄ █▀█ █░▀█ █▄▀ █▀█   ▄█ █
-
-  // █▀▀ █▄░█ █░█ █ ▄▀█ █▀█   █░█ █▄░█   █▀▀ █ █░░ ▀█▀ █▀█ █▀█   █░█ ▄▀█ █▀▀ █ █▀█   █▀▀ █▀ ▀█▀ ▄▀█   █▄▄ █ █▀▀ █▄░█
-  // ██▄ █░▀█ ▀▄▀ █ █▀█ █▀▄   █▄█ █░▀█   █▀░ █ █▄▄ ░█░ █▀▄ █▄█   ▀▄▀ █▀█ █▄▄ █ █▄█   ██▄ ▄█ ░█░ █▀█   █▄█ █ ██▄ █░▀█
-
-  // █▀█ ▄▀█ █▀█ ▄▀█   █▀▀ █░░   ▀ █▀▀ █▀▀ ▀█▀   ▄▀█ █░░ █░░ ▀
-  // █▀▀ █▀█ █▀▄ █▀█   ██▄ █▄▄   ░ █▄█ ██▄ ░█░   █▀█ █▄▄ █▄▄ ░
-
-  // getAllProducts() {
-  //   this._productoService.getProducts().subscribe(
-  //     (data) => {
-  //       this.dataIsListProducts(data);
-  //     },
-  //     (error) => {
-  //       this.notifyService.showWarning(
-  //         'Ha habido un error en el proceso',
-  //         'Producto eliminado'
-  //       );
-  //       console.log(error);
-  //     }
-  //   );
-  // }
-
-  // █▄░█ █▀█   █▄▄ █▀█ █▀█ █▀█ ▄▀█ █▀█ ░   █▀█ █▀█ █▀▀ █▀▀ █░█ █▄░█ ▀█▀ ▄▀█ █▀█   ▄▀█   █▄█ █▀█ █░░ ▄▀█ █▄░█ █▀▄ ▄▀█   █▀ █
-  // █░▀█ █▄█   █▄█ █▄█ █▀▄ █▀▄ █▀█ █▀▄ █   █▀▀ █▀▄ ██▄ █▄█ █▄█ █░▀█ ░█░ █▀█ █▀▄   █▀█   ░█░ █▄█ █▄▄ █▀█ █░▀█ █▄▀ █▀█   ▄█ █
-
-  // █▀▀ █▄░█ █░█ █ ▄▀█ █▀█   █░█ █▄░█   █▀▀ █ █░░ ▀█▀ █▀█ █▀█   █░█ ▄▀█ █▀▀ █ █▀█   █▀▀ █▀ ▀█▀ ▄▀█   █▄▄ █ █▀▀ █▄░█
-  // ██▄ █░▀█ ▀▄▀ █ █▀█ █▀▄   █▄█ █░▀█   █▀░ █ █▄▄ ░█░ █▀▄ █▄█   ▀▄▀ █▀█ █▄▄ █ █▄█   ██▄ ▄█ ░█░ █▀█   █▄█ █ ██▄ █░▀█
-
-  // █▀█ ▄▀█ █▀█ ▄▀█   █▀▀ █░░   ▀ █▀▀ █▀▀ ▀█▀   ▄▀█ █░░ █░░ ▀
-  // █▀▀ █▀█ █▀▄ █▀█   ██▄ █▄▄   ░ █▄█ ██▄ ░█░   █▀█ █▄▄ █▄▄ ░
-
-
 
   /**
    * En el caso de que en la función getProducts() localice que 'this.id' no es null,
@@ -100,41 +79,51 @@ export class ListProductsComponent implements OnInit {
    * ser string o null, no permite usar la variable sin una previa comprobación
    */
   getProductsForCategory() {
-    if (typeof this.idCategory === 'string') {
-      console.log('hi ha string!');
+    if (this.idCategory !== null) {
+      // this.getProductsForCategory();
+      console.log(this.listCategories);
       console.log(this.idCategory);
-      this._categoriesService.getCategory(this.idCategory).subscribe(
-        (data) => {
-          this.listProducts = data.products;
-          // console.log(data.products);
-          this.dataIsListProducts(this.listProducts);
-        },
-        (error) => {
-          this.notifyService.showWarning(
-            'Ha habido un error en el proceso',
-            'Producto eliminado'
-          );
-          console.log(error);
-        }
+      let findCategory = this.listCategories.find(
+        (category) => category.slug === this.idCategory
       );
+
+      if (typeof findCategory?.reference == 'number') {
+        console.log(findCategory.reference);
+
+        this.filters.category = findCategory.reference;
+      }
+      this.getListFiltered(this.filters);
     }
   }
+  getListForCategory() {
+    this._categoriesService.getListCategory().subscribe(
+      (data) => {
+        this.listCategories = data;
+        console.log(data);
+        this.getProductsForCategory();
+      },
+      (error) => {
+        this.notifyService.showWarning('Ha habido un error en el proceso');
+        console.log(error);
+      }
+    );
+  }
 
-  getListFiltered(filters: Filters) {
-    console.log(filters);
+  public getListFiltered(filters: Filters) {
     // console.log(btoa(JSON.stringify(filters)));
-    // this.location.replaceState('/shop/filters/' + JSON.stringify(filters));
-    console.log(this.aRouter.snapshot.params.filters);
-
     this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
-    console.log(this.aRouter.snapshot.params.filters);
+    //console.log(this.aRouter.snapshot.params.filters);
 
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
         console.log(data);
-        this.listProducts = data;
-        console.log(data);
-        this.dataIsListProducts(data);
+        this.listProducts = data.products;
+        this.dataIsListProducts(data.products);
+
+        this.totalPages = Array.from(
+          new Array(Math.ceil(data.productCount / this.limit)),
+          (val, index) => index + 1
+        );
       },
       (error) => {
         this.notifyService.showWarning(
@@ -158,8 +147,35 @@ export class ListProductsComponent implements OnInit {
     this.listProducts = data; //ListProducts es un objeto Product[]
   }
 
-  /**Esta función sirve para modificar la forma de ver los productos*/
   ShowList(thisClass: boolean) {
     this.classList = thisClass ? '' : 'list';
+  }
+
+  setPageTo(pageNumber: number) {
+    this.currentPage = pageNumber;
+
+    if (typeof this.routeFilters === 'string') {
+      console.log('entra');
+      this.refresRouteFilter()     ;
+       console.log(this.filters);
+    }
+
+    if (this.limit) {
+      this.filters.limit = this.limit;
+      this.filters.offset = this.limit * (this.currentPage - 1);
+    }
+    console.log(this.filters);
+
+    this.getListFiltered(this.filters);
+  }
+
+  refresRouteFilter() {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
+    if(typeof(this.routeFilters) =="string" ){
+      this.filters = JSON.parse(atob(this.routeFilters));
+
+    }else{
+      this.filters = new Filters();
+    }
   }
 }

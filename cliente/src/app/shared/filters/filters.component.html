@@ -1,37 +1,33 @@
 <div class="container-filter">
+  <!-- <form [formGroup]="filterForm"> -->
 
-
+  <!--
   Nombre del producto
   <input type="search" id="name" [(ngModel)]="name" min="0" max="10000" placeholder="Guitarra Strat..."
-    (input)="writtingEvent(this)">
+    (input)="writtingEvent(this)"> -->
 
   Localidad
-  <input type="search" id="location" [(ngModel)]="location" min="0" placeholder="Ontinyent"
-    (input)="writtingEvent(this)">
+  <input type="search" id="location" [(ngModel)]="location" min="0" placeholder="Ontinyent" (input)="changeEvent(this)">
 
 
   Precio Mínimo
   <input type="number" id="priceMin" [(ngModel)]="priceMin" min="0" step="10" placeholder="0"
-    (input)="writtingEvent(this)">
+    (input)="changeEvent(this)">
+  
   Precio Máximo
-
   <input type="number" id="priceMax" [(ngModel)]="priceMax" min="0" step="10" placeholder="20"
-    (input)="writtingEvent(this)">
+    (input)="changeEvent(this)">
+
+  Categoria
+    <select name="category" id="category" [(ngModel)]="ref_category" (change)="changeEvent(this)">
+    <!-- formControlName="mySelect" -->
 
 
+      <option [ngValue]="null" disabled>Choose your profile</option>
+      <option *ngFor="let category of listCategories" [value]="category.reference" [selected]='category.reference ==2'>
+        {{category.name_category}}</option>
+    </select>
 
-  <!-- Precio Mínimo
-  <input type="range" id="priceMin" [(ngModel)]="priceMin" min="0" max="10000" value="0" step="10"
-    (input)="clickEvent($any($event.target))"><span class="recibeMin">{{priceMin}}</span>
 
-  Precio Máximo
-
-  <input type="range" id="priceMax" [(ngModel)]="priceMax" min="0" max="10000" value="10000" step="10"
-    (input)="clickEvent($any($event))">
-  <span *ngIf="priceMax<10000">
-    <span class="recibeMax">{{priceMax}}€</span>
-  </span>
-  <span *ngIf="priceMax==10000">
-    <span class="recibeMax"><small>Me da igual el precio</small></span>
-  </span> -->
+  <!-- </form> -->
 </div>

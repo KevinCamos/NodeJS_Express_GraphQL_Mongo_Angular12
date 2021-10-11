@@ -11,10 +11,7 @@ export class CarouselService {
   constructor(private http: HttpClient) {}
 
   getCarousel(): Observable<any> {
-    return this.http.get<Carousel[]>(environment.url + "carousel")
-
-    ;
+    return this.http.get<Carousel[]>(environment.url + "carousel");
   }
-
 
 }
