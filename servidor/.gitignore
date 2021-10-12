@@ -46,3 +46,8 @@ testem.log
 Thumbs.db
 
 variables.env
+
+
+# Secret
+
+config/index.js

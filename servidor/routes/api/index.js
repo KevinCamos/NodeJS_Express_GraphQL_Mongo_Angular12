@@ -1,24 +1,19 @@
-var router = require("express").Router();
-const products = require("./products");
-const categories = require("./categories");
-const carousel = require("./carousel");
+var router = require('express').Router();
 
-/**s
- *
- * router.use("/ruta postman/", carpeta de uso de );
- */
-router.use("/products/", products);
-router.use("/categories/", categories);
-router.use("/carousel/", carousel);
+router.use('/', require('./users'));
+// router.use('/profiles', require('./profiles'));
+router.use('/products', require('./products'));
+router.use('/categories', require('./categories'));
+router.use('/carousel', require('./carousel'));
 
-router.use(function (err, req, res, next) {
-  if (err.name === "ValidationError") {
+router.use(function(err, req, res, next){
+  if(err.name === 'ValidationError'){
     return res.status(422).json({
-      errors: Object.keys(err.errors).reduce(function (errors, key) {
+      errors: Object.keys(err.errors).reduce(function(errors, key){
         errors[key] = err.errors[key].message;
 
         return errors;
-      }, {}),
+      }, {})
     });
   }
 

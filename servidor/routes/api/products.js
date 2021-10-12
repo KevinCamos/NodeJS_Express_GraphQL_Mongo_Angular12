@@ -114,13 +114,13 @@ router.get("/", async (req, res) => {
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
-    console.log("limit:" + limit);
-    console.log("offset:" + offset);
-    console.log("name:" + nameReg);
-    console.log("location:" + locationReg);
-    console.log("priceMin:" + priceMin);
-    console.log("priceMax:" + priceMax);
-    console.log("category:" + category);
+    // console.log("limit:" + limit);
+    // console.log("offset:" + offset);
+    // console.log("name:" + nameReg);
+    // console.log("location:" + locationReg);
+    // console.log("priceMin:" + priceMin);
+    // console.log("priceMax:" + priceMax);
+    // console.log("category:" + category);
 
     query = {
       name: { $regex: nameReg },
@@ -132,7 +132,7 @@ router.get("/", async (req, res) => {
       query.id_category = category;
     }
 
-    const products = await Product.find(query)
+    const products = await Product.find(query).sort('name')
                                   .limit(Number(limit))
                                   .skip(Number(offset));
     const productCount = await Product.find(query).countDocuments();

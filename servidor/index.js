@@ -1,6 +1,7 @@
 const express = require("express");
 const conectarDB = require("./config/db");
 const cors = require("cors"); //http://www.vidamrr.com/2020/01/que-es-cors-y-como-usarlo-en-nodejs.html
+const passport = require('passport');
 
 const app = express();
 
@@ -11,6 +12,15 @@ const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
+
+/* CARGAMOS MODELS*/
+require('./models/user.model');
+
+
+/* CARGAMOS CONFIGURACIÓN PASSPORT*/
+
+require('./config/passport');
+
 
 /**
  * Para ir al router.post/get.. de un objeto, se utiliza require('./carpetarouter')
