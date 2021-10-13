@@ -5,6 +5,8 @@ import { ApiService, JwtService } from '.';
 import { User } from '../models';
 import { map ,  distinctUntilChanged } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment.dev';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +20,8 @@ export class UserService {
 
     constructor (
     private apiService: ApiService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private http: HttpClient
     ) {}
 
   // Verify JWT in localstorage with server & load user's info.
@@ -56,11 +59,12 @@ export class UserService {
     }
 
     attemptAuth(type: any, credentials: any): Observable<User> {
-        const route = (type === 'login') ? '/login' : '';
-        return this.apiService.post(`/users${route}`, {user: credentials})
+        const route = (type === '/login') ? '/login' : '';
+        return this.apiService.post(`users${route}`, {user: credentials})
         .pipe(map(
             data => {
                 this.setAuth(data.user);
+                console.log(data);
                 return data;
             }
         ));

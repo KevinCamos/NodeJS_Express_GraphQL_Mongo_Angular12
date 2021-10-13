@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User, UserService } from '../../../core';
 
@@ -10,7 +11,8 @@ import { User, UserService } from '../../../core';
 export class HeaderComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   currentUser: User;
@@ -22,5 +24,10 @@ export class HeaderComponent implements OnInit {
         this.cd.markForCheck();
       }
     );
+  }
+
+  logout() {
+    this.userService.purgeAuth();
+    this.router.navigateByUrl('/');
   }
 }

@@ -9,10 +9,10 @@
     </div>
   </div>
   <div *appShowAuthed="false">
-    <a [routerLink]="['/login/login']" routerLinkActive="active">Sign in</a>
-    <a [routerLink]="['/login/register']" routerLinkActive="active">Sign up</a>
+    <a [routerLink]="['/login']" routerLinkActive="active">Sign in</a>
+    <a [routerLink]="['/register']" routerLinkActive="active">Sign up</a>
   </div>
   <div *appShowAuthed="true">
-    <a [routerLink]="['/logout']" routerLinkActive="active">Log out</a>
+    <a (click)="logout()">Log out</a>
   </div>
 </div>

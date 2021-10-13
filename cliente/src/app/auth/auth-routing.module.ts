@@ -5,12 +5,7 @@ import { NoAuthGuard } from '../core';
 
 const routes: Routes = [
     {
-        path: 'login',
-        component: AuthComponent,
-        canActivate: [NoAuthGuard]
-    },
-    {
-        path: 'register',
+        path: '',
         component: AuthComponent,
         canActivate: [NoAuthGuard]
     }
