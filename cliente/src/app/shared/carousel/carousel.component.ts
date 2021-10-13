@@ -20,16 +20,11 @@ import { fadeIn, fadeOut } from './carousel.animations';
 
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent {
   @Input() listCarousel: Carousel[] = [];
   @Input() listImages: String[] = [];
-  // @Input() items: Carousel[]= [];
-  // @Output() change: EventEmitter<number> = new EventEmitter<number>();
   counter = 0;
 
-  constructor() {}
-
-  ngOnInit(): void {}
 
   onPreviousClick() {
     const previous = this.counter - 1;
