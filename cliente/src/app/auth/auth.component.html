@@ -1,0 +1,18 @@
+<div class="form_containner">
+    <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+        <h1>{{ title }}</h1>
+    
+        <div class="container">
+            <label for="uname"  *ngIf="authType == 'register'"><b>Username</b></label>
+            <input formControlName="username" type="text" placeholder="Enter Username" name="uname" *ngIf="authType == 'register'">
+    
+            <label for="email"><b>Email</b></label>
+            <input formControlName="email" type="text" placeholder="Enter Email" name="email">
+    
+            <label for="psw"><b>Password</b></label>
+            <input formControlName="password" type="password" placeholder="Enter Password" name="psw">
+    
+            <button [disabled]="!authForm.valid" type="submit">{{ title }}</button>
+        </div>
+    </form>
+</div>

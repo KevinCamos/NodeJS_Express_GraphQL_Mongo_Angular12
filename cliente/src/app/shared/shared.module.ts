@@ -11,7 +11,8 @@ import { CardProductComponent } from './card-product/card-product.component'
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { SearchComponent } from './search/search.component';
-import { FiltersComponent } from './filters/filters.component'
+import { FiltersComponent } from './filters/filters.component';
+import { ShowAuthedDirective } from './show-authed.directive';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { FiltersComponent } from './filters/filters.component'
         CarouselComponent,
         CarouselItemsComponent,
         SearchComponent,
-        FiltersComponent
+        FiltersComponent,
+        ShowAuthedDirective
     ],
     exports: [
         CategoriesComponent,
@@ -42,7 +44,8 @@ import { FiltersComponent } from './filters/filters.component'
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        RouterModule
+        RouterModule,
+        ShowAuthedDirective
     ]
 })
 export class SharedModule {}

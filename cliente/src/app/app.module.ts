@@ -13,7 +13,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { FooterComponent, HeaderComponent } from './shared';
+import { FooterComponent, HeaderComponent, SharedModule } from './shared';
+import { AuthModule } from './auth/auth.module';
 @NgModule({
   declarations: [
     //declaración de componentes
@@ -21,11 +22,13 @@ import { FooterComponent, HeaderComponent } from './shared';
     FooterComponent, 
     HeaderComponent],
   imports: [
+    SharedModule,
    //modulos que importamos al proyecto
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    AuthModule,
     // FormsModule,
     ReactiveFormsModule,
     // Toastr 

@@ -1,13 +1,18 @@
 <div class="navbarI">
-    <a [routerLink]="['/home']">Home</a>
-    <a [routerLink]="['/shop']">Shop</a>
-    <div class="subnavI">
-      <button class="subnavbtnI">CRUD</button>
-      <div class="subnav-contentI">
-        <a  href="/list-products">Listar Productos</a>
-        <a  href="/create-products">Crear Productos</a>
-      </div>
+  <a [routerLink]="['/home']">Home</a>
+  <a [routerLink]="['/shop']">Shop</a>
+  <div class="subnavI">
+    <button class="subnavbtnI">CRUD</button>
+    <div class="subnav-contentI">
+      <a  href="/list-products">Listar Productos</a>
+      <a  href="/create-products">Crear Productos</a>
     </div>
-    <a href="404">Error404</a>
-
   </div>
+  <div *appShowAuthed="false">
+    <a [routerLink]="['/login/login']" routerLinkActive="active">Sign in</a>
+    <a [routerLink]="['/login/register']" routerLinkActive="active">Sign up</a>
+  </div>
+  <div *appShowAuthed="true">
+    <a [routerLink]="['/logout']" routerLinkActive="active">Log out</a>
+  </div>
+</div>

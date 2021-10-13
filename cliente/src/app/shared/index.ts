@@ -1,5 +1,6 @@
 export * from './layout';
 export * from './shared.module';
+export * from './show-authed.directive';
 export * from './categories/categories.component'
 export * from './list-products/list-products.component'
 export * from './card-product/card-product.component'
