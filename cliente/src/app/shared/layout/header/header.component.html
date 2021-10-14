@@ -4,8 +4,8 @@
   <div class="subnavI">
     <button class="subnavbtnI">CRUD</button>
     <div class="subnav-contentI">
-      <a  href="/list-products">Listar Productos</a>
-      <a  href="/create-products">Crear Productos</a>
+      <a href="/list-products">Listar Productos</a>
+      <a href="/create-products">Crear Productos</a>
     </div>
   </div>
   <div *appShowAuthed="false">
@@ -13,6 +13,19 @@
     <a [routerLink]="['/register']" routerLinkActive="active">Sign up</a>
   </div>
   <div *appShowAuthed="true">
-    <a (click)="logout()">Log out</a>
+
+
+    <div class="subnavI padding-right" style="float:right; padding-right: 10%">
+      <button class="subnavbtnI " > <img [src]="'https://static.productionready.io/images/smiley-cyrus.jpg'"
+          class="user-pic" alt="user image" />
+        {{ currentUser.username }}</button>
+      <div class="subnav-contentI" >
+        <a (click)="logout()" style="float:right; padding-right: 8%">Log out</a>
+        <a href="/settings"  style="float:right; padding-right: 5%" >Configuración</a>
+      </div>
+    </div>
+
+
+
   </div>
 </div>

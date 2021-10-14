@@ -2,6 +2,7 @@
   overflow: hidden;
   // background-color: rgb(94, 152, 211);
   background-color:#5AC0A9;
+
   margin-left: -10px;
   margin-right: -8px;
   margin-top: -10px;
@@ -58,4 +59,13 @@
 
 .subnavI:hover .subnav-contentI {
   display: block;
+}
+.user-pic{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+a:hover{
+  cursor: pointer;
 }

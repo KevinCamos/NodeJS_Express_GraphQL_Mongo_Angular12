@@ -4,7 +4,7 @@ var passport = require("passport");
 var User = mongoose.model("User");
 var auth = require("../auth");
 
-/*Obtener usuario con token*/
+/* GET USER TOKEN (SETTINGS) */
 router.get("/user", auth.required, function (req, res, next) {
   console.log("EH");
   User.findById(req.payload.id)
@@ -17,7 +17,7 @@ router.get("/user", auth.required, function (req, res, next) {
     })
     .catch(next);
 });
-
+/* UPDATE USER (SETTINGS) */
 router.put("/user", auth.required, function (req, res, next) {
   User.findById(req.payload.id)
     .then(function (user) {
@@ -25,14 +25,11 @@ router.put("/user", auth.required, function (req, res, next) {
         return res.sendStatus(401);
       }
 
-      console.log(user.username )
       user.username = req.body.user.username || user.username;
       user.email = req.body.user.email || user.email;
       user.bio = req.body.user.bio || user.bio;
       user.image = req.body.user.image || user.image;
-      user.password = req.body.user.bio || user.password;
       if (req.body.user.password) user.setPassword(req.body.user.password);
-      console.log(user.username )
 
       return user.save().then(function () {
         return res.json({ user: user.toAuthJSON() });
@@ -44,6 +41,7 @@ router.put("/user", auth.required, function (req, res, next) {
 /*LOGIN*/
 router.post("/users/login", async (req, res, next) => {
   try {
+
     if (!req.body.user.email) {
       await res.status(422).json({ errors: { email: "can't be blank" } });
     }
@@ -60,6 +58,9 @@ router.post("/users/login", async (req, res, next) => {
           console.log("err");
           return next(err);
         }
+        console.log("eh")
+console.log(user)
+console.log("eh")
 
         if (user) {
           console.log("user");
