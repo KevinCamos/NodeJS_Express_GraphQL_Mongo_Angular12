@@ -1,17 +1,25 @@
 <div class="form_containner">
     <form [formGroup]="authForm" (ngSubmit)="submitForm()">
         <h1>{{ title }}</h1>
-    
+
         <div class="container">
-            <label for="uname"  *ngIf="authType == '/register'"><b>Username</b></label>
+            <label for="uname"  *ngIf="authType == '/register'"><b>Username (Opcional)</b></label>
             <input formControlName="username" type="text" placeholder="Enter Username" name="uname" *ngIf="authType == '/register'">
-    
+
             <label for="email"><b>Email</b></label>
             <input formControlName="email" type="text" placeholder="Enter Email" name="email">
-    
+            <div class="text-danger" *ngIf="authForm.get('email')?.hasError('required') &&
+            authForm.get('email')?.touched || authForm.get('email')?.hasError('email') &&
+            authForm.get('email')?.touched">
+       <span>El e-mail <strong>es obligatorio</strong></span>
+     </div>
             <label for="psw"><b>Password</b></label>
             <input formControlName="password" type="password" placeholder="Enter Password" name="psw">
-    
+            <div class="text-danger" *ngIf="authForm.get('password')?.hasError('required') &&
+            authForm.get('password')?.touched || authForm.get('password')?.hasError('minlength') &&
+            authForm.get('password')?.touched">
+       <span>El password <strong>es obligatorio</strong> con un mínimo de 5 carácteres</span>
+     </div>
             <button [disabled]="!authForm.valid" type="submit">{{ title }}</button>
         </div>
     </form>

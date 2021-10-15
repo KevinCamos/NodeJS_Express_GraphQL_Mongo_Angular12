@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+
+import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -22,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     FooterComponent,
     HeaderComponent],
   imports: [
+    CoreModule,
     SharedModule,
    //modulos que importamos al proyecto
     BrowserModule,

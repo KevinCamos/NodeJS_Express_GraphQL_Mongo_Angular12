@@ -6,7 +6,6 @@ var auth = require("../auth");
 
 /* GET USER TOKEN (SETTINGS) */
 router.get("/user", auth.required, function (req, res, next) {
-  console.log("EH");
   User.findById(req.payload.id)
     .then(function (user) {
       if (!user) {
@@ -24,7 +23,10 @@ router.put("/user", auth.required, function (req, res, next) {
       if (!user) {
         return res.sendStatus(401);
       }
-
+console.log("entra a update")
+      console.log(user.image)
+      console.log(req.body.user.image)
+        /* MILLORA DE CODI  */
       user.username = req.body.user.username || user.username;
       user.email = req.body.user.email || user.email;
       user.bio = req.body.user.bio || user.bio;
@@ -58,9 +60,6 @@ router.post("/users/login", async (req, res, next) => {
           console.log("err");
           return next(err);
         }
-        console.log("eh")
-console.log(user)
-console.log("eh")
 
         if (user) {
           console.log("user");

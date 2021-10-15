@@ -81,7 +81,7 @@ UserSchema.methods.toAuthJSON = function () {
     token: this.generateJWT(),
     bio: this.bio,
     image:
-    this.image || "https://a.wattpad.com/useravatar/AraAra-Chan26.256.344336.jpg",
+    this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
   };
 };
 

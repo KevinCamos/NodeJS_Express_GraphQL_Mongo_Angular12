@@ -2,7 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { User, UserService } from '../core';
+
+import { User, UserService , NotificationService} from '../core';
 
 @Component({
   selector: 'app-settings-page',
@@ -22,7 +23,9 @@ export class SettingsComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private notifyService: NotificationService
+
   ) {
     // create form group using the form builder
     this.settingsForm = this.fb.group({
@@ -52,16 +55,27 @@ export class SettingsComponent implements OnInit {
 
   submitForm() {
     this.isSubmitting = true;
+    this.isSubmitting = true;
+    var inputImage: any = document.getElementById('inputFile');
+    var pathImage: string = '';
+    if (inputImage.value) {
+      var pathSplit = inputImage.value.toString().split('\\');
+      pathImage = pathSplit[pathSplit.length - 1];
+    }
 
-    // update the model
+    this.settingsForm.value.image = pathImage;
     this.updateUser(this.settingsForm.value);
-
+console.log(this.settingsForm.value)
     this.userService
     .update(this.user)
     .subscribe(
       // updatedUser => this.router.navigateByUrl('/profile/' + updatedUser.username),
-      updatedUser => this.router.navigateByUrl('/home'),
+      updatedUser =>{
+
+        this.notifyService.showSuccess('Se han modificado los datos corréctamente'),
+        this.router.navigateByUrl('/home')},
       err => {
+        this.notifyService.showWarning('Ha habido un error en la modificación de datos'),
         this.errors = err;
         this.isSubmitting = false;
         this.cd.markForCheck();

@@ -15,10 +15,12 @@
   <div *appShowAuthed="true">
 
 
-    <div class="subnavI padding-right" style="float:right; padding-right: 10%">
-      <button class="subnavbtnI " > <img [src]="'https://static.productionready.io/images/smiley-cyrus.jpg'"
-          class="user-pic" alt="user image" />
+    <div class="subnavI padding-right" style="float:right; padding-right: 10%;    ">
+      <span class="align">
+      <button class="subnavbtnI " > <img [src]="'../../../../assets/images/'+currentUser.image"   class="user-pic" alt="icon-perfil" />
         {{ currentUser.username }}</button>
+
+       </span>
       <div class="subnav-contentI" >
         <a (click)="logout()" style="float:right; padding-right: 8%">Log out</a>
         <a href="/settings"  style="float:right; padding-right: 5%" >Configuración</a>

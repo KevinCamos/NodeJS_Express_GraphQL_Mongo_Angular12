@@ -4,8 +4,8 @@
   <h1>Editar Perfil</h1>
   <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
     <fieldset [disabled]="isSubmitting">
-      <input class="form-control" accept="image/png,  image/jpeg" type="file" placeholder="URL of profile picture"
-        formControlName="image" />
+      <input class="form-control" id="inputFile" accept="image/png,  image/jpeg" type="file"
+        placeholder="URL of profile picture" />
       <input type="text" placeholder="Username" formControlName="username" />
       <textarea rows="8" placeholder="Short bio about you" formControlName="bio"></textarea>
       <input type="email" placeholder="Email" formControlName="email" />
