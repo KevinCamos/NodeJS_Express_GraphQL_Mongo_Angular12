@@ -91,6 +91,7 @@ ProductSchema.methods.toJSONFor = function () {
   return {
     slug: this.slug,
     name: this.name,
+    images: this.images,
     description: this.description,
     location: this.location,
     id_category: this.id_category,

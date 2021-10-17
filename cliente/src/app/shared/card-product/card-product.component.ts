@@ -8,9 +8,14 @@ import { Product } from 'src/app/core';
 })
 export class CardProductComponent implements OnInit {
   @Input() product: any;
+  images: String[] = [];
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.product)
+    this.images = this.product.images;
+
   }
 
 }

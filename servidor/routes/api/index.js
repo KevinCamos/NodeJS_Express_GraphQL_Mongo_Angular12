@@ -1,7 +1,7 @@
 var router = require('express').Router();
 
 router.use('/', require('./users'));
-// router.use('/profiles', require('./profiles'));
+router.use('/profiles', require('./profiles'));
 router.use('/products', require('./products'));
 router.use('/categories', require('./categories'));
 router.use('/carousel', require('./carousel'));

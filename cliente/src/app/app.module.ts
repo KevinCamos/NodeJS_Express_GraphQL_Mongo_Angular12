@@ -17,12 +17,14 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     //declaración de componentes
     AppComponent,
     FooterComponent,
-    HeaderComponent],
+    HeaderComponent,
+    ProfileComponent],
   imports: [
     CoreModule,
     SharedModule,

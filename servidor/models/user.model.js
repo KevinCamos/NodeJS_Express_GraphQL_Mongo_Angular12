@@ -81,19 +81,19 @@ UserSchema.methods.toAuthJSON = function () {
     token: this.generateJWT(),
     bio: this.bio,
     image:
-    this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
+    this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
   };
 };
 
-// UserSchema.methods.toProfileJSONFor = function (user) {
-//   return {
-//     username: this.username,
-//     bio: this.bio,
-//     image:
-//       this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
-//     following: user ? user.isFollowing(this._id) : false,
-//   };
-// };
+UserSchema.methods.toProfileJSONFor = function (user) {
+  return {
+    username: this.username,
+    bio: this.bio,
+    image:
+      this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
+    // following: user ? user.isFollowing(this._id) : false,
+  };
+};
 
 // UserSchema.methods.unfavorite = function (id) {
 //   this.favorites.remove(id);

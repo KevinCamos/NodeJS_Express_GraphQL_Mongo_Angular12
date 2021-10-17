@@ -1,13 +1,26 @@
     <div class="wrapimg" [routerLink]="['/details', product.slug]">
-        <!-- imagen temporal -->
-        <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}">
-        <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>
-        </div>
+      <!-- imagen temporal -->
+
+
+
+
+
+<!--
+      <div class="containerList">
+        <app-carousel [listImages]="product.images"></app-carousel>
+        </div> -->
+
+
+        <img [src]="'../../../assets/images'+product.images[0]+'.jpg'" onerror="this.src='https://lh3.googleusercontent.com/proxy/2pVAxhJXAt7wiyt04z5TAlUKpKhskA4910Y3Q_fah2u-SX44rkrYfUn8tLswzgFjg27g4RtIPAwmQ8Hh48GuUfEVCCaQtQTghlvRp6tEjz5w9lfSuFBjlqv8mKuI2R5_3SCTHjuXa-YMxujG'" />
+
+      <!-- <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}"> -->
+      <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>
+      </div>
     </div>
     <div class="titlePro"> <a href={{product.slug}}>{{ product.name }}</a>
-        <span>{{product.price}}</span>
-        <p class="descTitle">Localidad: {{product.location}}</p>
-        <p class="descTitle">Creado: {{product.creationDate | date:'dd/MM/yyyy'}}</p>
-        <p class="descTitle">Modificado: {{product.updateDate | date:'dd/MM/yyyy'}}</p>
-        <p> {{product.description | lowercase}}</p>
+      <span>{{product.price}}</span>
+      <p class="descTitle">Localidad: {{product.location}}</p>
+      <p class="descTitle">Creado: {{product.creationDate | date:'dd/MM/yyyy'}}</p>
+      <p class="descTitle">Modificado: {{product.updateDate | date:'dd/MM/yyyy'}}</p>
+      <p> {{product.description | lowercase}}</p>
     </div>
