@@ -1,5 +1,11 @@
-    <div class="wrapimg" [routerLink]="['/details', product.slug]">
-        <!-- imagen temporal -->
+    <app-favorite
+        [product]="product"
+        (toggle)="onToggleFavorite($event)"
+        class="pull-xs-right">
+        {{product.favorites}}
+    </app-favorite>
+    <!-- <div class="wrapimg" [routerLink]="['/details', product.slug]">
+        <!-- imagen temporal
         <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}">
         <div class="addPro"> <a href="javascript:;">+ Add to shopping cart</a>
         </div>
@@ -10,4 +16,4 @@
         <p class="descTitle">Creado: {{product.creationDate | date:'dd/MM/yyyy'}}</p>
         <p class="descTitle">Modificado: {{product.updateDate | date:'dd/MM/yyyy'}}</p>
         <p> {{product.description | lowercase}}</p>
-    </div>
+    </div> -->

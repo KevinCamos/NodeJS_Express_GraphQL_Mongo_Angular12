@@ -12,7 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
 @NgModule({
@@ -23,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     HeaderComponent],
   imports: [
     SharedModule,
+    CoreModule,
    //modulos que importamos al proyecto
     BrowserModule,
     AppRoutingModule,

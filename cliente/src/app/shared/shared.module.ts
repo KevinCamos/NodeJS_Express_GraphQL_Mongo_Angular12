@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { CategoriesComponent } from './categories/categories.component'
 import { ListProductsComponent } from './list-products/list-products.component';
@@ -13,6 +14,7 @@ import { CarouselItemsComponent } from './carousel-items/carousel-items.componen
 import { SearchComponent } from './search/search.component';
 import { FiltersComponent } from './filters/filters.component';
 import { ShowAuthedDirective } from './show-authed.directive';
+import { FavoriteComponent } from './favorite/favorite.component';
 
 @NgModule({
     imports: [
@@ -21,7 +23,8 @@ import { ShowAuthedDirective } from './show-authed.directive';
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        FontAwesomeModule
     ],
     declarations: [
         CategoriesComponent,
@@ -31,7 +34,8 @@ import { ShowAuthedDirective } from './show-authed.directive';
         CarouselItemsComponent,
         SearchComponent,
         FiltersComponent,
-        ShowAuthedDirective
+        ShowAuthedDirective,
+        FavoriteComponent
     ],
     exports: [
         CategoriesComponent,

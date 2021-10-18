@@ -7,10 +7,20 @@ import { Product } from 'src/app/core';
   styleUrls: ['./card-product.component.scss']
 })
 export class CardProductComponent implements OnInit {
-  @Input() product: any;
+  @Input() product: Product;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onToggleFavorite(favorited: boolean) {
+    this.product.favorited = favorited;
+
+    if (favorited) {
+      //this.product.favorites++;
+    } else {
+      //this.product.favorites++;
+    }
   }
 
 }
