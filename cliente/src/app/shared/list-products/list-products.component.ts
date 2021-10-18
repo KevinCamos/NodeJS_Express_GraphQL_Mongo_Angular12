@@ -53,17 +53,17 @@ export class ListProductsComponent implements OnInit {
     this.getListForCategory();
 
     if (this.idCategory !== null) {
-      console.log("Es una categoría")
+      //console.log("Es una categoría")
       //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
       // this.getProductsForCategory();
       // console.log(this.listCategories)
       // this.filters.category= this.idCategory;
       // this.getListFiltered(this.filters);
     } else if (this.routeFilters !== null) {
-      console.log("son filtros")
+      // console.log("son filtros")
       this.refresRouteFilter()     ;
 
-      console.log(this.filters);
+      // console.log(this.filters);
       this.getListFiltered(this.filters);
     } else {
       console.log("default")
@@ -81,14 +81,14 @@ export class ListProductsComponent implements OnInit {
   getProductsForCategory() {
     if (this.idCategory !== null) {
       // this.getProductsForCategory();
-      console.log(this.listCategories);
-      console.log(this.idCategory);
+      /* console.log(this.listCategories);
+      console.log(this.idCategory); */
       let findCategory = this.listCategories.find(
         (category) => category.slug === this.idCategory
       );
 
       if (typeof findCategory?.reference == 'number') {
-        console.log(findCategory.reference);
+       /*  console.log(findCategory.reference); */
 
         this.filters.category = findCategory.reference;
       }
@@ -99,7 +99,7 @@ export class ListProductsComponent implements OnInit {
     this._categoriesService.getListCategory().subscribe(
       (data) => {
         this.listCategories = data;
-        console.log(data);
+        /* console.log(data); */
         this.getProductsForCategory();
       },
       (error) => {
@@ -116,7 +116,7 @@ export class ListProductsComponent implements OnInit {
 
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
-        console.log(data);
+        /* console.log(data); */
         this.listProducts = data.products;
         this.dataIsListProducts(data.products);
 
@@ -155,16 +155,16 @@ export class ListProductsComponent implements OnInit {
     this.currentPage = pageNumber;
 
     if (typeof this.routeFilters === 'string') {
-      console.log('entra');
+     /*  console.log('entra'); */
       this.refresRouteFilter()     ;
-       console.log(this.filters);
+      /*  console.log(this.filters); */
     }
 
     if (this.limit) {
       this.filters.limit = this.limit;
       this.filters.offset = this.limit * (this.currentPage - 1);
     }
-    console.log(this.filters);
+   /*  console.log(this.filters); */
 
     this.getListFiltered(this.filters);
   }

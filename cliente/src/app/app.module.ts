@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 // Librería FontAwesome para Iconos
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // importar formularios
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // importart toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -15,25 +15,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     //declaración de componentes
-    AppComponent, 
-    FooterComponent, 
-    HeaderComponent],
+    AppComponent,
+    FooterComponent,
+    HeaderComponent,
+    ProfileComponent],
   imports: [
-    SharedModule,
     CoreModule,
+    SharedModule,
    //modulos que importamos al proyecto
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
     AuthModule,
-    // FormsModule,
+    FormsModule,
     ReactiveFormsModule,
-    // Toastr 
-    BrowserAnimationsModule, 
+    // Toastr
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
   providers: [], //servicios

@@ -6,7 +6,7 @@ export class Filters {
   priceMin?: number;
   priceMax?: number;
   category?: number;
-
+  favorited?: string;
   constructor(
     limit?: number,
     offset?: number,
@@ -14,7 +14,8 @@ export class Filters {
     location?: string,
     priceMin?: number,
     priceMax?: number,
-    category?: number
+    category?: number,
+    favorited?: string
   ) {
     this.limit = limit || 1;
     this.offset = offset || 0;
@@ -22,7 +23,8 @@ export class Filters {
     this.location = location;
     this.priceMin = priceMin;
     this.priceMax = priceMax;
-    this.category = category ;
+    this.category = category;
+    this.favorited = favorited;
   }
 
   public length(): number {
@@ -32,6 +34,7 @@ export class Filters {
     if (this.priceMin) count++;
     if (this.priceMax) count++;
     if (this.category) count++;
+    if (this.favorited) count++;
     console.log(count);
     console.log(this.name);
     console.log(this.location);

@@ -15,6 +15,7 @@ import { SearchComponent } from './search/search.component';
 import { FiltersComponent } from './filters/filters.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { FollowComponent } from './follow/follow.component';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import { FavoriteComponent } from './favorite/favorite.component';
         SearchComponent,
         FiltersComponent,
         ShowAuthedDirective,
-        FavoriteComponent
+        FavoriteComponent,
+        FollowComponent
     ],
     exports: [
         CategoriesComponent,
@@ -49,7 +51,9 @@ import { FavoriteComponent } from './favorite/favorite.component';
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule,
-        ShowAuthedDirective
+        ShowAuthedDirective,
+        FavoriteComponent,
+        FollowComponent
     ]
 })
 export class SharedModule {}

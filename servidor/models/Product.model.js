@@ -38,10 +38,10 @@ const ProductSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  view: {
-    type: Number,
-    default: 0,
-  },
+  // view: {
+  //   type: Number,
+  //   default: 0,
+  // },
   creationDate: {
     type: Date,
     default: Date.now(),
@@ -65,7 +65,8 @@ const ProductSchema = mongoose.Schema({
   favorited: {
     type: Boolean,
     default: false
-  }
+  },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }]
 });
 
 ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
@@ -106,9 +107,11 @@ ProductSchema.methods.favoriteCount = function() {
 };
 
 ProductSchema.methods.toJSONFor = function (user) {
+ /*  console.log(user); */
   return {
     slug: this.slug,
     name: this.name,
+    images: this.images,
     description: this.description,
     location: this.location,
     id_category: this.id_category,

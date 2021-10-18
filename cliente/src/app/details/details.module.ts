@@ -9,7 +9,6 @@ import { SharedModule } from '../shared';
   imports: [
     DetailsRoutingModule,
     SharedModule
-
   ],
   declarations: [
     DetailsComponent

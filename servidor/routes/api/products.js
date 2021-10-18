@@ -1,9 +1,14 @@
 var router = require("express").Router();
+var auth = require("../auth");
+
+var mongoose = require("mongoose");
+var Comment = mongoose.model("Comment");
 
 const User = require("../../models/user.model");
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
 var auth = require("../auth");
+
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
@@ -14,7 +19,6 @@ router.param("slug", async (req, res, next, slug) => {
         return res.sendStatus(404);
       }
       req.product = product;
-      console.log(product);
       return next();
       // res.json(product);
     })
@@ -22,26 +26,23 @@ router.param("slug", async (req, res, next, slug) => {
 });
 
 router.get("/:slug", async (req, res) => {
-  //A petició de yolanda, de moment comentem aquesta funció
-  res.json(req.product);
-  //   if(!req.product){
-  //  // try {
-  //   //   console.log("Ha entrat");
+  if (!req.product) {
+    try {
+      console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
 
-  //   //   let product = await Product.findOne({ slug: req.params.slug });
-  //   //   console.log(product);
+      let product = await Product.findOne({ slug: req.params.slug });
 
-  //   //   if (!product) {
-
-  //   //     res.status(404).json({ msg: "No existe el product" });
-  //   //   }
-  //   //   res.json(product);
-  //   // } catch (error) {
-  //   //   console.log(error);
-  //   //   res.status(500).send("Hubo un error");
-  //   // }
-  //   }
-  // return next
+      if (!product) {
+        res.status(404).json({ msg: "No existe el product" });
+      }
+      res.json(product);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Hubo un error");
+    }
+  } else {
+    res.json(req.product);
+  }
 });
 
 /**
@@ -51,7 +52,6 @@ router.get("/list-search/:search", async (req, res) => {
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
-    console.log(search);
 
     // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
     const product = await Product.find({ name: { $regex: search } }).limit(20);
@@ -70,7 +70,6 @@ router.get("/search/:search", async (req, res) => {
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
-    console.log(search);
 
     // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
     const product = await Product.find({ name: { $regex: search } });
@@ -93,24 +92,15 @@ router.get("/", auth.optional, async (req, res) => {
     };
 
     // let limit = transUndefined(req.query.limit, 6);
-    let limit= 3;
+    let limit = 3;
     let offset = transUndefined(req.query.offset, 0);
     let name = transUndefined(req.query.name, "");
     let location = transUndefined(req.query.location, "");
     let priceMin = transUndefined(req.query.priceMin, 0);
     let category = transUndefined(Number(req.query.category), -1);
     let priceMax = transUndefined(req.query.priceMax, Number.MAX_SAFE_INTEGER);
-
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
-
-    // console.log("limit:" + limit);
-    // console.log("offset:" + offset);
-    // console.log("name:" + nameReg);
-    // console.log("location:" + locationReg);
-    // console.log("priceMin:" + priceMin);
-    // console.log("priceMax:" + priceMax);
-    // console.log("category:" + category);
 
     query = {
       name: { $regex: nameReg },
@@ -118,14 +108,17 @@ router.get("/", auth.optional, async (req, res) => {
       $and: [{ price: { $gte: priceMin } }, { price: { $lte: priceMax } }],
     };
 
-    if(category != -1){
+    if (category != -1) {
       query.id_category = category;
     }
 
-    const products = await Product.find(query).sort('name')
-                                  .limit(Number(limit))
-                                  .skip(Number(offset));
+    const products = await Product.find(query)
+      .sort("name")
+      .limit(Number(limit))
+      .skip(Number(offset));
     const productCount = await Product.find(query).countDocuments();
+    req.payload ? User.findById(req.payload.id) : null;
+    //var user = req.payload ? User.findById(req.payload.id) : null;
 
     if (!products) {
       res.status(404).json({ msg: "No existe el product" });
@@ -133,29 +126,15 @@ router.get("/", auth.optional, async (req, res) => {
 
     return res.json({
       products: products.map(function (product) {
-        return product.toJSONFor();
+        return product.toJSONFor(/* user */);
       }),
-      productCount: productCount/limit,
+      productCount: productCount / limit,
     });
+  
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error en router.get /search/:search");
   }
-  // console.log(Product)
-  // return Promise.all([
-  //   Product.find(query).limit(Number(limit)).skip(Number(offset)),
-  //   Product.find(query).countDocuments(),
-  // ]).then(function (results) {
-  //   var products = results[0];
-  //   var productCount = results[1];
-  //   console.log(productCount);
-  //   return res.json({
-  //     products: products.map(function (product) {
-  //       return product.toJSONFor();
-  //     }),
-  //     productCount: productCount,
-  //   });
-  // });
 });
 /**
  * Devuelve todos los productos de BBDD
@@ -169,7 +148,9 @@ router.get("/", async (req, res) => {
     res.status(500).send("Hubo un error");
   }
 });
-
+/**
+ * MODIFICA UN PRODUCTO USANDO LA ID
+ */
 router.put("/:id", async (req, res) => {
   try {
     // const { name, id_category, location, price, id_user} = req.body;
@@ -199,6 +180,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+
 router.post("/", async (req, res) => {
   try {
     let product;
@@ -214,9 +196,9 @@ router.post("/", async (req, res) => {
 
     //a ací
 
-    console.log(category);
+    //console.log(category);
     await product.save(); //Almacena el producte
-    console.log(req.body);
+    //console.log(req.body);
     res.send(product);
     //res.json({product:toJSONfor(param)}) -> preguntar en clase para qué sirve, y si hay que poner o no return
   } catch (error) {
@@ -225,6 +207,9 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * ELIMINA UN PRODUCTO
+ */
 router.delete("/:id", async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
@@ -243,7 +228,7 @@ router.delete("/:id", async (req, res) => {
 
 router.post('/:slug/favorite', auth.required, function(req, res, next) {
   var productId = req.product._id;
-  console.log(req.payload.id);
+
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
 
@@ -270,5 +255,88 @@ router.delete('/:slug/favorite', auth.required, function(req, res, next) {
     });
   }).catch(next);
 });
+
+/* COMENTARIOS */
+
+// return an article's comments
+router.get('/:product/comments', auth.optional, function(req, res, next){
+  var productSlug = req.params.product;
+
+  Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function(user){
+
+    Product.findOne({ slug: productSlug }).populate({
+      path: 'comments',
+      populate: {
+        path: 'author'
+      },
+      options: {
+        sort: {
+          createdAt: 'desc'
+        }
+      }
+    }).then(function (product) {
+
+
+return res.json({comments: product.comments.map(function(comment){
+  // console.log(comment.author)
+  // console.log(comment.toJSONFor(comment.author))
+  
+  return comment.toJSONFor(comment.author);
+})
+    })
+  })
+
+  }).catch(next);
+});
+
+// create a new comment
+router.post(
+  "/:product/comments",
+  auth.required,
+  async function (req, res, next) {
+    var productSlug = req.params.product;
+
+    try {
+      await User.findById(req.payload.id)
+        .then(function (user) {
+          if (!user) return res.sendStatus(401);
+          //console.log(req.body)
+          var comment = new Comment(req.body.comment);
+          //console.log(comment)
+
+          Product.findOne({ slug: productSlug }).then(function (product) {
+            if (!product) return res.sendStatus(404);
+
+            comment.author = user._id;
+            comment.product = product._id;
+            return comment.save().then(function () {
+              product.comments.push(comment);
+            
+              return product.save().then(function () {
+                res.json({ comment: comment.toJSONFor(user) });
+              });
+            });
+          });
+        })
+        .catch(next);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Hubo un error en la función post/:procut/comments");
+    }
+  }
+);
+
+// router.delete('/:article/comments/:comment', auth.required, function(req, res, next) {
+//   if(req.comment.author.toString() === req.payload.id.toString()){
+//     req.article.comments.remove(req.comment._id);
+//     req.article.save()
+//       .then(Comment.find({_id: req.comment._id}).remove().exec())
+//       .then(function(){
+//         res.sendStatus(204);
+//       });
+//   } else {
+//     res.sendStatus(403);
+//   }
+// });
 
 module.exports = router;
