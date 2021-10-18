@@ -1,19 +1,9 @@
 var router = require("express").Router();
 
+const User = require("../../models/user.model");
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
-
-router.param("username", function (req, res, next, username) {
-  User.findOne({ username: username })
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(404);
-      }
-      req.profile = user;
-      return next();
-    })
-    .catch(next);
-});
+var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
@@ -95,7 +85,7 @@ router.get("/search/:search", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", auth.optional, async (req, res) => {
   try {
     let query = {};
     let transUndefined = (varQuery, otherResult) => {
@@ -247,6 +237,38 @@ router.delete("/:id", async (req, res) => {
     console.log(error);
     res.status(500).send("Hubo un error");
   }
+});
+
+/* Favorite */
+
+router.post('/:slug/favorite', auth.required, function(req, res, next) {
+  var productId = req.product._id;
+  console.log(req.payload.id);
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+
+    return user.favorite(productId).then(function(){
+      return req.product.favoriteCount().then(function(product){
+        return res.json({product: product.toJSONFor(user)});
+      });
+    });
+  }).catch(next);
+});
+
+/* Unfavorite */
+
+router.delete('/:slug/favorite', auth.required, function(req, res, next) {
+  var productId = req.product._id;
+  console.log(req.payload);
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+
+    return user.unfavorite(productId).then(function(){
+      return req.product.favoriteCount().then(function(product){
+        return res.json({product: product.toJSONFor(user)});
+      });
+    });
+  }).catch(next);
 });
 
 module.exports = router;

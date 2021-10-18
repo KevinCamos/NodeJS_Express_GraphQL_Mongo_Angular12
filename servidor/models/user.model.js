@@ -29,7 +29,7 @@ const UserSchema = mongoose.Schema(
     image: String,
     hash: String, //?
     salt: String, //?
-    // favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
     // following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
@@ -82,29 +82,39 @@ UserSchema.methods.toAuthJSON = function () {
     bio: this.bio,
     image:
     this.image || "https://a.wattpad.com/useravatar/AraAra-Chan26.256.344336.jpg",
+    favorites: this.favorites
   };
 };
 
-// UserSchema.methods.toProfileJSONFor = function (user) {
-//   return {
-//     username: this.username,
-//     bio: this.bio,
-//     image:
-//       this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
-//     following: user ? user.isFollowing(this._id) : false,
-//   };
-// };
+UserSchema.methods.toProfileJSONFor = function (user) {
+  return {
+    username: this.username,
+    bio: this.bio,
+    image: this.image || "https://static.productionready.io/images/smiley-cyrus.jpg",
+    following: user ? user.isFollowing(this._id) : false,
+  };
+};
 
-// UserSchema.methods.unfavorite = function (id) {
-//   this.favorites.remove(id);
-//   return this.save();
-// };
-// UserSchema.methods.isFavorite = function (id) {
-//   return this.favorites.some(function (favoriteId) {
-//     return favoriteId.toString() === id.toString();
-//   });
-// };
+/* Favorite */
+UserSchema.methods.favorite = function(id){
+  if(this.favorites.indexOf(id) === -1){
+    this.favorites.push(id);
+  }
+  return this.save();
+};
 
+UserSchema.methods.unfavorite = function(id){
+  this.favorites.remove(id);
+  return this.save();
+};
+
+UserSchema.methods.isFavorite = function(id){
+  return this.favorites.some(function(favoriteId){
+    return favoriteId.toString() === id.toString();
+  });
+};
+
+/* Follow */
 // UserSchema.methods.follow = function (id) {
 //   //Comprueba que no lo sigue ya
 //   if (this.following.indexOf(id) === -1) {
