@@ -4,6 +4,8 @@
   <h1>Editar Perfil</h1>
   <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
     <fieldset [disabled]="isSubmitting">
+      <legend>   <img [src]="'../../../../assets/images/'+user.image"   [routerLink]="['/profile', user.username]"  class="image-user"   onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'"/>
+      </legend>
       <input class="form-control" id="inputFile" accept="image/png,  image/jpeg" type="file"
         placeholder="URL of profile picture" />
       <input type="text" placeholder="Username" formControlName="username" />

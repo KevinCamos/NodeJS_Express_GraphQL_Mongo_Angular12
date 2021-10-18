@@ -1,5 +1,5 @@
 form{
-  background-color: azure;
+  // background-color: azure;
   // border-radius: 20%;
   width: 70%;
   float:right;
@@ -60,3 +60,17 @@ button:hover {
  h1{
   margin-left: 61%;
  }
+
+
+ legend {
+  margin:0 auto;
+}
+.image-user{
+
+  width: 100px;
+height: auto;
+border: 1px solid gray;
+padding:2px;
+border-radius: 25%;
+cursor: pointer;
+}

@@ -37,10 +37,10 @@ const ProductSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  view: {
-    type: Number,
-    default: 0,
-  },
+  // view: {
+  //   type: Number,
+  //   default: 0,
+  // },
   creationDate: {
     type: Date,
     default: Date.now(),
@@ -57,6 +57,7 @@ const ProductSchema = mongoose.Schema({
     type: [String],
     required: false,
   },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 ProductSchema.plugin(uniqueValidator, { message: "is already taken" });

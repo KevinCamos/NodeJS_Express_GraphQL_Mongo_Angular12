@@ -14,6 +14,7 @@ console.log(user)
   }).catch(next);
 });
 
+
 router.get('/:username', auth.optional, function(req, res, next){
   console.log("entra get")
 

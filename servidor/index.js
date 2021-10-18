@@ -15,6 +15,8 @@ app.use(express.json());
 
 /* CARGAMOS MODELS*/
 require('./models/user.model');
+require('./models/product.model');
+require('./models/comment.model');
 
 
 /* CARGAMOS CONFIGURACIÓN PASSPORT*/

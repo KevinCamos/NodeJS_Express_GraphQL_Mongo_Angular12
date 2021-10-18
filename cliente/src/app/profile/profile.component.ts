@@ -2,6 +2,7 @@ import {  ChangeDetectorRef,ChangeDetectionStrategy, Component, OnInit } from '@
 import { ActivatedRoute } from '@angular/router';
 import { concatMap, tap } from 'rxjs/operators';
 import { Profile, User, UserService } from '../core';
+import {faUserEdit} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +11,7 @@ import { Profile, User, UserService } from '../core';
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
+
 export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
@@ -19,7 +21,7 @@ export class ProfileComponent implements OnInit {
   )
 
   {}
-
+  faUserEdit=faUserEdit;
   profile: Profile;
   currentUser: User;
   isUser: boolean;
