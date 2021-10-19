@@ -1,15 +1,7 @@
+import { Profile } from "./profile.model";
+
 export class Product {
-  // _id?: number;
-  // name: string;
-  // description: string;
-  // id_category: number;
-  // location: string;
-  // price: number;
-  // view?: number;
-  // id_user?: string;
-  // updateDate?:Date;
-  // creationDate?:Date;
-  // slug?: string;
+
   _id?: number;
   name?: string;
   description?: string;
@@ -22,6 +14,9 @@ export class Product {
   creationDate?: Date;
   slug?: string;
   images?: string[];
+  author?: Profile;
+
+
   constructor(
     _id: number,
     name: string,
@@ -34,7 +29,8 @@ export class Product {
     creationDate?: Date,
     updateDate?: Date,
     slug?: string,
-    images?: string[]
+    images?: string[],
+    author?: Profile
 
   ) {
     this.name = name;
@@ -49,5 +45,7 @@ export class Product {
 
     this.slug = slug;
     this.images = images;
+
+    this.author = author;
   }
 }
