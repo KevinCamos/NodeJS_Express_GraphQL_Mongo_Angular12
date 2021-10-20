@@ -18,12 +18,12 @@ export class ProfilesService {
       .pipe(map((data: {profile: Profile}) => data.profile));
   }
 
-  // follow(username: string): Observable<Profile> {
-  //   return this.apiService.post('/profiles/' + username + '/follow');
-  // }
+  follow(username: string): Observable<Profile> {
+    return this.apiService.post('/profiles/' + username + '/follow');
+  }
 
-  // unfollow(username: string): Observable<Profile> {
-  //   return this.apiService.delete('/profiles/' + username + '/follow');
-  // }
+  unfollow(username: string): Observable<Profile> {
+    return this.apiService.delete('/profiles/' + username + '/follow');
+  }
 
 }

@@ -3,10 +3,12 @@ var auth = require("../auth");
 
 var mongoose = require("mongoose");
 var Comment = mongoose.model("Comment");
-var User = mongoose.model("User");
 
+const User = require("../../models/user.model");
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
+var auth = require("../auth");
+
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
@@ -17,7 +19,6 @@ router.param("slug", async (req, res, next, slug) => {
         return res.sendStatus(404);
       }
       req.product = product;
-      console.log(product);
       return next();
       // res.json(product);
     })
@@ -30,7 +31,6 @@ router.get("/:slug", async (req, res) => {
       console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
 
       let product = await Product.findOne({ slug: req.params.slug });
-      console.log(product);
 
       if (!product) {
         res.status(404).json({ msg: "No existe el product" });
@@ -52,7 +52,6 @@ router.get("/list-search/:search", async (req, res) => {
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
-    console.log(search);
 
     // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
     const product = await Product.find({ name: { $regex: search } }).limit(20);
@@ -71,7 +70,6 @@ router.get("/search/:search", async (req, res) => {
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
-    console.log(search);
 
     // const product = await Product.find({  $or: [{name: {$regex: search }  }, { location: {$regex: search }  }] });
     const product = await Product.find({ name: { $regex: search } });
@@ -86,7 +84,7 @@ router.get("/search/:search", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", auth.optional, async (req, res) => {
   try {
     let query = {};
     let transUndefined = (varQuery, otherResult) => {
@@ -119,6 +117,8 @@ router.get("/", async (req, res) => {
       .limit(Number(limit))
       .skip(Number(offset));
     const productCount = await Product.find(query).countDocuments();
+    req.payload ? User.findById(req.payload.id) : null;
+    //var user = req.payload ? User.findById(req.payload.id) : null;
 
     if (!products) {
       res.status(404).json({ msg: "No existe el product" });
@@ -126,10 +126,11 @@ router.get("/", async (req, res) => {
 
     return res.json({
       products: products.map(function (product) {
-        return product.toJSONFor();
+        return product.toJSONFor(/* user */);
       }),
       productCount: productCount / limit,
     });
+  
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error en router.get /search/:search");
@@ -194,9 +195,9 @@ router.post("/", async (req, res) => {
 
     //a ací
 
-    console.log(category);
+    //console.log(category);
     await product.save(); //Almacena el producte
-    console.log(req.body);
+    //console.log(req.body);
     res.send(product);
     //res.json({product:toJSONfor(param)}) -> preguntar en clase para qué sirve, y si hay que poner o no return
   } catch (error) {
@@ -222,12 +223,45 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+/* Favorite */
+
+router.post('/:slug/favorite', auth.required, function(req, res, next) {
+  var productId = req.product._id;
+
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+
+    return user.favorite(productId).then(function(){
+      return req.product.favoriteCount().then(function(product){
+        return res.json({product: product.toJSONFor(user)});
+      });
+    });
+  }).catch(next);
+});
+
+/* Unfavorite */
+
+router.delete('/:slug/favorite', auth.required, function(req, res, next) {
+  var productId = req.product._id;
+  console.log(req.payload);
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+
+    return user.unfavorite(productId).then(function(){
+      return req.product.favoriteCount().then(function(product){
+        return res.json({product: product.toJSONFor(user)});
+      });
+    });
+  }).catch(next);
+});
+
 /* COMENTARIOS */
 
 // return an article's comments
 router.get("/:product/comments", auth.optional, function (req, res, next) {
   var productSlug = req.params.product;
 
+// <<<<<<< HEAD
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
     .then(function (user) {
       Product.findOne({ slug: productSlug })
@@ -252,6 +286,29 @@ router.get("/:product/comments", auth.optional, function (req, res, next) {
             }),
           });
         });
+// =======
+//   Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function(user){
+
+//     Product.findOne({ slug: productSlug }).populate({
+//       path: 'comments',
+//       populate: {
+//         path: 'author'
+//       },
+//       options: {
+//         sort: {
+//           createdAt: 'desc'
+//         }
+//       }
+//     }).then(function (product) {
+
+
+// return res.json({comments: product.comments.map(function(comment){
+//   // console.log(comment.author)
+//   // console.log(comment.toJSONFor(comment.author))
+  
+//   return comment.toJSONFor(comment.author);
+// })
+// >>>>>>> features/favorites
     })
     .catch(next);
 });
@@ -267,9 +324,10 @@ router.post(
       await User.findById(req.payload.id)
         .then(function (user) {
           if (!user) return res.sendStatus(401);
-          console.log(req.body);
+
+          //console.log(req.body)
           var comment = new Comment(req.body.comment);
-          console.log(comment);
+          //console.log(comment)
 
           Product.findOne({ slug: productSlug }).then(function (product) {
             if (!product) return res.sendStatus(404);

@@ -8,9 +8,12 @@
       <div class="name">
         <h1>{{profile.username | uppercase}}    <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser" >
         </fa-icon></h1>
-
-
       </div>
+      <app-follow
+            [hidden]="isUser"
+            [profile]="profile"
+            (toggle)="onToggleFollowing($event)">
+      </app-follow>
       <div class="bio"><label>{{profile.bio }}</label></div>
 
 

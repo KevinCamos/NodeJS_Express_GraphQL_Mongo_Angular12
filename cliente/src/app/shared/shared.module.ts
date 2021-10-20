@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { CategoriesComponent } from './categories/categories.component';
 import { ListProductsComponent } from './list-products/list-products.component';
@@ -14,7 +15,8 @@ import { SearchComponent } from './search/search.component';
 import { FiltersComponent } from './filters/filters.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 import { CommentsComponent } from './comments/comments.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FavoriteComponent } from './favorite/favorite.component';
+import { FollowComponent } from './follow/follow.component';
 
 @NgModule({
   imports: [
@@ -35,6 +37,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SearchComponent,
     FiltersComponent,
     ShowAuthedDirective,
+    FavoriteComponent,
+    FollowComponent,
     CommentsComponent,
   ],
   exports: [
@@ -51,6 +55,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     RouterModule,
     ShowAuthedDirective,
+    FavoriteComponent,
+    FollowComponent
   ],
+
+
 })
 export class SharedModule {}

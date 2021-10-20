@@ -9,7 +9,6 @@ router.post("/", async (req, res) => {
       let carousel;
       carousel = new Carousel(req.body);
       await carousel.save();
-      console.log(req.body)
       res.send(carousel);
     } catch (error) {
       console.log(error);

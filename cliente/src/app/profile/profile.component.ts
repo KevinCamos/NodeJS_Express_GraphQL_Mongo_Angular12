@@ -52,4 +52,8 @@ export class ProfileComponent implements OnInit {
         this.cd.markForCheck();
       });
   }
+
+  onToggleFollowing(following: boolean) {
+    this.profile.following = following;
+  }
 }

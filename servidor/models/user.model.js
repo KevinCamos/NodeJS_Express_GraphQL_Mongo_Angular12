@@ -29,8 +29,8 @@ const UserSchema = mongoose.Schema(
     image: String,
     hash: String, //?
     salt: String, //?
-    // favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
-    // following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -80,8 +80,7 @@ UserSchema.methods.toAuthJSON = function () {
     email: this.email,
     token: this.generateJWT(),
     bio: this.bio,
-    image:
-    this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
+    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
   };
 };
 
@@ -89,41 +88,50 @@ UserSchema.methods.toProfileJSONFor = function (user) {
   return {
     username: this.username,
     bio: this.bio,
-    image:
-      this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
-    // following: user ? user.isFollowing(this._id) : false,
+    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
+    favorites: this.favorites,
+    following: user ? user.isFollowing(this._id) : false
   };
 };
 
-// UserSchema.methods.unfavorite = function (id) {
-//   this.favorites.remove(id);
-//   return this.save();
-// };
-// UserSchema.methods.isFavorite = function (id) {
-//   return this.favorites.some(function (favoriteId) {
-//     return favoriteId.toString() === id.toString();
-//   });
-// };
+/* Favorite */
+UserSchema.methods.favorite = function(id){
+  if(this.favorites.indexOf(id) === -1){
+    this.favorites.push(id);
+  }
+  return this.save();
+};
 
-// UserSchema.methods.follow = function (id) {
-//   //Comprueba que no lo sigue ya
-//   if (this.following.indexOf(id) === -1) {
-//     this.following.push(id);
-//   }
+UserSchema.methods.unfavorite = function(id){
+  this.favorites.remove(id);
+  return this.save();
+};
 
-//   return this.save();
-// };
+UserSchema.methods.isFavorite = function(id){
+  return this.favorites.some(function(favoriteId){
+    /* console.log(favoriteId.toString());
+    console.log(id.toString()); */
+    return favoriteId.toString() === id.toString();
+  });
+};
 
-// UserSchema.methods.unfollow = function (id) {
-//   this.following.remove(id);
-//   return this.save();
-// };
+/* Follow */
+UserSchema.methods.follow = function(id){
+  if(this.following.indexOf(id) === -1){
+    this.following.push(id);
+  }
+  return this.save();
+};
 
+UserSchema.methods.unfollow = function(id){
+  this.following.remove(id);
+  return this.save();
+};
 
-// UserSchema.methods.isFollowing = function (id) {
-//   return this.following.some(function (followId) {
-//     return followId.toString() === id.toString();
-//   });
-// };
+UserSchema.methods.isFollowing = function(id){
+  return this.following.some(function(followId){
+    return followId.toString() === id.toString();
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);

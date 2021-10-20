@@ -30,7 +30,7 @@ export class UserService {
   // This runs once on application startup.
   populate() {
     //Al iniciar la aplicación, si hay cualquier token, se comprueba aquí
-    console.log(this.jwtService.getToken());
+    //console.log(this.jwtService.getToken());
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
       this.apiService.get('user').subscribe(
@@ -70,7 +70,7 @@ export class UserService {
     return this.apiService.post(`users${route}`, { user: credentials }).pipe(
       map((data) => {
         this.setAuth(data.user);
-        console.log(data);
+        //console.log(data);
         return data;
       })
     );

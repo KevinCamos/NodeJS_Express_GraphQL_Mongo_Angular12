@@ -7,7 +7,7 @@ router.post("/", async (req, res) => {
     let category;
     category = new Category(req.body);
     await category.save();
-    console.log(req.body);
+    //console.log(req.body);
     res.send(category);
   } catch (error) {
     console.log(error);

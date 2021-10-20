@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
 var slug = require("slug");
+const User = require("./user.model");
 
 // var mySchema = mongoose.Schema(/* put your schema definition here */);
 // mySchema.plugin(uniqueValidator);  <- valida el esquema, per ejemplo si a "slug" decimos "lowercase", comprueba que es así, sino envía un mensaje de respuesta
@@ -57,7 +58,15 @@ const ProductSchema = mongoose.Schema({
     type: [String],
     required: false,
   },
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  favorites: {
+    type: Number,
+    default: 0
+  },
+  favorited: {
+    type: Boolean,
+    default: false
+  },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }]
 });
 
 ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
@@ -88,7 +97,17 @@ ProductSchema.methods.lowercase = function () {
   this.description = this.description.toLowerCase();
 };
 
-ProductSchema.methods.toJSONFor = function () {
+ProductSchema.methods.favoriteCount = function() {
+  var product = this;
+
+  return User.countDocuments({favorites: {$in: [product._id]}}).then(function(count){
+    product.favorites = count;
+    return product.save();
+  });
+};
+
+ProductSchema.methods.toJSONFor = function (user) {
+ /*  console.log(user); */
   return {
     slug: this.slug,
     name: this.name,
@@ -98,6 +117,8 @@ ProductSchema.methods.toJSONFor = function () {
     id_category: this.id_category,
     price: this.price,
     view: this.view,
+    favorites: this.favorites,
+    favorited: user ? user.isFavorite(this._id) : false,
     creationDate: this.creationDate,
     updateDate: this.updateDate,
     // id_user: this.id_user.toProfileJSONFor(user)

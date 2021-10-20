@@ -57,4 +57,12 @@ export class ProductService {
     params = filters;
     return this.apiService.get('products', new HttpParams({fromObject:params}));
   }
+
+  favorite(slug: any): Observable<Product> {
+    return this.apiService.post('products/' + slug + '/favorite');
+  }
+
+  unfavorite(slug: any): Observable<Product> {
+    return this.apiService.delete('products/' + slug + '/favorite');
+  }
 }

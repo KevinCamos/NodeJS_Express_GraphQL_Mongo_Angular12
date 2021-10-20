@@ -1,0 +1,7 @@
+<button
+  [ngClass]="{ 'disabled': isSubmitting,
+               'button_unfollow': !profile.following,
+               'button_follow': profile.following }"
+  (click)="toggleFollowing()">
+  {{ profile.following ? 'Unfollow' : 'Follow' }} {{ profile.username }}
+</button>

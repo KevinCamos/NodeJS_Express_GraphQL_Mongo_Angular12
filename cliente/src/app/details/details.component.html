@@ -18,6 +18,16 @@
             <small>Producto por <a [routerLink]="['/profile', product.id_user]">{{product.id_user}}</a></small>
             <!-- Hi hauria que modificar el id_user per el populate i ficar-li el nom -->
           </h1>
+
+
+
+          <app-favorite
+          [product]="product"
+          (toggle)="onToggleFavorite($event)">
+          {{product.favorites}}
+          </app-favorite>
+
+
           <hr />
           <h3 class="price-container">
             {{product.price}}
