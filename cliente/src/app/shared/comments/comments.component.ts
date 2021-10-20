@@ -15,6 +15,8 @@ import {faTrash} from '@fortawesome/free-solid-svg-icons';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss'],
 })
+
+
 export class CommentsComponent implements OnInit {
   @Input() comment: Comment;
   @Output() deleteComment = new EventEmitter<boolean>();

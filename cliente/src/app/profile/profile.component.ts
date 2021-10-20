@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  onToggleFollowing(following: boolean) {
-    this.profile.following = following;
+  onToggleFollowing(isFollow: boolean) {
+    this.profile.isFollow = isFollow;
   }
 }

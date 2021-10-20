@@ -1,7 +1,7 @@
 <button
   [ngClass]="{ 'disabled': isSubmitting,
-               'button_unfollow': !profile.following,
-               'button_follow': profile.following }"
+               'button_unfollow': !profile.isFollow,
+               'button_follow': profile.isFollow }"
   (click)="toggleFollowing()">
-  {{ profile.following ? 'Unfollow' : 'Follow' }} {{ profile.username }}
+  {{ profile.isFollow ? 'Unfollow' : 'Follow' }} {{ profile.username }}
 </button>

@@ -25,7 +25,7 @@ export class FollowComponent{
 
   toggleFollowing() {
     this.isSubmitting = true;
-
+console.log( this.profile.isFollow.toString())
     this.userService.isAuthenticated.pipe(concatMap(
       (authenticated) => {
         // Not authenticated? Push to login screen

@@ -12,7 +12,6 @@ var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
-  console.log("Esta función es llamada antes del get.");
   await Product.findOne({ slug: slug })
     .then(function (product) {
       if (!product) {
@@ -24,6 +23,8 @@ router.param("slug", async (req, res, next, slug) => {
     })
     .catch(next);
 });
+
+
 
 router.get("/:slug", async (req, res) => {
   if (!req.product) {
@@ -286,29 +287,7 @@ router.get("/:product/comments", auth.optional, function (req, res, next) {
             }),
           });
         });
-// =======
-//   Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function(user){
 
-//     Product.findOne({ slug: productSlug }).populate({
-//       path: 'comments',
-//       populate: {
-//         path: 'author'
-//       },
-//       options: {
-//         sort: {
-//           createdAt: 'desc'
-//         }
-//       }
-//     }).then(function (product) {
-
-
-// return res.json({comments: product.comments.map(function(comment){
-//   // console.log(comment.author)
-//   // console.log(comment.toJSONFor(comment.author))
-  
-//   return comment.toJSONFor(comment.author);
-// })
-// >>>>>>> features/favorites
     })
     .catch(next);
 });
