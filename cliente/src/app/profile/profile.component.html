@@ -15,10 +15,22 @@
             (toggle)="onToggleFollowing($event)">
       </app-follow>
       <div class="bio"><label>{{profile.bio }}</label></div>
-
-
     </fieldset>
-
-
   </div>
 </section>
+
+<br>
+<a class="nav-link"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLink]="['/profile', profile.username]">
+  My Products
+</a>
+<a class="nav-link"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLink]="['/profile', profile.username, 'favorites']">
+  My Favorite Products
+</a>
+
+<router-outlet></router-outlet>

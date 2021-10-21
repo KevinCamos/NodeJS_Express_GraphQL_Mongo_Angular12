@@ -32,3 +32,14 @@ border-radius: 25%;
   cursor: pointer;
   color: chartreuse;
 }
+
+.nav-link{
+  text-decoration: none;
+  margin: 15px;
+  padding: 10px;
+  color: black;
+}
+
+.nav-link:hover{
+  color: cadetblue;
+}

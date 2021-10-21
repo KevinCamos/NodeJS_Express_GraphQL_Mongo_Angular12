@@ -16,6 +16,8 @@ import { FiltersComponent } from './filters/filters.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { FollowComponent } from './follow/follow.component';
+import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
+import { ProfileProductsComponent } from './profile-products/profile-products.component';
 
 @NgModule({
     imports: [
@@ -37,7 +39,9 @@ import { FollowComponent } from './follow/follow.component';
         FiltersComponent,
         ShowAuthedDirective,
         FavoriteComponent,
-        FollowComponent
+        FollowComponent,
+        ProfileFavoritesComponent,
+        ProfileProductsComponent
     ],
     exports: [
         CategoriesComponent,
@@ -53,7 +57,9 @@ import { FollowComponent } from './follow/follow.component';
         RouterModule,
         ShowAuthedDirective,
         FavoriteComponent,
-        FollowComponent
+        FollowComponent,
+        ProfileFavoritesComponent,
+        ProfileProductsComponent
     ]
 })
 export class SharedModule {}

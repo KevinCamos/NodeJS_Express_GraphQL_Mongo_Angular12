@@ -17,10 +17,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private cd: ChangeDetectorRef
+  ){}
 
-  )
-
-  {}
   faUserEdit=faUserEdit;
   profile: Profile;
   currentUser: User;
@@ -28,22 +26,15 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(    this.route.data
-      )
     this.route.data
       .pipe(
         concatMap((data:any) => {
-          console.log(data)
           this.profile = data.profile;
-          console.log(this.profile)
           // Load the current user's data.
           return this.userService.currentUser.pipe(
             tap((userData: User) => {
               this.currentUser = userData;
-              console.log(userData)
-
               this.isUser = this.currentUser.username === this.profile.username;
-              console.log(this.isUser)
             })
           );
         })

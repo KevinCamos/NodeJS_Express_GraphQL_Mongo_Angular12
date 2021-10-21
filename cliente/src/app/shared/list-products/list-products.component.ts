@@ -1,21 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
-import {
-  ProductService,
-  CategoriesService,
-  Product,
-  Filters,
-  NotificationService,
-  Category,
-} from '../../core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ActivatedRoute } from '@angular/router';
+import { ProductService, CategoriesService, Product, Filters, NotificationService, Category } from '../../core';
 
 @Component({
   selector: 'app-list-products',
   templateUrl: './list-products.component.html',
   styleUrls: ['./list-products.component.scss'],
 })
+
 export class ListProductsComponent implements OnInit {
   listProducts: Product[] = [];
   listCategories: Category[] = [];
@@ -26,7 +20,19 @@ export class ListProductsComponent implements OnInit {
   limit: number = 1;
   currentPage: number = 1;
   totalPages: Array<number> = [];
-  filters: Filters = new Filters();
+  query: Filters;
+  filters = new Filters();
+  profile: boolean;
+  
+  @Input() set config(filters: Filters) {
+    if (filters) {
+      this.query = filters;
+      console.log(this.query);
+      this.currentPage = 1;
+      this.getListFiltered(this.query);
+      this.profile = true;
+    } 
+  }
 
   // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos,
   // para que luego en el for modifique el formato del precio
@@ -39,10 +45,11 @@ export class ListProductsComponent implements OnInit {
     private _categoriesService: CategoriesService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
-    private location: Location
+    private router: Router,
+    private location: Location,
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
-    this.routeFilters =this.aRouter.snapshot.paramMap.get('filters');//obtiene la 'id' del link
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');//obtiene la 'id' del link
   }
 
   ngOnInit(): void {
@@ -50,26 +57,35 @@ export class ListProductsComponent implements OnInit {
   }
 
   getProducts() {
-    this.getListForCategory();
+    if(this.router.url.split("/")[1] == "shop"){
+        this.profile = false;
+        this.getListForCategory();
 
-    if (this.idCategory !== null) {
-      //console.log("Es una categoría")
-      //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
-      // this.getProductsForCategory();
-      // console.log(this.listCategories)
-      // this.filters.category= this.idCategory;
-      // this.getListFiltered(this.filters);
-    } else if (this.routeFilters !== null) {
-      // console.log("son filtros")
-      this.refresRouteFilter()     ;
+        if (this.idCategory !== null) {
+          //console.log("Es una categoría")
+          //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
+          // this.getProductsForCategory();
+          // console.log(this.listCategories)
+          // this.filters.category= this.idCategory;
+          // this.getListFiltered(this.filters);
+        } else if (this.routeFilters !== null) {
+          console.log("routeFilters");
+          // console.log("son filtros")
+          this.refresRouteFilter();
+          // console.log(this.filters);
+          this.getListFiltered(this.filters);
+        } else {
+          console.log("default")
 
-      // console.log(this.filters);
-      this.getListFiltered(this.filters);
-    } else {
-      console.log("default")
-
+          this.currentPage = 1;
+          console.log(this.filters);
+          this.getListFiltered(this.filters);
+        }
+    }else{
+      console.log(this.query);
       this.currentPage = 1;
-      this.getListFiltered((this.filters = new Filters()));
+      this.getListFiltered(this.query);
+      this.profile = true;
     }
   }
 
@@ -95,6 +111,7 @@ export class ListProductsComponent implements OnInit {
       this.getListFiltered(this.filters);
     }
   }
+  
   getListForCategory() {
     this._categoriesService.getListCategory().subscribe(
       (data) => {
@@ -109,21 +126,19 @@ export class ListProductsComponent implements OnInit {
     );
   }
 
-  public getListFiltered(filters: Filters) {
+   getListFiltered(filters: Filters) {
     // console.log(btoa(JSON.stringify(filters)));
-    this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
+    //this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
     //console.log(this.aRouter.snapshot.params.filters);
-
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
-        /* console.log(data); */
         this.listProducts = data.products;
         this.dataIsListProducts(data.products);
-
         this.totalPages = Array.from(
           new Array(Math.ceil(data.productCount / this.limit)),
           (val, index) => index + 1
         );
+        console.log(this.listProducts);
       },
       (error) => {
         this.notifyService.showWarning(
@@ -153,18 +168,16 @@ export class ListProductsComponent implements OnInit {
 
   setPageTo(pageNumber: number) {
     this.currentPage = pageNumber;
-
+    console.log("this.filters");
+    console.log(this.filters);
     if (typeof this.routeFilters === 'string') {
-     /*  console.log('entra'); */
-      this.refresRouteFilter()     ;
-      /*  console.log(this.filters); */
+      this.refresRouteFilter();
     }
 
     if (this.limit) {
       this.filters.limit = this.limit;
       this.filters.offset = this.limit * (this.currentPage - 1);
     }
-   /*  console.log(this.filters); */
 
     this.getListFiltered(this.filters);
   }
@@ -173,7 +186,6 @@ export class ListProductsComponent implements OnInit {
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
     if(typeof(this.routeFilters) =="string" ){
       this.filters = JSON.parse(atob(this.routeFilters));
-
     }else{
       this.filters = new Filters();
     }

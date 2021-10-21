@@ -4,9 +4,11 @@ import { AuthGuard } from "../core"
 import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
-  {path:'',
-component: SettingsComponent,
-canActivate:[AuthGuard]}
+  {
+    path:'',
+    component: SettingsComponent,
+    canActivate:[AuthGuard]
+  }
 ];
 
 @NgModule({
