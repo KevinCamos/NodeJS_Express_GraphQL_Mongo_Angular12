@@ -31,6 +31,7 @@ const UserSchema = mongoose.Schema(
     salt: String, //?
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -92,19 +93,26 @@ UserSchema.methods.toProfileJSONFor = function (user) {
     image: this.image || "bbyoda.png",
     favorites: this.favorites,
     following: user ? user.isFollowing(this._id) : false,
+    followers: this.followers,
   };
 };
 
 UserSchema.methods.toProfileJSONFollowers = function (users, user) {
-
+  var followers = new Array();
   users.map((user, i) => (users[i] = user.toProfileJSONForFollow()));
-  console.log(users);
+  console.log(this.followers);
+  this.followers.map(
+    (follower, i) => (followers[i] = follower.toProfileJSONForFollow())
+  );
+
+  // console.log(users);
   return {
     username: this.username,
     bio: this.bio,
     image: this.image || "bbyoda.png",
     favorites: this.favorites,
     following: users,
+    followers: this.followers,
     isFollow: user ? user.isFollowing(this._id) : false,
   };
 };
@@ -138,16 +146,27 @@ UserSchema.methods.isFavorite = function (id) {
 };
 
 /* Follow */
-UserSchema.methods.follow = function (id) {
+UserSchema.methods.follow = function (id, userFollow) {
+  console.log(userFollow);
+  console.log(userFollow.followers.indexOf(this._id) === -1, 1);
+  if (userFollow.followers.indexOf(this._id) === -1) {
+    userFollow.followers.push(this._id);
+  }
+  userFollow.save();
+  console.log(userFollow);
   console.log(this.following.indexOf(id) === -1, 1);
   if (this.following.indexOf(id) === -1) {
     this.following.push(id);
   }
-  console.log(this);
   return this.save();
 };
 
-UserSchema.methods.unfollow = function (id) {
+UserSchema.methods.unfollow = function (id, userFollowed) {
+  console.log(this.id);
+  // console.log(userFollowed,"eh")
+  userFollowed.followers.remove(this._id);
+  // userFollowed.following.remove(id)
+  userFollowed.save();
   this.following.remove(id);
   return this.save();
 };

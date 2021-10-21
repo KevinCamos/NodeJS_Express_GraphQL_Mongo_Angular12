@@ -22,5 +22,6 @@ export class ProfileResolver implements Resolve<Profile> {
     return this.profilesService.get(route.params['username'])
       .pipe(catchError((err) => this.router.navigateByUrl('/')));
 
+
   }
 }

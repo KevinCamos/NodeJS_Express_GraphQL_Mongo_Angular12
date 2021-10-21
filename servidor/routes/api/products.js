@@ -27,6 +27,8 @@ router.param("slug", async (req, res, next, slug) => {
 
 
 router.get("/:slug", async (req, res) => {
+
+  
   if (!req.product) {
     try {
       console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
