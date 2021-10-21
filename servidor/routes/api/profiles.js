@@ -14,10 +14,8 @@ console.log(user)
   }).catch(next);
 });
 
-
+/* PROFILE */
 router.get('/:username', auth.optional, function(req, res, next){
-  console.log("entra get")
-
   if(req.payload){
     User.findById(req.payload.id).then(function(user){
       if(!user){ return res.json({profile: req.profile.toProfileJSONFor(false)}); }
@@ -29,6 +27,7 @@ router.get('/:username', auth.optional, function(req, res, next){
   }
 });
 
+/* FOLLOW */
 router.post('/:username/follow', auth.required, function(req, res, next){
   var profileId = req.profile._id;
 
@@ -41,6 +40,7 @@ router.post('/:username/follow', auth.required, function(req, res, next){
   }).catch(next);
 });
 
+/* UNFOLLOW */
 router.delete('/:username/follow', auth.required, function(req, res, next){
   var profileId = req.profile._id;
 

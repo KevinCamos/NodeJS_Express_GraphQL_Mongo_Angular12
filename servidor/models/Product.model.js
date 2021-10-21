@@ -66,6 +66,7 @@ const ProductSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }]
 });
 
@@ -121,7 +122,7 @@ ProductSchema.methods.toJSONFor = function (user) {
     favorited: user ? user.isFavorite(this._id) : false,
     creationDate: this.creationDate,
     updateDate: this.updateDate,
-    // id_user: this.id_user.toProfileJSONFor(user)
+    /* author: this.author.toProfileJSONFor(user) */
   };
 };
 

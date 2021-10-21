@@ -16,6 +16,7 @@ router.get("/user", auth.required, function (req, res, next) {
     })
     .catch(next);
 });
+
 /* UPDATE USER (SETTINGS) */
 router.put("/user", auth.required, function (req, res, next) {
   User.findById(req.payload.id)
@@ -23,9 +24,6 @@ router.put("/user", auth.required, function (req, res, next) {
       if (!user) {
         return res.sendStatus(401);
       }
-console.log("entra a update")
-      console.log(user.image)
-      console.log(req.body.user.image)
         /* MILLORA DE CODI  */
       user.username = req.body.user.username || user.username;
       user.email = req.body.user.email || user.email;
@@ -52,23 +50,17 @@ router.post("/users/login", async (req, res, next) => {
       await res.status(422).json({ errors: { password: "can't be blank" } });
     }
 
-    passport.authenticate(
-      "local",
-      { session: false },
-      function (err, user, info) {
+    passport.authenticate("local", { session: false }, function (err, user, info) {
         if (err) {
           console.log("err");
           return next(err);
         }
 
         if (user) {
-          console.log("user");
-
           user.token = user.generateJWT();
           return res.json({ user: user.toAuthJSON() });
         } else {
           console.log("else");
-
           return res.status(422).json(info);
         }
       }

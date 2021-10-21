@@ -80,7 +80,7 @@ UserSchema.methods.toAuthJSON = function () {
     email: this.email,
     token: this.generateJWT(),
     bio: this.bio,
-    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
+    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png"
   };
 };
 
@@ -89,7 +89,6 @@ UserSchema.methods.toProfileJSONFor = function (user) {
     username: this.username,
     bio: this.bio,
     image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
-    favorites: this.favorites,
     following: user ? user.isFollowing(this._id) : false
   };
 };
@@ -109,8 +108,6 @@ UserSchema.methods.unfavorite = function(id){
 
 UserSchema.methods.isFavorite = function(id){
   return this.favorites.some(function(favoriteId){
-    /* console.log(favoriteId.toString());
-    console.log(id.toString()); */
     return favoriteId.toString() === id.toString();
   });
 };

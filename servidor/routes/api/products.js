@@ -98,7 +98,10 @@ router.get("/", auth.optional, async (req, res) => {
     let location = transUndefined(req.query.location, "");
     let priceMin = transUndefined(req.query.priceMin, 0);
     let category = transUndefined(Number(req.query.category), -1);
+    let favorited = transUndefined(req.query.favorited, null);
+    let author = transUndefined(req.query.author, null);
     let priceMax = transUndefined(req.query.priceMax, Number.MAX_SAFE_INTEGER);
+    let id_user = req.payload ? req.payload.id : null;
     let nameReg = new RegExp(name);
     let locationReg = new RegExp(location);
 
@@ -112,13 +115,24 @@ router.get("/", auth.optional, async (req, res) => {
       query.id_category = category;
     }
 
+    if(favorited){
+      const favoriter = await User.findOne({username: favorited});
+      query._id = {$in: favoriter.favorites};
+    }
+
+    if(author){
+      const author1 = await User.findOne({username: author});
+      query.id_user = {$in: author1._id};
+    } 
+
+    console.log(query);
+
     const products = await Product.find(query)
       .sort("name")
       .limit(Number(limit))
       .skip(Number(offset));
     const productCount = await Product.find(query).countDocuments();
-    req.payload ? User.findById(req.payload.id) : null;
-    //var user = req.payload ? User.findById(req.payload.id) : null;
+    const user = await User.findById(id_user);
 
     if (!products) {
       res.status(404).json({ msg: "No existe el product" });
@@ -126,7 +140,7 @@ router.get("/", auth.optional, async (req, res) => {
 
     return res.json({
       products: products.map(function (product) {
-        return product.toJSONFor(/* user */);
+        return product.toJSONFor(user);
       }),
       productCount: productCount / limit,
     });
@@ -139,7 +153,7 @@ router.get("/", auth.optional, async (req, res) => {
 /**
  * Devuelve todos los productos de BBDD
  */
-router.get("/", async (req, res) => {
+/* router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products.map((product) => product.toJSONFor()));
@@ -147,7 +161,7 @@ router.get("/", async (req, res) => {
     console.log(error);
     res.status(500).send("Hubo un error");
   }
-});
+}); */
 /**
  * MODIFICA UN PRODUCTO USANDO LA ID
  */

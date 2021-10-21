@@ -2,9 +2,8 @@ var router = require("express").Router();
 
 const Carousel = require("../../models/carousel.model")
 
-
-
-router.post("/", async (req, res) => {
+  /* CREAR ELEMENTO CAROUSEL */
+  router.post("/", async (req, res) => {
     try {
       let carousel;
       carousel = new Carousel(req.body);
@@ -16,6 +15,7 @@ router.post("/", async (req, res) => {
     }
   }) ;
   
+  /* CAROUSEL */
   router.get("/", async (req, res) => {
     try {
       const carouselImages = await Carousel.find();
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     }
   });
   
-  
+  /* ELIMINIAR ELEMENTO CAROUSEL */
   router.delete('/:id',async (req, res) => {
     try {
       let carousel = await Carousel.findById(req.params.id);
@@ -40,7 +40,5 @@ router.post("/", async (req, res) => {
       res.status(500).send("Hubo un error");
     }
   });
-
-
 
   module.exports = router;
