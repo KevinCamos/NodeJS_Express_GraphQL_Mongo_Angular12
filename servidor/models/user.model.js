@@ -31,6 +31,7 @@ const UserSchema = mongoose.Schema(
     salt: String, //?
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -43,7 +44,8 @@ UserSchema.plugin(uniqueValidator, { message: "is already taken" });
  * @returns
  */
 UserSchema.methods.validPassword = function (password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+  var hash = crypto
+    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
     .toString("hex");
   return this.hash === hash;
 };
@@ -80,7 +82,7 @@ UserSchema.methods.toAuthJSON = function () {
     email: this.email,
     token: this.generateJWT(),
     bio: this.bio,
-    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png"
+    image: this.image || "bbyoda.png",
   };
 };
 
@@ -88,45 +90,88 @@ UserSchema.methods.toProfileJSONFor = function (user) {
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image || "https://i.pinimg.com/originals/f4/53/3a/f4533a5da7b63b1516ba493f93875921.png",
-    following: user ? user.isFollowing(this._id) : false
+    image: this.image || "bbyoda.png",
+    favorites: this.favorites,
+    following: user ? user.isFollowing(this._id) : false,
+    followers: this.followers,
+  };
+};
+
+UserSchema.methods.toProfileJSONFollowers = function (users, user) {
+  var followers = new Array();
+  users.map((user, i) => (users[i] = user.toProfileJSONForFollow()));
+  console.log(this.followers);
+  this.followers.map(
+    (follower, i) => (followers[i] = follower.toProfileJSONForFollow())
+  );
+
+  // console.log(users);
+  return {
+    username: this.username,
+    bio: this.bio,
+    image: this.image || "bbyoda.png",
+    favorites: this.favorites,
+    following: users,
+    followers: this.followers,
+    isFollow: user ? user.isFollowing(this._id) : false,
+  };
+};
+
+UserSchema.methods.toProfileJSONForFollow = function (user) {
+  return {
+    username: this.username,
+    image: this.image || "bbyoda.png",
   };
 };
 
 /* Favorite */
-UserSchema.methods.favorite = function(id){
-  if(this.favorites.indexOf(id) === -1){
+UserSchema.methods.favorite = function (id) {
+  if (this.favorites.indexOf(id) === -1) {
     this.favorites.push(id);
   }
   return this.save();
 };
 
-UserSchema.methods.unfavorite = function(id){
+UserSchema.methods.unfavorite = function (id) {
   this.favorites.remove(id);
   return this.save();
 };
 
-UserSchema.methods.isFavorite = function(id){
-  return this.favorites.some(function(favoriteId){
+
+UserSchema.methods.isFavorite = function (id) {
+  return this.favorites.some(function (favoriteId) {
     return favoriteId.toString() === id.toString();
   });
 };
 
 /* Follow */
-UserSchema.methods.follow = function(id){
-  if(this.following.indexOf(id) === -1){
+UserSchema.methods.follow = function (id, userFollow) {
+/*   console.log(userFollow);
+  console.log(userFollow.followers.indexOf(this._id) === -1, 1); */
+  if (userFollow.followers.indexOf(this._id) === -1) {
+    userFollow.followers.push(this._id);
+  }
+  userFollow.save();
+/*   console.log(userFollow);
+  console.log(this.following.indexOf(id) === -1, 1); */
+  if (this.following.indexOf(id) === -1) {
     this.following.push(id);
   }
   return this.save();
 };
 
-UserSchema.methods.unfollow = function(id){
+UserSchema.methods.unfollow = function (id, userFollowed) {
+  console.log(this.id);
+  // console.log(userFollowed,"eh")
+  userFollowed.followers.remove(this._id);
+  // userFollowed.following.remove(id)
+  userFollowed.save();
   this.following.remove(id);
   return this.save();
 };
 
-UserSchema.methods.isFollowing = function(id){
-  return this.following.some(function(followId){
+UserSchema.methods.isFollowing = function (id) {
+  return this.following.some(function (followId) {
     return followId.toString() === id.toString();
   });
 };

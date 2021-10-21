@@ -12,7 +12,6 @@ var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
-  console.log("Esta función es llamada antes del get.");
   await Product.findOne({ slug: slug })
     .then(function (product) {
       if (!product) {
@@ -25,7 +24,11 @@ router.param("slug", async (req, res, next, slug) => {
     .catch(next);
 });
 
+
+
 router.get("/:slug", async (req, res) => {
+
+  
   if (!req.product) {
     try {
       console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
@@ -194,7 +197,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
 router.post("/", async (req, res) => {
   try {
     let product;
@@ -273,34 +275,37 @@ router.delete('/:slug/favorite', auth.required, function(req, res, next) {
 /* COMENTARIOS */
 
 // return an article's comments
-router.get('/:product/comments', auth.optional, function(req, res, next){
+router.get("/:product/comments", auth.optional, function (req, res, next) {
   var productSlug = req.params.product;
 
-  Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function(user){
+// <<<<<<< HEAD
+  Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
+    .then(function (user) {
+      Product.findOne({ slug: productSlug })
+        .populate({
+          path: "comments",
+          populate: {
+            path: "author",
+          },
+          options: {
+            sort: {
+              createdAt: "desc",
+            },
+          },
+        })
+        .then(function (product) {
+          return res.json({
+            comments: product.comments.map(function (comment) {
+              // console.log(comment.author)
+              console.log(comment.toJSONFor(comment.author));
 
-    Product.findOne({ slug: productSlug }).populate({
-      path: 'comments',
-      populate: {
-        path: 'author'
-      },
-      options: {
-        sort: {
-          createdAt: 'desc'
-        }
-      }
-    }).then(function (product) {
+              return comment.toJSONFor(comment.author);
+            }),
+          });
+        });
 
-
-return res.json({comments: product.comments.map(function(comment){
-  // console.log(comment.author)
-  // console.log(comment.toJSONFor(comment.author))
-  
-  return comment.toJSONFor(comment.author);
-})
     })
-  })
-
-  }).catch(next);
+    .catch(next);
 });
 
 // create a new comment
@@ -314,6 +319,7 @@ router.post(
       await User.findById(req.payload.id)
         .then(function (user) {
           if (!user) return res.sendStatus(401);
+
           //console.log(req.body)
           var comment = new Comment(req.body.comment);
           //console.log(comment)
@@ -325,7 +331,7 @@ router.post(
             comment.product = product._id;
             return comment.save().then(function () {
               product.comments.push(comment);
-            
+
               return product.save().then(function () {
                 res.json({ comment: comment.toJSONFor(user) });
               });
@@ -340,17 +346,42 @@ router.post(
   }
 );
 
-// router.delete('/:article/comments/:comment', auth.required, function(req, res, next) {
-//   if(req.comment.author.toString() === req.payload.id.toString()){
-//     req.article.comments.remove(req.comment._id);
-//     req.article.save()
-//       .then(Comment.find({_id: req.comment._id}).remove().exec())
-//       .then(function(){
-//         res.sendStatus(204);
-//       });
-//   } else {
-//     res.sendStatus(403);
-//   }
-// });
+router.delete(
+  "/:article/comments/:comment",
+  auth.required,
+  async function (req, res, next) {
+    let idComment = req.params.comment;
+    let productSlug = req.params.article;
+try{
+
+
+    await Comment.findById(idComment).then(function (comment) {
+      if (!comment) return res.sendStatus(404);
+      console.log(comment);
+      //FUNCIÓ AMB EL COMENTARI
+      console.log(comment.author.toString());
+      console.log(req.payload.id.toString());
+      if (comment.author.toString() === req.payload.id.toString()) {
+        console.log("Este usuario es el propietario");
+        Product.findOne({ slug: productSlug }).then(function (product) {
+          if (!product) return res.sendStatus(404);
+          /* Eliminem els comentaris de la taula product */
+          product.comments.remove(idComment);
+          product.save();
+          comment.remove();
+          //El 204 No Contentcódigo de respuesta de estado de éxito HTTP indica que una solicitud se ha realizado correctamente, pero que el cliente no necesita salir de su página actual.
+          res.sendStatus(204);
+        });
+      } else {
+        res.sendStatus(403);
+      }
+
+      //FI FUNCIÓ AMB EL COMENTARI
+    });
+  }catch(error){
+    console.log(error);
+    res.status(500).send("Hubo un error");  }
+  }
+);
 
 module.exports = router;

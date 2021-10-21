@@ -6,14 +6,15 @@ import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { CategoriesComponent } from './categories/categories.component'
+import { CategoriesComponent } from './categories/categories.component';
 import { ListProductsComponent } from './list-products/list-products.component';
-import { CardProductComponent } from './card-product/card-product.component'
+import { CardProductComponent } from './card-product/card-product.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemsComponent } from './carousel-items/carousel-items.component';
 import { SearchComponent } from './search/search.component';
 import { FiltersComponent } from './filters/filters.component';
 import { ShowAuthedDirective } from './show-authed.directive';
+import { CommentsComponent } from './comments/comments.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { FollowComponent } from './follow/follow.component';
 import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
@@ -41,7 +42,8 @@ import { ProfileProductsComponent } from './profile-products/profile-products.co
         FavoriteComponent,
         FollowComponent,
         ProfileFavoritesComponent,
-        ProfileProductsComponent
+        ProfileProductsComponent,
+        CommentsComponent
     ],
     exports: [
         CategoriesComponent,
@@ -59,7 +61,8 @@ import { ProfileProductsComponent } from './profile-products/profile-products.co
         FavoriteComponent,
         FollowComponent,
         ProfileFavoritesComponent,
-        ProfileProductsComponent
+        ProfileProductsComponent,
+        CommentsComponent
     ]
 })
 export class SharedModule {}

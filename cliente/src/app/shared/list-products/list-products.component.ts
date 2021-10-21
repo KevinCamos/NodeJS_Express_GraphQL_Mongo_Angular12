@@ -58,29 +58,21 @@ export class ListProductsComponent implements OnInit {
 
   getProducts() {
     if(this.router.url.split("/")[1] == "shop"){
-        this.profile = false;
-        this.getListForCategory();
+      this.profile = false;
+      this.getListForCategory();
 
-        if (this.idCategory !== null) {
-          //console.log("Es una categoría")
-          //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
-          // this.getProductsForCategory();
-          // console.log(this.listCategories)
-          // this.filters.category= this.idCategory;
-          // this.getListFiltered(this.filters);
-        } else if (this.routeFilters !== null) {
-          console.log("routeFilters");
-          // console.log("son filtros")
-          this.refresRouteFilter();
-          // console.log(this.filters);
-          this.getListFiltered(this.filters);
-        } else {
-          console.log("default")
+      if (this.idCategory !== null) {
+        //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
+      } else if (this.routeFilters !== null) {
+        // console.log("son filtros")
+        this.refresRouteFilter()     ;
 
-          this.currentPage = 1;
-          console.log(this.filters);
-          this.getListFiltered(this.filters);
-        }
+        // console.log(this.filters);
+        this.getListFiltered(this.filters);
+      } else {
+        console.log("default")
+        this.getListFiltered(this.filters);
+      }
     }else{
       console.log(this.query);
       this.currentPage = 1;
@@ -96,16 +88,11 @@ export class ListProductsComponent implements OnInit {
    */
   getProductsForCategory() {
     if (this.idCategory !== null) {
-      // this.getProductsForCategory();
-      /* console.log(this.listCategories);
-      console.log(this.idCategory); */
       let findCategory = this.listCategories.find(
         (category) => category.slug === this.idCategory
       );
-
       if (typeof findCategory?.reference == 'number') {
        /*  console.log(findCategory.reference); */
-
         this.filters.category = findCategory.reference;
       }
       this.getListFiltered(this.filters);
@@ -126,7 +113,7 @@ export class ListProductsComponent implements OnInit {
     );
   }
 
-   getListFiltered(filters: Filters) {
+  getListFiltered(filters: Filters) {
     // console.log(btoa(JSON.stringify(filters)));
     //this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
     //console.log(this.aRouter.snapshot.params.filters);

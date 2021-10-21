@@ -13,16 +13,21 @@
         </div>
 
         <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
-          <h2 class="name">
+          <h1 class="name">
             {{product.name}}
             <small>Producto por <a [routerLink]="['/profile', product.id_user]">{{product.id_user}}</a></small>
             <!-- Hi hauria que modificar el id_user per el populate i ficar-li el nom -->
-          </h2>
+          </h1>
+
+
+
           <app-favorite
           [product]="product"
           (toggle)="onToggleFavorite($event)">
           {{product.favorites}}
           </app-favorite>
+
+
           <hr />
           <h3 class="price-container">
             {{product.price}}
@@ -50,4 +55,40 @@
       </div>
     </div>
     <!-- end product -->
+<!-- Preguntar a Yomogan que és let comment of comments; "trackBy: trackByFn"" -->
+<h3>COMENTARIOS</h3>
+<app-comments
+    *ngFor="let comment of comments"
+    [comment]="comment"
+    (deleteComment)="onDeleteComment(comment)">
+  </app-comments>
+
+
+    <div *appShowAuthed="true">
+      <!-- <app-list-errors [errors]="commentFormErrors"></app-list-errors> -->
+      <form class="card comment-form" (ngSubmit)="addComment()">
+        <fieldset [disabled]="isSubmitting">
+          <div class="card-block">
+            <textarea class="form-control" placeholder="Write a comment..." rows="3" cols="50"
+              [formControl]="commentControl"></textarea>
+          </div>
+          <div class="card-footer">
+
+            <img [src]="'../../assets/images/'+currentUser.image" alt="user image" class="comment-author-img"
+              onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
+            <button  type="submit">
+              Enviar comentario
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <div *appShowAuthed="false">
+      <a [routerLink]="['/login']">Sign in</a> or <a [routerLink]="['/register']">sign up</a> to add comments on this
+      article.
+    </div>
+
+
+
   </div>

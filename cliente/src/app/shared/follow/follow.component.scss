@@ -1,8 +1,45 @@
-.button_unfollow{
-    background-color: white;
-    border: 1px solid teal;
+$transition: width 1s,
+height 2s,
+border-color 1s,
+background-color 1s,
+color 1s;
+$colorBualabob:teal;
+
+/* Botton follow */
+.button_unfollow {
+
+  color: $colorBualabob;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: $colorBualabob;
+  border-radius: 10px;
+  width: 150px;
+  height: 45px;
+  cursor: pointer;
+
+  transition: $transition;
+  margin-bottom:20px;
+
 }
 
-.button_unfollow{
-    background-color: teal;
+/* Botton unfollow */
+.button_follow {
+
+  color: #fff;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: peru;
+  border: 1px solid peru;
+  // border-color: "#2EB82E";
+  border-radius: 10px;
+  width: 175px;
+  height: 45px;
+
+  cursor: pointer;
+  transition: $transition;
+  margin-bottom:20px;
+
+  // background-color: teal;
 }
