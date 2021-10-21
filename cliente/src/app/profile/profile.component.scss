@@ -7,6 +7,14 @@ $white-two: #aaa;
 .container {
   margin-top: 50px;
   width: 300px;
+  display: inline-block;
+  margin: 30px;
+  vertical-align: top;
+
+
+
+/*   transition: transform  1s;
+ */
 
   fieldset {
     border: 1px solid teal;
@@ -31,8 +39,8 @@ $white-two: #aaa;
 
         border-bottom: 1px solid gainsboro;
       }
+    }
   }
-}
 
 }
 
