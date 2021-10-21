@@ -1,10 +1,14 @@
+.container{
+  display: grid;
+}
+
 form{
   // background-color: azure;
   // border-radius: 20%;
+  justify-self: center;
   width: 70%;
-  float:right;
+  float: center;
   border-radius: 3%;
-
 }
 
 
@@ -58,7 +62,7 @@ button:hover {
 .exit:hover {
   background-color: #2C6E5F;}
  h1{
-  margin-left: 61%;
+  text-align: center;
  }
 
 

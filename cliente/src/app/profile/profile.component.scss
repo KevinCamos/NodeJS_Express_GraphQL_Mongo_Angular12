@@ -76,6 +76,17 @@ legend {
 }
 
 
+.nav-link{
+  text-decoration: none;
+  margin: 15px;
+  padding: 10px;
+  color: black;
+}
+
+.nav-link:hover{
+  color: cadetblue;
+}
+
 
 .list-wrapper {
   max-width: 400px;
@@ -125,4 +136,5 @@ legend {
     //   color: $white-two;
     // }
   }
+
 }

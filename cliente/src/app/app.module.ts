@@ -15,14 +15,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
-import { ProfileComponent } from './profile/profile.component';
+
 @NgModule({
   declarations: [
     //declaración de componentes
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    ProfileComponent],
+  ],
   imports: [
     CoreModule,
     SharedModule,

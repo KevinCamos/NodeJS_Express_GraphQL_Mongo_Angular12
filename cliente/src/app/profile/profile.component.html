@@ -32,6 +32,7 @@
         <h2>{{profile.following.length+" FOLLOWING"}}</h2>
       </div>
 
+
       <ul id="list">
         <label>{{profile.following.length+" FOLLOWING"}}</label>
         <li *ngFor="let follow of profile.following " class="list-item">
@@ -86,3 +87,19 @@
 
   </div>
 </section>
+
+<br>
+<a class="nav-link"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLink]="['/profile', profile.username]">
+  My Products
+</a>
+<a class="nav-link"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLink]="['/profile', profile.username, 'favorites']">
+  My Favorite Products
+</a>
+
+<router-outlet></router-outlet>

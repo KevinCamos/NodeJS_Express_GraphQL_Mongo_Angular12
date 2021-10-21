@@ -14,13 +14,10 @@ export class CardProductComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    /* console.log(this.product) */
-    //this.images = this.product.images;
   }
 
   onToggleFavorite(favorited: boolean) {
     this.product.favorited = favorited;
-    console.log(this.product.favorited);
     if (favorited) {
       if (typeof this.product.favorites === 'number') {
         this.product.favorites++;

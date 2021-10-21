@@ -17,48 +17,52 @@ import { ShowAuthedDirective } from './show-authed.directive';
 import { CommentsComponent } from './comments/comments.component';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { FollowComponent } from './follow/follow.component';
+import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
+import { ProfileProductsComponent } from './profile-products/profile-products.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    InfiniteScrollModule,
-    FontAwesomeModule,
-  ],
-  declarations: [
-    CategoriesComponent,
-    ListProductsComponent,
-    CardProductComponent,
-    CarouselComponent,
-    CarouselItemsComponent,
-    SearchComponent,
-    FiltersComponent,
-    ShowAuthedDirective,
-    FavoriteComponent,
-    FollowComponent,
-    CommentsComponent,
-  ],
-  exports: [
-    CategoriesComponent,
-    ListProductsComponent,
-    CarouselComponent, //Carousel
-    CarouselItemsComponent,
-    SearchComponent, //Search component
-    CommentsComponent,
-    FiltersComponent,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    RouterModule,
-    ShowAuthedDirective,
-    FavoriteComponent,
-    FollowComponent
-  ],
-
-
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        InfiniteScrollModule,
+        FontAwesomeModule
+    ],
+    declarations: [
+        CategoriesComponent,
+        ListProductsComponent,
+        CardProductComponent,
+        CarouselComponent,
+        CarouselItemsComponent,
+        SearchComponent,
+        FiltersComponent,
+        ShowAuthedDirective,
+        FavoriteComponent,
+        FollowComponent,
+        ProfileFavoritesComponent,
+        ProfileProductsComponent,
+        CommentsComponent
+    ],
+    exports: [
+        CategoriesComponent,
+        ListProductsComponent,
+        CarouselComponent, //Carousel
+        CarouselItemsComponent,
+        SearchComponent, //Search component, hi ha que ficar-ho ací?
+        FiltersComponent,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        RouterModule,
+        ShowAuthedDirective,
+        FavoriteComponent,
+        FollowComponent,
+        ProfileFavoritesComponent,
+        ProfileProductsComponent,
+        CommentsComponent
+    ]
 })
 export class SharedModule {}

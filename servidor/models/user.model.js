@@ -137,24 +137,23 @@ UserSchema.methods.unfavorite = function (id) {
   return this.save();
 };
 
+
 UserSchema.methods.isFavorite = function (id) {
   return this.favorites.some(function (favoriteId) {
-    /* console.log(favoriteId.toString());
-    console.log(id.toString()); */
     return favoriteId.toString() === id.toString();
   });
 };
 
 /* Follow */
 UserSchema.methods.follow = function (id, userFollow) {
-  console.log(userFollow);
-  console.log(userFollow.followers.indexOf(this._id) === -1, 1);
+/*   console.log(userFollow);
+  console.log(userFollow.followers.indexOf(this._id) === -1, 1); */
   if (userFollow.followers.indexOf(this._id) === -1) {
     userFollow.followers.push(this._id);
   }
   userFollow.save();
-  console.log(userFollow);
-  console.log(this.following.indexOf(id) === -1, 1);
+/*   console.log(userFollow);
+  console.log(this.following.indexOf(id) === -1, 1); */
   if (this.following.indexOf(id) === -1) {
     this.following.push(id);
   }

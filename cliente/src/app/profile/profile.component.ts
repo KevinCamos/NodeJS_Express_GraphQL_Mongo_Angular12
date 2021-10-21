@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
 
   username: string;
   ngOnInit() {
+    
     this.clickChangeProfile();
     console.log(this.ActivatedRoute.data);
     this.ActivatedRoute.data
@@ -42,10 +43,7 @@ export class ProfileComponent implements OnInit {
           return this.userService.currentUser.pipe(
             tap((userData: User) => {
               this.currentUser = userData;
-              console.log(userData);
-
               this.isUser = this.currentUser.username === this.profile.username;
-              console.log(this.isUser);
             })
           );
         })

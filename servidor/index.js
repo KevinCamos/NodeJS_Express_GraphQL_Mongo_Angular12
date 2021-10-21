@@ -18,16 +18,13 @@ require('./models/user.model');
 require('./models/product.model');
 require('./models/comment.model');
 
-
 /* CARGAMOS CONFIGURACIÓN PASSPORT*/
-
 require('./config/passport');
-
 
 /**
  * Para ir al router.post/get.. de un objeto, se utiliza require('./carpetarouter')
  */
-require("./routes"); //es dirigeix a la carpeta routes!
+/* require("./routes"); //es dirigeix a la carpeta routes! */ 
 app.use(require("./routes"));
 
 /// catch 404 and forward to error handler

@@ -2,6 +2,7 @@ var router = require("express").Router();
 
 const Category = require("../../models/category.model");
 
+/* CREAR UNA CATEGORIA */
 router.post("/", async (req, res) => {
   try {
     let category;
@@ -15,6 +16,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+/* CATEGORIAS */
 router.get("/", async (req, res) => {
   try {
     const { offset, limit } = req.query;
@@ -29,6 +31,8 @@ router.get("/", async (req, res) => {
     res.status(500).send("Hubo un error");
   }
 });
+
+/* LISTAR CATEGORIAS PARA FILTERS */
 router.get("/list-categories", async (req, res) => {
   try {
     const categorys = await Category.find({});
@@ -43,6 +47,7 @@ router.get("/list-categories", async (req, res) => {
   }
 });
 
+/* OBTENER PRODUCTOS DE UNA CATEGORIA */
 router.get("/:id", async (req, res) => {
   try {
     // let category = await Category.findOne({name_category:req.params.name}).populate('products');
@@ -59,6 +64,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/* ELIMINAR CATEGORIA */
 router.delete("/:id", async (req, res) => {
   try {
     let category = await Category.findById(req.params.id);
