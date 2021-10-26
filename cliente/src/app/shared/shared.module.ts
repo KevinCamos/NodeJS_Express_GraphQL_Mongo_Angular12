@@ -64,7 +64,9 @@ import { BuyComponent } from './buy/buy.component';
         FollowComponent,
         ProfileFavoritesComponent,
         ProfileProductsComponent,
-        CommentsComponent
+        CommentsComponent,
+        BuyComponent
+
     ]
 })
 export class SharedModule {}

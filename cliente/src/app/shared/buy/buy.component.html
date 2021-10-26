@@ -1,1 +1,8 @@
-<p>buy works!</p>
+<button
+  [ngClass]="{
+               'button_buyed': !product.status,
+               'button_buy': product.status }"
+  (click)="toggleBuy()">
+  {{ product.status ? 'Comprar' : 'Este producto ya se ha vendido' }}
+  <!-- {{ profile.username }} -->
+</button>

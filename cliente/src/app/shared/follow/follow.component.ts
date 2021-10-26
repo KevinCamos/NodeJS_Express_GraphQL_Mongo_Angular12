@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
 import { Router } from '@angular/router';

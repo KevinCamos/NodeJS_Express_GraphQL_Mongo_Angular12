@@ -9,3 +9,4 @@ export * from './profiles.service';
 export * from './jwt.service';
 export * from './guards/auth-guard.service';
 export * from './guards/no-auth-guard.service';
+export * from './order.service';

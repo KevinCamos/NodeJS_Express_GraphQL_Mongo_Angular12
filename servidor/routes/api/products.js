@@ -9,7 +9,6 @@ const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
 var auth = require("../auth");
 
-
 //açò va quan busquem un producte per "Slug"
 router.param("slug", async (req, res, next, slug) => {
   await Product.findOne({ slug: slug })
@@ -24,11 +23,7 @@ router.param("slug", async (req, res, next, slug) => {
     .catch(next);
 });
 
-
-
 router.get("/:slug", async (req, res) => {
-
-  
   if (!req.product) {
     try {
       console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
@@ -118,15 +113,15 @@ router.get("/", auth.optional, async (req, res) => {
       query.id_category = category;
     }
 
-    if(favorited){
-      const favoriter = await User.findOne({username: favorited});
-      query._id = {$in: favoriter.favorites};
+    if (favorited) {
+      const favoriter = await User.findOne({ username: favorited });
+      query._id = { $in: favoriter.favorites };
     }
 
-    if(author){
-      const author1 = await User.findOne({username: author});
-      query.id_user = {$in: author1._id};
-    } 
+    if (author) {
+      const author1 = await User.findOne({ username: author });
+      query.id_user = { $in: author1._id };
+    }
 
     console.log(query);
 
@@ -147,7 +142,6 @@ router.get("/", auth.optional, async (req, res) => {
       }),
       productCount: productCount / limit,
     });
-  
   } catch (error) {
     console.log(error);
     res.status(500).send("Hubo un error en router.get /search/:search");
@@ -242,34 +236,42 @@ router.delete("/:id", async (req, res) => {
 
 /* Favorite */
 
-router.post('/:slug/favorite', auth.required, function(req, res, next) {
+router.post("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
 
-  User.findById(req.payload.id).then(function(user){
-    if (!user) { return res.sendStatus(401); }
+  User.findById(req.payload.id)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
 
-    return user.favorite(productId).then(function(){
-      return req.product.favoriteCount().then(function(product){
-        return res.json({product: product.toJSONFor(user)});
+      return user.favorite(productId).then(function () {
+        return req.product.favoriteCount().then(function (product) {
+          return res.json({ product: product.toJSONFor(user) });
+        });
       });
-    });
-  }).catch(next);
+    })
+    .catch(next);
 });
 
 /* Unfavorite */
 
-router.delete('/:slug/favorite', auth.required, function(req, res, next) {
+router.delete("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
   console.log(req.payload);
-  User.findById(req.payload.id).then(function(user){
-    if (!user) { return res.sendStatus(401); }
+  User.findById(req.payload.id)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
 
-    return user.unfavorite(productId).then(function(){
-      return req.product.favoriteCount().then(function(product){
-        return res.json({product: product.toJSONFor(user)});
+      return user.unfavorite(productId).then(function () {
+        return req.product.favoriteCount().then(function (product) {
+          return res.json({ product: product.toJSONFor(user) });
+        });
       });
-    });
-  }).catch(next);
+    })
+    .catch(next);
 });
 
 /* COMENTARIOS */
@@ -278,7 +280,7 @@ router.delete('/:slug/favorite', auth.required, function(req, res, next) {
 router.get("/:product/comments", auth.optional, function (req, res, next) {
   var productSlug = req.params.product;
 
-// <<<<<<< HEAD
+  // <<<<<<< HEAD
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
     .then(function (user) {
       Product.findOne({ slug: productSlug })
@@ -303,7 +305,6 @@ router.get("/:product/comments", auth.optional, function (req, res, next) {
             }),
           });
         });
-
     })
     .catch(next);
 });
@@ -352,35 +353,34 @@ router.delete(
   async function (req, res, next) {
     let idComment = req.params.comment;
     let productSlug = req.params.article;
-try{
+    try {
+      await Comment.findById(idComment).then(function (comment) {
+        if (!comment) return res.sendStatus(404);
+        console.log(comment);
+        //FUNCIÓ AMB EL COMENTARI
+        console.log(comment.author.toString());
+        console.log(req.payload.id.toString());
+        if (comment.author.toString() === req.payload.id.toString()) {
+          console.log("Este usuario es el propietario");
+          Product.findOne({ slug: productSlug }).then(function (product) {
+            if (!product) return res.sendStatus(404);
+            /* Eliminem els comentaris de la taula product */
+            product.comments.remove(idComment);
+            product.save();
+            comment.remove();
+            //El 204 No Contentcódigo de respuesta de estado de éxito HTTP indica que una solicitud se ha realizado correctamente, pero que el cliente no necesita salir de su página actual.
+            res.sendStatus(204);
+          });
+        } else {
+          res.sendStatus(403);
+        }
 
-
-    await Comment.findById(idComment).then(function (comment) {
-      if (!comment) return res.sendStatus(404);
-      console.log(comment);
-      //FUNCIÓ AMB EL COMENTARI
-      console.log(comment.author.toString());
-      console.log(req.payload.id.toString());
-      if (comment.author.toString() === req.payload.id.toString()) {
-        console.log("Este usuario es el propietario");
-        Product.findOne({ slug: productSlug }).then(function (product) {
-          if (!product) return res.sendStatus(404);
-          /* Eliminem els comentaris de la taula product */
-          product.comments.remove(idComment);
-          product.save();
-          comment.remove();
-          //El 204 No Contentcódigo de respuesta de estado de éxito HTTP indica que una solicitud se ha realizado correctamente, pero que el cliente no necesita salir de su página actual.
-          res.sendStatus(204);
-        });
-      } else {
-        res.sendStatus(403);
-      }
-
-      //FI FUNCIÓ AMB EL COMENTARI
-    });
-  }catch(error){
-    console.log(error);
-    res.status(500).send("Hubo un error");  }
+        //FI FUNCIÓ AMB EL COMENTARI
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Hubo un error");
+    }
   }
 );
 

@@ -5,3 +5,4 @@ export * from './filters.model';
 export * from './user.model';
 export * from './profile.model';
 export * from './comment.model';
+export * from './order.model';

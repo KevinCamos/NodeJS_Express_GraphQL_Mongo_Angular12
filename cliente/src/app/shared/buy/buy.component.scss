@@ -1,0 +1,45 @@
+$transition: width 1s,
+height 2s,
+border-color 1s,
+background-color 1s,
+color 1s;
+$colorBualabob:teal;
+
+/* Botton follow */
+.button_buyed {
+
+  color: red;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: red;
+  border-radius: 10px;
+  width: 300px;
+  height: 45px;
+  cursor: pointer;
+
+  transition: $transition;
+  margin-bottom:20px;
+
+}
+
+/* Botton unfollow */
+.button_buy {
+
+  color: #fff;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: greenyellow;
+  border: 1px solid greenyellow;
+  // border-color: "#2EB82E";
+  border-radius: 10px;
+  width: 100px;
+  height: 45px;
+
+  cursor: pointer;
+  transition: $transition;
+  margin-bottom:20px;
+
+  // background-color: teal;
+}

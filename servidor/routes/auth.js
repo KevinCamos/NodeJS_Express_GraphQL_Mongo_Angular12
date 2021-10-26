@@ -21,13 +21,13 @@ function getTokenFromHeader(req) {
 var auth = {
   required: jwt({
     secret: secret,
-    algorithms: ["HS256"],//Preguntar a Yolanda, ya que sense açò em fa error
+    algorithms: ["HS256"], //Preguntar a Yolanda, ya que sense açò em fa error
     userProperty: "payload",
     getToken: getTokenFromHeader,
   }),
   optional: jwt({
     secret: secret,
-    algorithms: ["HS256"],//Preguntar a Yolanda, ya que sense açò em fa error
+    algorithms: ["HS256"], //Preguntar a Yolanda, ya que sense açò em fa error
     userProperty: "payload",
     credentialsRequired: false,
     getToken: getTokenFromHeader,

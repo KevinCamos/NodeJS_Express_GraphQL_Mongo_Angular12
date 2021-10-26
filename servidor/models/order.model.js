@@ -15,7 +15,7 @@ const OrderSchema = mongoose.Schema({
   },
 });
 OrderSchema.methods.createOrder = function (product, userBuyer) {
-  console.log(product.author._id)
+  console.log(product.author._id);
   if (userBuyer._id === product.author._id) {
     console.log("el mateix usuari");
     return new Error("he buys himself");
@@ -31,17 +31,19 @@ OrderSchema.methods.createOrder = function (product, userBuyer) {
   product.save();
   return this.save();
 };
-OrderSchema.methods.toJSONfor = function (product, userBuyer){
-  return{
-    id_product : product.toJSONfor(),
-    id_user_seller : this.id_user_seller ,
-    id_user_buyer : id_user_buyer.toProfileJSONSimpleFor(),
+OrderSchema.methods.toJSONfor = function (product, userBuyer) {
+  return {
+    id_product: product.toJSONfor(),
+    // id_product: this.id_product.toJSONfor(product)
+
+    id_user_seller: this.id_user_seller,
+    id_user_buyer: id_user_buyer.toProfileJSONSimpleFor(),
+    // id_user_buyer: this.id_user_buyer.toJSONfor(userBuyer)
+
     total_price: this.total_price,
     buy_date: this.buy_date,
   };
- 
-}
-
+};
 
 //https://mongoosejs.com/docs/middleware.html#pre schema.pre is a middleware function
 
