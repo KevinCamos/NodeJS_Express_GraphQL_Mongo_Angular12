@@ -9,6 +9,8 @@ const UserSchema = mongoose.Schema(
     username: {
       type: String,
       lowecase: true,
+      /* unique: true, */
+
       required: [true, "can't be blank"],
       match: [/^[a-zA-Z0-9]+$/, "is invalid"],
       index: true,
@@ -86,6 +88,13 @@ UserSchema.methods.toAuthJSON = function () {
   };
 };
 
+UserSchema.methods.toProfileJSONSimpleFor = function () {
+  return {
+    username: this.username,
+    image: this.image || "bbyoda.png",
+  };
+};
+
 UserSchema.methods.toProfileJSONFor = function (user) {
   return {
     username: this.username,
@@ -99,10 +108,10 @@ UserSchema.methods.toProfileJSONFor = function (user) {
 
 UserSchema.methods.toProfileJSONFollowers = function (users, user) {
   var followers = new Array();
-  users.map((user, i) => (users[i] = user.toProfileJSONForFollow()));
+  users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor()));
   console.log(this.followers);
   this.followers.map(
-    (follower, i) => (followers[i] = follower.toProfileJSONForFollow())
+    (follower, i) => (followers[i] = follower.toProfileJSONSimpleFor())
   );
 
   // console.log(users);
@@ -114,13 +123,6 @@ UserSchema.methods.toProfileJSONFollowers = function (users, user) {
     following: users,
     followers: this.followers,
     isFollow: user ? user.isFollowing(this._id) : false,
-  };
-};
-
-UserSchema.methods.toProfileJSONForFollow = function (user) {
-  return {
-    username: this.username,
-    image: this.image || "bbyoda.png",
   };
 };
 
@@ -137,7 +139,6 @@ UserSchema.methods.unfavorite = function (id) {
   return this.save();
 };
 
-
 UserSchema.methods.isFavorite = function (id) {
   return this.favorites.some(function (favoriteId) {
     return favoriteId.toString() === id.toString();
@@ -146,13 +147,13 @@ UserSchema.methods.isFavorite = function (id) {
 
 /* Follow */
 UserSchema.methods.follow = function (id, userFollow) {
-/*   console.log(userFollow);
+  /*   console.log(userFollow);
   console.log(userFollow.followers.indexOf(this._id) === -1, 1); */
   if (userFollow.followers.indexOf(this._id) === -1) {
     userFollow.followers.push(this._id);
   }
   userFollow.save();
-/*   console.log(userFollow);
+  /*   console.log(userFollow);
   console.log(this.following.indexOf(id) === -1, 1); */
   if (this.following.indexOf(id) === -1) {
     this.following.push(id);

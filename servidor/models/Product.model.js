@@ -24,6 +24,10 @@ const ProductSchema = mongoose.Schema({
     default: "",
     maxLength: 300,
   },
+  status: {
+    type: Boolean,
+    default: true, //true=>active, false=>sold
+  },
   id_category: {
     type: Number,
     required: true,
@@ -60,14 +64,15 @@ const ProductSchema = mongoose.Schema({
   },
   favorites: {
     type: Number,
-    default: 0
+    default: 0,
   },
   favorited: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }]
+
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
@@ -98,17 +103,19 @@ ProductSchema.methods.lowercase = function () {
   this.description = this.description.toLowerCase();
 };
 
-ProductSchema.methods.favoriteCount = function() {
+ProductSchema.methods.favoriteCount = function () {
   var product = this;
 
-  return User.countDocuments({favorites: {$in: [product._id]}}).then(function(count){
-    product.favorites = count;
-    return product.save();
-  });
+  return User.countDocuments({ favorites: { $in: [product._id] } }).then(
+    function (count) {
+      product.favorites = count;
+      return product.save();
+    }
+  );
 };
 
 ProductSchema.methods.toJSONFor = function (user) {
- /*  console.log(user); */
+  /*  console.log(user); */
   return {
     slug: this.slug,
     name: this.name,

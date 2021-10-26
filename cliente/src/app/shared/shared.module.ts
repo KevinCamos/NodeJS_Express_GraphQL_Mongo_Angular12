@@ -19,6 +19,7 @@ import { FavoriteComponent } from './favorite/favorite.component';
 import { FollowComponent } from './follow/follow.component';
 import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
 import { ProfileProductsComponent } from './profile-products/profile-products.component';
+import { BuyComponent } from './buy/buy.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { ProfileProductsComponent } from './profile-products/profile-products.co
         FollowComponent,
         ProfileFavoritesComponent,
         ProfileProductsComponent,
-        CommentsComponent
+        CommentsComponent,
+        BuyComponent
     ],
     exports: [
         CategoriesComponent,

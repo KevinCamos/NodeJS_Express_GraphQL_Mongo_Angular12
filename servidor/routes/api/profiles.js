@@ -19,6 +19,22 @@ router.param("username", function (req, res, next, username) {
     .catch(next);
 });
 
+// Preload user profile on routes with ':username'
+router.param("userfollow", function (req, res, next, username) {
+  User.findOne({ username: username })
+    // .populate("following")
+    // .populate("followers")
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(404);
+      }
+      // console.log("entra param");
+      req.profile = user;
+      return next();
+    })
+    .catch(next);
+});
+
 /* PROFILE */
 router.get("/:username", auth.optional, function (req, res, next) {
   if (req.payload) {
@@ -45,7 +61,7 @@ router.get("/:username", auth.optional, function (req, res, next) {
 });
 
 /* FOLLOW */
-router.post('/:username/follow', auth.required, function(req, res, next){
+router.post('/:userfollow/follow', auth.required, function(req, res, next){
   var profileId = req.profile._id;
   console.log(profileId);
 
@@ -65,7 +81,7 @@ router.post('/:username/follow', auth.required, function(req, res, next){
 
 
 /* UNFOLLOW */
-router.delete('/:username/follow', auth.required, function(req, res, next){
+router.delete('/:userfollow/follow', auth.required, function(req, res, next){
   var profileId = req.profile._id;
   //   console.log(req.profile)
   // console.log(profileId)
