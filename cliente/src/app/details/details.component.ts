@@ -18,7 +18,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit {
-  product: Product = {};
+  product: Product ;
   images: String[] = [];
   public classList: String = '';
   slug: string | null;

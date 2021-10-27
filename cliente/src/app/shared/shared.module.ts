@@ -20,53 +20,55 @@ import { FollowComponent } from './follow/follow.component';
 import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
 import { ProfileProductsComponent } from './profile-products/profile-products.component';
 import { BuyComponent } from './buy/buy.component';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        InfiniteScrollModule,
-        FontAwesomeModule
-    ],
-    declarations: [
-        CategoriesComponent,
-        ListProductsComponent,
-        CardProductComponent,
-        CarouselComponent,
-        CarouselItemsComponent,
-        SearchComponent,
-        FiltersComponent,
-        ShowAuthedDirective,
-        FavoriteComponent,
-        FollowComponent,
-        ProfileFavoritesComponent,
-        ProfileProductsComponent,
-        CommentsComponent,
-        BuyComponent
-    ],
-    exports: [
-        CategoriesComponent,
-        ListProductsComponent,
-        CarouselComponent, //Carousel
-        CarouselItemsComponent,
-        SearchComponent, //Search component, hi ha que ficar-ho ací?
-        FiltersComponent,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        RouterModule,
-        ShowAuthedDirective,
-        FavoriteComponent,
-        FollowComponent,
-        ProfileFavoritesComponent,
-        ProfileProductsComponent,
-        CommentsComponent,
-        BuyComponent
-
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    InfiniteScrollModule,
+    FontAwesomeModule,
+  ],
+  declarations: [
+    CategoriesComponent,
+    ListProductsComponent,
+    CardProductComponent,
+    CarouselComponent,
+    CarouselItemsComponent,
+    SearchComponent,
+    FiltersComponent,
+    ShowAuthedDirective,
+    FavoriteComponent,
+    FollowComponent,
+    ProfileFavoritesComponent,
+    ProfileProductsComponent,
+    CommentsComponent,
+    BuyComponent,
+    RatingComponent,
+  ],
+  exports: [
+    CategoriesComponent,
+    ListProductsComponent,
+    CarouselComponent,
+    CarouselItemsComponent,
+    SearchComponent,
+    FiltersComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    RouterModule,
+    ShowAuthedDirective,
+    FavoriteComponent,
+    FollowComponent,
+    ProfileFavoritesComponent,
+    ProfileProductsComponent,
+    CommentsComponent,
+    BuyComponent,
+    RatingComponent,
+  ],
 })
 export class SharedModule {}

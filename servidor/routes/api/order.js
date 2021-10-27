@@ -19,10 +19,33 @@ router.param("slug", async (req, res, next, slug) => {
     .catch(next);
 });
 
-/* FOLLOW */
-router.post("/:slug", auth.required, async function (req, res, next) {
+/* DAME MIS PRODUCTOS */
+router.get("/", auth.required, async function (req, res, next) {
+  // console.log(req.payload);
 
-  console.log(req.payload, req.product.author, req.product.status === true)
+  try {
+    if (req.payload) {
+      await Order.find({ id_user_buyer: req.payload.id })
+        .populate("id_product")
+        .then(function (orders) {
+          if (!orders) {
+            throw new Error("BROKEN");
+          }
+          // console.log(orders);
+          return res.json(orders.map((order) => order.toJSONfor()));
+          
+        });
+    } else {
+      throw new Error("Hay un error en la autenticación JWT");
+    }
+  } catch (error) {
+    res.status(500).send("Hubo un error");
+  }
+});
+
+/* COMPRAR UN PRODUCTE */
+router.post("/:slug", auth.required, async function (req, res, next) {
+  console.log(req.payload, req.product.author, req.product.status === true);
   // res.json(req.product);
   try {
     if (req.payload && req.product.author && req.product.status === true) {
@@ -32,14 +55,10 @@ router.post("/:slug", auth.required, async function (req, res, next) {
         }
         let order = new Order();
 
-
-        //  order.createOrder(req.product, user)
         return res.json({
           order: order.createOrder(req.product, user),
         });
-        // return res.json({
-        //   order: order.toJSONfor(req.product, user),
-        // });
+
       });
     } else {
       throw new Error("BROKEN");

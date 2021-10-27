@@ -1,0 +1,42 @@
+
+<section class="container">
+  <div class="profileUser">
+    <fieldset>
+      <legend><img [src]="'../../assets/images/'" class="image-user"
+          onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
+      </legend>
+
+      <div class="name">
+        <h2>MIS COMPRAS</h2>
+      </div>
+
+
+      <ul id="list infoproduct">
+        <!-- <label>{{profile.following.length+" FOLLOWING"}}</label> -->
+        <li *ngFor="let order of orders " class="list-item">
+          <div>
+            <img  [src]="'../../assets/images/'+order.id_product.images[0]+'.jpg'"
+            onerror="this.src='../../assets/images/error.jpg'"
+            class="list-item-image"
+              [routerLink]="['/details', order.id_product.slug]">
+          </div>
+          <div class="list-item-content">
+            <h4   [routerLink]="['/details', order.id_product.slug]">{{order.id_product.name}}</h4>
+            <ul>
+
+              <li *ngIf="order.valoration!==false">Valorar</li>
+              <li *ngIf="order.valoration===false"><app-rating></app-rating></li>
+
+              <li>{{order.id_product.price | currency: '€' }}</li>
+              <li>{{order.buy_date | date: 'dd/MM/yyyy'}}</li>
+
+            </ul>
+          </div>
+
+        </li>
+      </ul>
+
+    </fieldset>
+
+  </div>
+</section>

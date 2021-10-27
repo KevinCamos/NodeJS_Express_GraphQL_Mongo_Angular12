@@ -16,7 +16,7 @@ export class Product {
   updateDate?: Date;
   creationDate?: Date;
   slug?: string;
-  images?: string[];
+  images: string[];
   author?: Profile;
 
 
@@ -53,7 +53,7 @@ export class Product {
     this.updateDate = updateDate;
 
     this.slug = slug;
-    this.images = images;
+    this.images = images? images: ["error"];
 
     this.author = author;
   }

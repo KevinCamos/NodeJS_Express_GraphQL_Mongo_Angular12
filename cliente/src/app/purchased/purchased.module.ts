@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// Librería FontAwesome para Iconos
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-import { ProfileComponent } from './profile.component';
-import { ProfileRoutingModule } from './profile-routing.module';
+import { PurchasedRoutingModule } from './purchased-routing.module';
 import { SharedModule } from '../shared';
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [],
   imports: [
-    SharedModule,
     CommonModule,
-    ProfileRoutingModule,
+    PurchasedRoutingModule,
     FontAwesomeModule,
+    SharedModule,
   ],
 })
-export class ProfileModule {}
+export class PurchasedModule {}

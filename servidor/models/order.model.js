@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var Product = mongoose.model("Product");
 
 const OrderSchema = mongoose.Schema({
   id_product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -31,20 +32,33 @@ OrderSchema.methods.createOrder = function (product, userBuyer) {
   product.save();
   return this.save();
 };
-OrderSchema.methods.toJSONfor = function (product, userBuyer) {
+OrderSchema.methods.toJSONfor = function (/* product, userBuyer */) {
+  console.log("----------------------");
+  console.log(this.toJSONForProduct(this.id_product));
+  console.log("----------------------");
   return {
-    id_product: product.toJSONfor(),
-    // id_product: this.id_product.toJSONfor(product)
-
-    id_user_seller: this.id_user_seller,
-    id_user_buyer: id_user_buyer.toProfileJSONSimpleFor(),
-    // id_user_buyer: this.id_user_buyer.toJSONfor(userBuyer)
-
+    id_product: this.toJSONForProduct(this.id_product),
     total_price: this.total_price,
     buy_date: this.buy_date,
+    valoration: this.valoration? this.valoration:false,
   };
 };
 
+OrderSchema.methods.toJSONForProduct = function (product) {
+  /*  console.log(user); */
+  return {
+    slug: product.slug,
+    name: product.name,
+    images: product.images,
+    description: product.description,
+    status: product.status,
+    location: product.location,
+    id_category: product.id_category,
+    price: product.price,
+    // creationDate: this.creationDate,
+    // updateDate: this.updateDate,
+  };
+};
 //https://mongoosejs.com/docs/middleware.html#pre schema.pre is a middleware function
 
 //how to use slug https://www.npmjs.com/package/slug

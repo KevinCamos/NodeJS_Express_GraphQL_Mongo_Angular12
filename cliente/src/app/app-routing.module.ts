@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
+  },
+  {
+    path: 'purchased',
+    loadChildren: () => import('./purchased/purchased.module').then(m => m.PurchasedModule)
   }
 ];
 

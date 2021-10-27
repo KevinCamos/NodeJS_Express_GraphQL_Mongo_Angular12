@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
+import { PurchasedComponent } from './purchased/purchased.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     AppComponent,
     FooterComponent,
     HeaderComponent,
+    PurchasedComponent,
   ],
   imports: [
     CoreModule,

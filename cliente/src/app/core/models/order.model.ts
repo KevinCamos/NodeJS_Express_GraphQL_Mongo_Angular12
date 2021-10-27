@@ -6,6 +6,6 @@ export interface Order {
   id_user_buyer: User;
   total_price: string;
 
-  valoration: number;
+  valoration: number | boolean;
   buy_date: Date;
 }
