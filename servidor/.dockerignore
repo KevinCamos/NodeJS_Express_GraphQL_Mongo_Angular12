@@ -1,0 +1,5 @@
+#servidor/variables.env
+#servidor/config/index.js
+# /node_modules
+node_modules
+npm-debug.log
