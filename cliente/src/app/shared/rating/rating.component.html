@@ -1,5 +1,6 @@
+<!-- https://ng-bootstrap.github.io/#/components/rating/api#NgbRating -->
+<!-- https://ng-bootstrap.github.io/#/components/rating/examples -->
 
-
-<!-- <div *ngFor= ></div> -->
-<fa-icon  [icon]="faStar" class="faGrinStars" ></fa-icon>
-
+<ngb-rating *ngIf="update" [max]="5" [(rate)]="starRating" [readonly]="false" (rateChange)="getYourValoration()">
+</ngb-rating>
+<ngb-rating *ngIf="!update"  [(rate)]="value"  [max]="5" [readonly]="true"></ngb-rating>

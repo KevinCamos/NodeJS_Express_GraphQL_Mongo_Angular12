@@ -62,8 +62,6 @@ export class ProductService {
     return this.apiService.post('products/' + slug + '/favorite');
   }
 
-
-
   unfavorite(slug: any): Observable<Product> {
     return this.apiService.delete('products/' + slug + '/favorite');
   }

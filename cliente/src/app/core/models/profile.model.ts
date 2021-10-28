@@ -5,4 +5,5 @@ export interface Profile {
   following: Profile[] ;
   followers: Profile[] ;
   isFollow: any ;
+  valoration:number;
 }

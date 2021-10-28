@@ -16,6 +16,7 @@ import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
 import { PurchasedComponent } from './purchased/purchased.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PurchasedComponent } from './purchased/purchased.component';
     // Toastr
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    NgbModule,
   ],
   providers: [], //servicios
   bootstrap: [AppComponent] //componentes que se van a iniciar

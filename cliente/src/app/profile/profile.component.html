@@ -7,8 +7,14 @@
 
       <div class="name">
         <h1>{{profile.username | uppercase}}
-          <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
-          </fa-icon>
+          <p>
+            <app-rating [value]="profile.valoration" [update]="false"></app-rating>
+          </p>
+          <p>
+            <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
+            </fa-icon>
+          </p>
+
           <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)">
           </app-follow>
         </h1>
@@ -71,7 +77,8 @@
         <li *ngFor="let follow of profile.followers " class="list-item">
           <div>
             <img [src]="'../../assets/images/'+follow.image" class="list-item-image"
-              [routerLink]="['/profile', follow.username]"   onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
+              [routerLink]="['/profile', follow.username]"
+              onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
           </div>
 
 
@@ -89,15 +96,11 @@
 </section>
 
 <br>
-<a class="nav-link"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
+<a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
   [routerLink]="['/profile', profile.username]">
   My Products
 </a>
-<a class="nav-link"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
+<a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
   [routerLink]="['/profile', profile.username, 'favorites']">
   My Favorite Products
 </a>

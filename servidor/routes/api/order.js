@@ -33,7 +33,6 @@ router.get("/", auth.required, async function (req, res, next) {
           }
           // console.log(orders);
           return res.json(orders.map((order) => order.toJSONfor()));
-          
         });
     } else {
       throw new Error("Hay un error en la autenticación JWT");
@@ -58,7 +57,6 @@ router.post("/:slug", auth.required, async function (req, res, next) {
         return res.json({
           order: order.createOrder(req.product, user),
         });
-
       });
     } else {
       throw new Error("BROKEN");
@@ -66,6 +64,14 @@ router.post("/:slug", auth.required, async function (req, res, next) {
   } catch (error) {
     res.status(500).send("Hubo un error");
   }
+});
+
+/* Update Rating */
+router.put("/", auth.required, async function (req, res, next) {
+  await Order.findById(req.body.order.id).then(function (order) {
+    order.valoration = req.body.order.valoration;
+    order.save();
+  });
 });
 
 module.exports = router;

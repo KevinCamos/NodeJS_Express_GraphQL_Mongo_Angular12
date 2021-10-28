@@ -106,7 +106,7 @@ UserSchema.methods.toProfileJSONFor = function (user) {
   };
 };
 
-UserSchema.methods.toProfileJSONFollowers = function (users, user) {
+UserSchema.methods.toProfileJSONFollowers = function (users,valoration, user) {
   var followers = new Array();
   users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor()));
   console.log(this.followers);
@@ -123,6 +123,7 @@ UserSchema.methods.toProfileJSONFollowers = function (users, user) {
     following: users,
     followers: this.followers,
     isFollow: user ? user.isFollowing(this._id) : false,
+    valoration:valoration
   };
 };
 

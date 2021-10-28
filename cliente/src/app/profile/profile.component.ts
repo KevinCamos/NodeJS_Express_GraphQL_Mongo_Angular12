@@ -16,6 +16,11 @@ import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
+  faUserEdit = faUserEdit;
+  profile: Profile;
+  currentUser: User;
+  isUser: boolean;
+  username: string;
   constructor(
     private ActivatedRoute: ActivatedRoute,
     private profileService: ProfilesService,
@@ -23,22 +28,17 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private cd: ChangeDetectorRef
   ) {}
-  faUserEdit = faUserEdit;
-  profile: Profile;
-  currentUser: User;
-  isUser: boolean;
 
-  username: string;
   ngOnInit() {
-    
     this.clickChangeProfile();
-    console.log(this.ActivatedRoute.data);
+    // console.log(this.ActivatedRoute.data);
     this.ActivatedRoute.data
       .pipe(
         concatMap((data: any) => {
-          console.log(data);
+          // console.log(data);
           this.profile = data.profile;
-          console.log(this.profile);
+console.log(this.profile)
+console.log(this.profile.valoration)
           // Load the current user's data.
           return this.userService.currentUser.pipe(
             tap((userData: User) => {
@@ -59,13 +59,12 @@ export class ProfileComponent implements OnInit {
 
   clickChangeProfile() {
     this.ActivatedRoute.params.subscribe((profile) => {
-      this.profileService.get( profile.username).subscribe(
+      this.profileService.get(profile.username).subscribe(
         (data) => {
           this.profile = data;
           this.isUser = this.currentUser.username === this.profile.username;
 
           this.cd.markForCheck();
-
         },
         (error) => {
           console.log(error);

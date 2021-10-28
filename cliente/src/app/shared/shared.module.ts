@@ -22,6 +22,8 @@ import { ProfileProductsComponent } from './profile-products/profile-products.co
 import { BuyComponent } from './buy/buy.component';
 import { RatingComponent } from './rating/rating.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { RatingComponent } from './rating/rating.component';
     RouterModule,
     InfiniteScrollModule,
     FontAwesomeModule,
+    NgbModule,
   ],
   declarations: [
     CategoriesComponent,

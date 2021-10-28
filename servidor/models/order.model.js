@@ -5,7 +5,7 @@ const OrderSchema = mongoose.Schema({
   id_product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
   id_user_seller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   id_user_buyer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  total_price: { type: Number, required: true },
+  total_price: { type: Number, required: false },
   valoration: {
     type: Number,
     required: false,
@@ -32,11 +32,23 @@ OrderSchema.methods.createOrder = function (product, userBuyer) {
   product.save();
   return this.save();
 };
+
+OrderSchema.methods.addValoration = function (valoration) {
+  console.log(product.author._id);
+
+  this.id_product = product._id;
+  this.id_user_seller = product.author._id;
+  this.id_user_buyer = userBuyer._id;
+  this.total_price = product.price;
+
+  return this.save();
+};
+
 OrderSchema.methods.toJSONfor = function (/* product, userBuyer */) {
-  console.log("----------------------");
-  console.log(this.toJSONForProduct(this.id_product));
-  console.log("----------------------");
+ 
   return {
+    id: this._id,
+
     id_product: this.toJSONForProduct(this.id_product),
     total_price: this.total_price,
     buy_date: this.buy_date,
@@ -59,6 +71,8 @@ OrderSchema.methods.toJSONForProduct = function (product) {
     // updateDate: this.updateDate,
   };
 };
+
+
 //https://mongoosejs.com/docs/middleware.html#pre schema.pre is a middleware function
 
 //how to use slug https://www.npmjs.com/package/slug
