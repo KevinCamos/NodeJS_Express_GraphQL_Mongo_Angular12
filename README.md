@@ -177,7 +177,7 @@ NodeJS_Express_Mongo_Angular12\servidor\models\product.model.js
 https://hub.docker.com/r/kevincamos/backend/tags 
 ```
 Creamos un repositorio en https://hub.docker.com/ 
-<img src="img/creating_repo.png"  with="500" height="auto">
+<img src="img/creating_repo.PNG"  with="500" height="auto">
 
 
 Visualizamos las imágenes que tenemos y ejecutamos el siguiente comando para que en al subir el repositorio, docker sepa qué imágen debe de subir a qué repositorio.
@@ -188,12 +188,12 @@ $ docker tag frontend:latest kevincamos/frontend_angular12_desplegament
 ```
 $ docker push kevincamos/frontend_angular12_desplegament
 ```
-<img src="img/angular docker.png"  with="500" height="auto">
+<img src="img/angular docker.PNG"  with="500" height="auto">
 
 
 
 Repetimos este paso en las dos imágenes restantes de Expressjs y Mongo 
-<img src="img/repositorios.png"  with="500" height="auto">
+<img src="img/repositorios.PNG"  with="500" height="auto">
 
 
 
