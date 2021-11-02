@@ -70,7 +70,7 @@ Creando el dockerfile
 FROM mongo
 RUN mkdir dump
 COPY /dump /dump
-EXPOSE 27017:27017
+EXPOSE 27017
 ```
 
 Ejecutar el dockerfile
