@@ -1,5 +1,4 @@
 FROM mongo
-EXPOSE 27017:27017
-
-
-docker network create --driver bridge bualabob
+RUN mkdir dump
+COPY ./dump ./dump
+EXPOSE 27017
