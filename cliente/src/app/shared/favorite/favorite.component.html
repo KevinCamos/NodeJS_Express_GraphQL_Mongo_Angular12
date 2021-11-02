@@ -1,7 +1,9 @@
-<button class="button_favorite"
+<button class="btn btn-light"
         [ngClass]="{ 'disabled' : isSubmitting,
-        'button_favorite': !product.favorited,
-        'button_unfavorite': product.favorited }"
+        'btn-light': !product.favorited,
+        'btn-danger': product.favorited }"
         (click)="toggleFavorite()">
-        <fa-icon [icon]="faHeart"></fa-icon><ng-content></ng-content>
+        <fa-icon [icon]="faHeart"></fa-icon>
+        &nbsp;
+        <ng-content></ng-content>
 </button>

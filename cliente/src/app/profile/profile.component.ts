@@ -63,9 +63,7 @@ export class ProfileComponent implements OnInit {
         (data) => {
           this.profile = data;
           this.isUser = this.currentUser.username === this.profile.username;
-
           this.cd.markForCheck();
-
         },
         (error) => {
           console.log(error);

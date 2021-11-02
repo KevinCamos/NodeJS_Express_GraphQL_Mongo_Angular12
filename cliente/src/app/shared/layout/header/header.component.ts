@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { faHandPeace } from '@fortawesome/free-solid-svg-icons';
 
 import { User, UserService } from '../../../core';
 
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   currentUser: User;
+  faHandPeace  = faHandPeace;
 
   ngOnInit() {
     this.userService.currentUser.subscribe(

@@ -1,21 +1,24 @@
-<div class="wrapimg" [routerLink]="['/details', product.slug]">
 
-  <!-- <img [src]="'../../../assets/images'+product.images[0]+'.jpg'" onerror="this.src='https://lh3.googleusercontent.com/proxy/2pVAxhJXAt7wiyt04z5TAlUKpKhskA4910Y3Q_fah2u-SX44rkrYfUn8tLswzgFjg27g4RtIPAwmQ8Hh48GuUfEVCCaQtQTghlvRp6tEjz5w9lfSuFBjlqv8mKuI2R5_3SCTHjuXa-YMxujG'" /> -->
-  <!-- <img [src]="'../../../assets/images'+product.images[0]+'.jpg'" /> -->
-
-  <img src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}">
-  <div class="addPro">
-      <a href="javascript:;">+ Add to shopping cart</a>
+<div class="card shadow-sm">
+  <img [routerLink]="['/details', product.slug]" class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{'https://www.gravatar.com/avatar/' + product.slug+'?s=200&d=robohash'}}"/>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6" [routerLink]="['/details', product.slug]">
+        <p class="card-title">{{ product.price }}</p>
+      </div>
+      <div class="col-6">
+        <div class="d-flex justify-content-end">
+          <app-favorite [product]="product" (toggle)="onToggleFavorite($event)">
+            {{product.favorites}}
+          </app-favorite>
+        </div>
+      </div>
+    </div>
+    <div class="row" [routerLink]="['/details', product.slug]">
+        <div class="col-12">
+          <p class="card-subtitle mb-2 text-muted">{{ product.name }}</p>
+        </div>
+    </div>
   </div>
 </div>
-<div class="titlePro">
-  <a href={{product.slug}}>{{ product.name }}</a>
-  <span>{{product.price}}</span>
-  <p class="descTitle">Localidad: {{product.location}}</p>
-  <p class="descTitle">Creado: {{product.creationDate | date:'dd/MM/yyyy'}}</p>
-  <p class="descTitle">Modificado: {{product.updateDate | date:'dd/MM/yyyy'}}</p>
-  <p> {{product.description | lowercase}}</p>
-  <app-favorite [product]="product" (toggle)="onToggleFavorite($event)">
-    {{product.favorites}}
-  </app-favorite>
-</div>
+

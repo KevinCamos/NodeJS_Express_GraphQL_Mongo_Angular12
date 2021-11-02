@@ -29,7 +29,7 @@ export class CommentsService {
 
   destroy(commentId:string, articleSlug:string) {
     return this.apiService
-           .delete(`products/${articleSlug}/comments/${commentId}`);
+      .delete(`products/${articleSlug}/comments/${commentId}`);
   }
 
 }

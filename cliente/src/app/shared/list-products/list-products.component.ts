@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { ProductService, CategoriesService, Product, Filters, NotificationServic
   selector: 'app-list-products',
   templateUrl: './list-products.component.html',
   styleUrls: ['./list-products.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ListProductsComponent implements OnInit {
@@ -47,6 +48,7 @@ export class ListProductsComponent implements OnInit {
     private aRouter: ActivatedRoute,
     private router: Router,
     private location: Location,
+    private cd: ChangeDetectorRef
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');//obtiene la 'id' del link
@@ -126,6 +128,7 @@ export class ListProductsComponent implements OnInit {
           (val, index) => index + 1
         );
         console.log(this.listProducts);
+        this.cd.markForCheck();
       },
       (error) => {
         this.notifyService.showWarning(

@@ -8,6 +8,7 @@ export class Filters {
   category?: number;
   favorited?: string;
   author?: string;
+  
   constructor(
     limit?: number,
     offset?: number,

@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     //declaración de componentes
@@ -34,6 +34,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     // Toastr
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
