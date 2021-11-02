@@ -24,11 +24,7 @@ router.param("slug", async (req, res, next, slug) => {
     .catch(next);
 });
 
-
-
 router.get("/:slug", async (req, res) => {
-
-  
   if (!req.product) {
     try {
       console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
@@ -244,6 +240,11 @@ router.delete("/:id", async (req, res) => {
 
 router.post('/:slug/favorite', auth.required, function(req, res, next) {
   var productId = req.product._id;
+console.log(req.product);
+  User.findById(req.product.id_user).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+        user.updateKarmaSave(10, user);
+  }).catch(next);
 
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
@@ -260,10 +261,15 @@ router.post('/:slug/favorite', auth.required, function(req, res, next) {
 
 router.delete('/:slug/favorite', auth.required, function(req, res, next) {
   var productId = req.product._id;
-  console.log(req.payload);
+
+  User.findById(req.product.id_user).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+        user.updateKarmaSave(-10, user);
+  }).catch(next);
+
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
-
+  
     return user.unfavorite(productId).then(function(){
       return req.product.favoriteCount().then(function(product){
         return res.json({product: product.toJSONFor(user)});
@@ -274,13 +280,14 @@ router.delete('/:slug/favorite', auth.required, function(req, res, next) {
 
 /* COMENTARIOS */
 
-// return an article's comments
+// return an product comments
 router.get("/:product/comments", auth.optional, function (req, res, next) {
   var productSlug = req.params.product;
 
 // <<<<<<< HEAD
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
     .then(function (user) {
+  
       Product.findOne({ slug: productSlug })
         .populate({
           path: "comments",
@@ -319,7 +326,7 @@ router.post(
       await User.findById(req.payload.id)
         .then(function (user) {
           if (!user) return res.sendStatus(401);
-
+          user.updateKarmaSave(5, user);
           //console.log(req.body)
           var comment = new Comment(req.body.comment);
           //console.log(comment)
@@ -353,7 +360,10 @@ router.delete(
     let idComment = req.params.comment;
     let productSlug = req.params.article;
 try{
-
+    User.findById(req.payload.id).then(function(user){
+      if (!user) { return res.sendStatus(401); }
+          user.updateKarmaSave(-5, user);
+    }).catch(next);
 
     await Comment.findById(idComment).then(function (comment) {
       if (!comment) return res.sendStatus(404);

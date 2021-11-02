@@ -32,6 +32,7 @@ const UserSchema = mongoose.Schema(
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    karma: {type: Number, default: 0}
   },
   { timestamps: true }
 );
@@ -114,6 +115,7 @@ UserSchema.methods.toProfileJSONFollowers = function (users, user) {
     following: users,
     followers: this.followers,
     isFollow: user ? user.isFollowing(this._id) : false,
+    karma: this.karma
   };
 };
 
@@ -146,14 +148,12 @@ UserSchema.methods.isFavorite = function (id) {
 
 /* Follow */
 UserSchema.methods.follow = function (id, userFollow) {
-/*   console.log(userFollow);
-  console.log(userFollow.followers.indexOf(this._id) === -1, 1); */
+
   if (userFollow.followers.indexOf(this._id) === -1) {
     userFollow.followers.push(this._id);
   }
   userFollow.save();
-/*   console.log(userFollow);
-  console.log(this.following.indexOf(id) === -1, 1); */
+
   if (this.following.indexOf(id) === -1) {
     this.following.push(id);
   }
@@ -161,11 +161,10 @@ UserSchema.methods.follow = function (id, userFollow) {
 };
 
 UserSchema.methods.unfollow = function (id, userFollowed) {
-  console.log(this.id);
-  // console.log(userFollowed,"eh")
+
   userFollowed.followers.remove(this._id);
-  // userFollowed.following.remove(id)
   userFollowed.save();
+  
   this.following.remove(id);
   return this.save();
 };
@@ -174,6 +173,15 @@ UserSchema.methods.isFollowing = function (id) {
   return this.following.some(function (followId) {
     return followId.toString() === id.toString();
   });
+};
+
+UserSchema.methods.updateKarma = function (qty, userKarma) {
+  userKarma.karma = userKarma.karma + qty;
+};
+
+UserSchema.methods.updateKarmaSave = function (qty, userKarma) {
+  userKarma.karma = userKarma.karma + qty;
+  return userKarma.save();
 };
 
 module.exports = mongoose.model("User", UserSchema);

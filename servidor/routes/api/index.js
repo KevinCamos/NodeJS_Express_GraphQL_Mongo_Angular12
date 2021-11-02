@@ -5,6 +5,7 @@ router.use('/profiles', require('./profiles'));
 router.use('/products', require('./products'));
 router.use('/categories', require('./categories'));
 router.use('/carousel', require('./carousel'));
+router.use('/dummies', require('./dummies'));
 
 router.use(function(err, req, res, next){
   if(err.name === 'ValidationError'){

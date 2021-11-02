@@ -47,7 +47,6 @@ router.get("/:username", auth.optional, function (req, res, next) {
 /* FOLLOW */
 router.post('/:username/follow', auth.required, function(req, res, next){
   var profileId = req.profile._id;
-  console.log(profileId);
 
   User.findById(req.payload.id)
     .then(function (user) {
@@ -55,7 +54,7 @@ router.post('/:username/follow', auth.required, function(req, res, next){
         return res.sendStatus(401);
       }
       // console.log(user)
-
+      user.updateKarma(40, req.profile);
       return user.follow(profileId, req.profile).then(function () {
         return res.json({ profile: req.profile.toProfileJSONFor(user) });
       });
@@ -74,7 +73,7 @@ router.delete('/:username/follow', auth.required, function(req, res, next){
       if (!user) {
         return res.sendStatus(401);
       }
-
+      user.updateKarma(-40, req.profile);
       return user.unfollow(profileId, req.profile).then(function () {
         return res.json({ profile: req.profile.toProfileJSONFor(user) });
       });

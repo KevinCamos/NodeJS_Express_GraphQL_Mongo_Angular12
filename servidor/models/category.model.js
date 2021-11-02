@@ -13,6 +13,9 @@ const CategorySchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  icon: {
+    type: String
+  },
   name_category: {
     type: String,
     required: true,
@@ -47,6 +50,7 @@ CategorySchema.methods.toListJSONFor = function () {
     reference: this.reference,
     name_category: this.name_category,
     slug: this.slug,
+    icon: this.icon
   };
 };
 
