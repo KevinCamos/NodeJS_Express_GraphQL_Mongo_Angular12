@@ -1,12 +1,12 @@
 var router = require("express").Router();
 
-router.use("/", require("./users"));
-
+router.use('/', require('./users'));
+router.use('/profiles', require('./profiles'));
+router.use('/products', require('./products'));
+router.use('/categories', require('./categories'));
+router.use('/carousel', require('./carousel'));
+router.use('/dummies', require('./dummies'));
 router.use("/order", require("./order"));
-router.use("/carousel", require("./carousel"));
-router.use("/categories", require("./categories"));
-router.use("/products", require("./products"));
-router.use("/profiles", require("./profiles"));
 
 router.use(function (err, req, res, next) {
   if (err.name === "ValidationError") {

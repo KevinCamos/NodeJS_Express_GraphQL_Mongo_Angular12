@@ -1,4 +1,4 @@
-<div class="navbarI">
+<!-- <div class="navbarI">
   <a [routerLink]="['/home']">Home</a>
   <a [routerLink]="['/shop']">Shop</a>
   <div class="subnavI">
@@ -13,8 +13,6 @@
     <a [routerLink]="['/register']" routerLinkActive="active">Sign up</a>
   </div>
   <div *appShowAuthed="true">
-
-
     <div class="subnavI padding-right" style="float:right; padding-right: 10%;    ">
       <span class="align">
       <button class="subnavbtnI " > <img [src]="'../../../../assets/images/'+currentUser.image"   class="user-pic"   onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'"/>
@@ -29,4 +27,50 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+<header>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid">
+      <a class="navbar-brand" [routerLink]="['/home']">
+        <fa-icon [icon]="faHandPeace"></fa-icon>
+      </a>
+      
+      <div class="collapse navbar-collapse" id="navbarExample01">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a [routerLink]="['/home']" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/shop']" class="nav-link">Shop</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-end"  *appShowAuthed="false">
+        <button [routerLink]="['/login']" type="button" class="btn btn-outline-dark me-2">Login</button>
+        &nbsp;
+        <button [routerLink]="['/register']"  type="button" class="btn btn-dark">Sign-up</button>
+      </div>
+
+      <div ngbDropdown *appShowAuthed="true">
+        <button class="btn" id="dropdownConfig" ngbDropdownToggle>
+          <img [src]="'../../../../assets/images/'+currentUser.image" alt="mdo" width="32" height="32" class="rounded-circle">
+                {{ currentUser.username }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+          <button ngbDropdownItem [routerLink]="['/create-products']">New product</button>
+          <button ngbDropdownItem [routerLink]="['/settings']">Settings</button>
+          <button ngbDropdownItem [routerLink]="['/profile', currentUser.username]">Profile</button>
+          <button ngbDropdownItem [routerLink]="['/purchased']">Purchased</button>
+          <hr class="dropdown-divider">
+          <button ngbDropdownItem (click)="logout()">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+</header>
+      
+    

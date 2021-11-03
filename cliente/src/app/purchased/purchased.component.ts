@@ -29,8 +29,6 @@ export class PurchasedComponent implements OnInit {
   ngOnInit(): void {
     this.getMyUser()
 
-
-
     console.log(this.ActivatedRoute.data);
     this.ActivatedRoute.data
       .pipe(

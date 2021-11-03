@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { ProductService, CategoriesService, Product, Filters, NotificationServic
   selector: 'app-list-products',
   templateUrl: './list-products.component.html',
   styleUrls: ['./list-products.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ListProductsComponent implements OnInit {
@@ -17,7 +18,7 @@ export class ListProductsComponent implements OnInit {
   idCategory: string | null;
   routeFilters: string | null;
 
-  limit: number = 1;
+  limit: number = 3;
   currentPage: number = 1;
   totalPages: Array<number> = [];
   query: Filters;
@@ -27,7 +28,6 @@ export class ListProductsComponent implements OnInit {
   @Input() set config(filters: Filters) {
     if (filters) {
       this.query = filters;
-      console.log(this.query);
       this.currentPage = 1;
       this.getListFiltered(this.query);
       this.profile = true;
@@ -40,6 +40,7 @@ export class ListProductsComponent implements OnInit {
     style: 'currency',
     currency: 'EUR',
   });
+
   constructor(
     private _productoService: ProductService,
     private _categoriesService: CategoriesService,
@@ -47,6 +48,7 @@ export class ListProductsComponent implements OnInit {
     private aRouter: ActivatedRoute,
     private router: Router,
     private location: Location,
+    private cd: ChangeDetectorRef
   ) {
     this.idCategory = this.aRouter.snapshot.paramMap.get('category_id'); //obtiene la 'id' del link
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');//obtiene la 'id' del link
@@ -63,18 +65,16 @@ export class ListProductsComponent implements OnInit {
 
       if (this.idCategory !== null) {
         //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
-      } else if (this.routeFilters !== null) {
+/*       } else if (this.routeFilters !== null) {
         // console.log("son filtros")
         this.refresRouteFilter()     ;
 
         // console.log(this.filters);
-        this.getListFiltered(this.filters);
+        this.getListFiltered(this.filters); */
       } else {
-        console.log("default")
         this.getListFiltered(this.filters);
       }
     }else{
-      console.log(this.query);
       this.currentPage = 1;
       this.getListFiltered(this.query);
       this.profile = true;
@@ -92,7 +92,6 @@ export class ListProductsComponent implements OnInit {
         (category) => category.slug === this.idCategory
       );
       if (typeof findCategory?.reference == 'number') {
-       /*  console.log(findCategory.reference); */
         this.filters.category = findCategory.reference;
       }
       this.getListFiltered(this.filters);
@@ -103,7 +102,6 @@ export class ListProductsComponent implements OnInit {
     this._categoriesService.getListCategory().subscribe(
       (data) => {
         this.listCategories = data;
-        /* console.log(data); */
         this.getProductsForCategory();
       },
       (error) => {
@@ -114,18 +112,19 @@ export class ListProductsComponent implements OnInit {
   }
 
   getListFiltered(filters: Filters) {
-    // console.log(btoa(JSON.stringify(filters)));
-    //this.location.replaceState('/shop/' + btoa(JSON.stringify(filters)));
-    //console.log(this.aRouter.snapshot.params.filters);
+    this.filters = filters;
+
     this._productoService.getListFiltered(filters).subscribe(
       (data) => {
         this.listProducts = data.products;
         this.dataIsListProducts(data.products);
+        console.log(data);
         this.totalPages = Array.from(
           new Array(Math.ceil(data.productCount / this.limit)),
           (val, index) => index + 1
         );
-        console.log(this.listProducts);
+        console.log(this.totalPages.length);
+        this.cd.markForCheck();
       },
       (error) => {
         this.notifyService.showWarning(
@@ -144,22 +143,12 @@ export class ListProductsComponent implements OnInit {
   dataIsListProducts(data: any) {
     for (let i: number = 0; i < data.length; i++) {
       data[i].price = this.numberFormat.format(data[i].price);
-      // console.log(data[i]);
     }
     this.listProducts = data; //ListProducts es un objeto Product[]
   }
 
-  ShowList(thisClass: boolean) {
-    this.classList = thisClass ? '' : 'list';
-  }
-
   setPageTo(pageNumber: number) {
     this.currentPage = pageNumber;
-    console.log("this.filters");
-    console.log(this.filters);
-    if (typeof this.routeFilters === 'string') {
-      this.refresRouteFilter();
-    }
 
     if (this.limit) {
       this.filters.limit = this.limit;

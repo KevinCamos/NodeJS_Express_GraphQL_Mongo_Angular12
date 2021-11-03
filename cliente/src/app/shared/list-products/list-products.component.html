@@ -1,38 +1,32 @@
-
-<app-search (searchEvent)="getListFiltered($event)" class="subheader" *ngIf="profile == false"></app-search>
-
-<app-filters (filterEvent)="getListFiltered($event)" [listCategories]="listCategories" *ngIf="profile == false"></app-filters>
-
-<div *ngIf="profile == false">
-  <br><br><br><br><br>
-</div>
-
-<div class="wrapper">
- 
-  <!-- Hay que crear una etiqueta con una classe con un margen de separación, para evitar el br br br br... -->
-
-  <div class="view">
-    <p>View as:</p>
-    <a class="icon-grid" (click)="ShowList(true)"></a>
-    <a class="icon-list" (click)="ShowList(false)"></a>
-  </div>
-
-  <div class="products category">
-    <ul class={{classList}}>
-      <li *ngFor="let product of listProducts">
-        <p>{{product.name}}</p>
-        <app-card-product [product]="product"></app-card-product>
-      </li>
-    </ul>
-  </div>
-
+  <app-search (searchEvent)="getListFiltered($event)" class="subheader" *ngIf="profile == false"></app-search>
   <br>
-  <nav>
-    <ul class="pagination">
-      <li class="page-item" [ngClass]="{'active': pageNumber === currentPage}"
-      *ngFor="let pageNumber of totalPages" (click)="setPageTo(pageNumber)">
-        <a class="">{{ pageNumber }}</a>
-      </li>
-    </ul>
-  </nav>
-</div>
+  <br>
+  <app-filters (filterEvent)="getListFiltered($event)" [listCategories]="listCategories" *ngIf="profile == false"></app-filters>
+
+  <div class="album py-3 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="listProducts.length != 0">
+        <div class="col" *ngFor="let product of listProducts">
+          <app-card-product [product]="product"></app-card-product>
+        </div>
+      </div>
+      <div *ngIf="listProducts.length == 0">
+        <h1 class="text-center">No hay productos</h1>
+      </div>
+    </div>
+
+    <nav class="d-flex justify-content-center mt-4"  *ngIf="listProducts.length != 0 && totalPages.length != 1"> 
+      <ul class="pagination pg-blue">
+        <li *ngIf="currentPage != 1" class="page-item" (click)="setPageTo(currentPage-1)">
+          <span class="page-link">Previous</span>
+        </li>
+        <li class="page-item" [ngClass]="{'active': pageNumber === currentPage}"
+        *ngFor="let pageNumber of totalPages" (click)="setPageTo(pageNumber)">
+          <span class="page-link">{{ pageNumber }}</span>
+        </li>
+        <li *ngIf="currentPage != totalPages[totalPages.length-1]" class="page-item" (click)="setPageTo(currentPage+1)">
+          <span class="page-link">Next</span>
+        </li>
+      </ul>
+    </nav>
+  </div>

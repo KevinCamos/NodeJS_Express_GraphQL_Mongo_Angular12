@@ -1,72 +1,119 @@
   <!-- product -->
-  <div class="product-content product-wrap clearfix product-deatil">
+  <section class="mb-2">
     <div class="row">
-      <div class="col-md-5 col-sm-12 col-xs-12">
-        <div class="product-image">
-
-          <div class="container">
-            <app-carousel [listImages]="images"></app-carousel>
+      <div class="col-md-6 ">
+        <div class="row product-gallery mx-1">
+          <div class="col-12 mb-0">
+            <figure class="view overlay rounded z-depth-1 main-img">
+              <!-- <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                data-size="710x823">
+                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                  class="img-fluid z-depth-1">
+                  
+              </a> -->
+              <app-carousel [listImages]="images"></app-carousel>
+            </figure>
           </div>
         </div>
-        <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
-          <h1 class="name">
-            {{product.name}}
-            <small>Producto por <a [routerLink]="['/profile', product.id_user]">{{product.id_user}}</a></small>
-          </h1>
-          <app-favorite [product]="product" (toggle)="onToggleFavorite($event)">
-            {{product.favorites}}
-          </app-favorite>
-          <hr />
-          <h3 class="price-container">
-            {{product.price}}
-            <small>*Gastos de envio gratuitos con Bualabob</small>
-          </h3>
-          <app-buy  [product]="product"></app-buy>
-          <hr />
-          <div class="description description-tabs">
-            <div id="myTabContent" class="tab-content">
-              <div class="tab-pane fade active in" id="more-information">
-                <br />
-                <strong>Descripción del producto</strong>
-                <p>
-                  {{product.description}}
-                </p>
-              </div>
-            </div>
-          </div>
-          <hr />
+      </div>
+  
+      <div class="col-md-6">
+        <h2 class="mt-4">{{product.name}}</h2>
+        <p class="mb-2 text-muted text-uppercase small">{{product.id_category}}</p>
+        <ul class="pagination">
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="fas fa-star fa-sm text-primary"></i>
+          </li>
+          <li>
+            <i class="far fa-star fa-sm text-primary"></i>
+          </li>
+        </ul>
+        <p><span class="mr-1"><strong>{{product.price}} €</strong></span></p>
+        <p class="pt-1">{{product.description}}</p>
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Location</strong></th>
+                <td>{{product.location}}</td>
+              </tr>
+              <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Slug</strong></th>
+                <td>{{product.slug}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="pl-0 w-25" scope="row"><strong>Author</strong></th>
+                <td><a [routerLink]="['/profile', product.id_user]">{{product.author}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <div class="d-flex align-content-center">
+          <app-favorite [product]="product" (toggle)="onToggleFavorite($event)"> {{product.favorites}} </app-favorite>
+          &nbsp;&nbsp;
+          <button type="button" class="btn btn-primary btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i> Buy now</button>
+          <app-buy [product]="product"></app-buy>
         </div>
       </div>
     </div>
-    <!-- end product -->
-    <!-- Preguntar a Yomogan que és let comment of comments; "trackBy: trackByFn"" -->
-    <h3>COMENTARIOS</h3>
-    <app-comments *ngFor="let comment of comments" [comment]="comment" (deleteComment)="onDeleteComment(comment)">
-    </app-comments>
-    <div *appShowAuthed="true">
-      <!-- <app-list-errors [errors]="commentFormErrors"></app-list-errors> -->
-      <form class="card comment-form" (ngSubmit)="addComment()">
-        <fieldset [disabled]="isSubmitting">
-          <div class="card-block">
-            <textarea class="form-control" placeholder="Write a comment..." rows="3" cols="50"
+  </section>
+  <!-- end product -->
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page">Comments</a>
+  </li>
+</ul>
+
+<div class="container mt-7">
+  <div class="d-flex justify-content-center row">
+    <div class="col-md-12">
+      <app-comments
+        *ngFor="let comment of comments"
+        [comment]="comment"
+        (deleteComment)="onDeleteComment(comment)">
+      </app-comments>
+
+      <div class="media g-mb-30 media-comment" *appShowAuthed="true">
+        <img  [routerLink]="['/profile', currentUser.username]" class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" [src]="'../../../assets/images/'+currentUser.image"  alt="Image Description">
+        <div class="media-body u-shadow-v18 bg-primary g-pa-30">
+          <form (ngSubmit)="addComment()">
+            <fieldset [disabled]="isSubmitting">
+              <textarea class="form-control ml-1 shadow-none textarea" placeholder="Write a comment..." rows="3" cols="50"
               [formControl]="commentControl"></textarea>
-          </div>
-          <div class="card-footer">
+              <div class="mt-2 text-right"><button class="btn btn-light text-primary btn-sm shadow-none" type="submit">Post comment</button><button class="btn btn-outline-light btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
 
-            <img [src]="'../../assets/images/'+currentUser.image" alt="user image" class="comment-author-img"
-              onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
-            <button type="submit">
-              Enviar comentario
-            </button>
-          </div>
-        </fieldset>
-      </form>
+      <div class="media g-mb-30 media-comment" *appShowAuthed="false">
+        <div class="media-body u-shadow-v18 bg-primary text-light g-pa-30 ">
+          <a class="text-dark text-decoration-none" [routerLink]="['/login']">Sign in</a> or <a class="text-dark text-decoration-none" [routerLink]="['/register']">sign up</a> to add comments on this
+          article.
+        </div>
+      </div>
     </div>
-    <div *appShowAuthed="false">
-      <a [routerLink]="['/login']">Sign in</a> or <a [routerLink]="['/register']">sign up</a> to add comments on this
-      article.
-    </div>
-
-
-
   </div>
+</div>
+
+
+
+

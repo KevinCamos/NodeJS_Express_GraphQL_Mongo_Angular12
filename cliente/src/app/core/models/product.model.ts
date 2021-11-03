@@ -1,7 +1,6 @@
 import { Profile } from "./profile.model";
 
 export class Product {
-
   _id?: number;
   name?: string;
   description?: string;
@@ -18,7 +17,6 @@ export class Product {
   slug?: string;
   images: string[];
   author?: Profile;
-
 
   constructor(
     _id: number,
@@ -37,7 +35,6 @@ export class Product {
     slug?: string,
     images?: string[],
     author?: Profile
-
   ) {
     this.name = name;
     this.description = description;
@@ -51,10 +48,8 @@ export class Product {
     this.id_user = id_user ? id_user : 'undefined';
     this.creationDate = creationDate;
     this.updateDate = updateDate;
-
     this.slug = slug;
     this.images = images? images: ["error"];
-
     this.author = author;
   }
 }

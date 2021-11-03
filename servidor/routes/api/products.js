@@ -89,8 +89,7 @@ router.get("/", auth.optional, async (req, res) => {
       return varQuery != "undefined" && varQuery ? varQuery : otherResult;
     };
 
-    // let limit = transUndefined(req.query.limit, 6);
-    let limit = 3;
+    let limit = transUndefined(req.query.limit, 3);
     let offset = transUndefined(req.query.offset, 0);
     let name = transUndefined(req.query.name, "");
     let location = transUndefined(req.query.location, "");
@@ -140,7 +139,7 @@ router.get("/", auth.optional, async (req, res) => {
       products: products.map(function (product) {
         return product.toJSONFor(user);
       }),
-      productCount: productCount / limit,
+      productCount: productCount,
     });
   } catch (error) {
     console.log(error);
@@ -238,6 +237,11 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
+console.log(req.product);
+  User.findById(req.product.id_user).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+        user.updateKarmaSave(10, user);
+  }).catch(next);
 
   User.findById(req.payload.id)
     .then(function (user) {
@@ -258,31 +262,32 @@ router.post("/:slug/favorite", auth.required, function (req, res, next) {
 
 router.delete("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
-  console.log(req.payload);
-  User.findById(req.payload.id)
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(401);
-      }
 
-      return user.unfavorite(productId).then(function () {
-        return req.product.favoriteCount().then(function (product) {
-          return res.json({ product: product.toJSONFor(user) });
-        });
+  User.findById(req.product.id_user).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+        user.updateKarmaSave(-10, user);
+  }).catch(next);
+
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+  
+    return user.unfavorite(productId).then(function(){
+      return req.product.favoriteCount().then(function(product){
+        return res.json({product: product.toJSONFor(user)});
       });
-    })
-    .catch(next);
+    });
+  }).catch(next);
 });
 
 /* COMENTARIOS */
 
-// return an article's comments
+// return an product comments
 router.get("/:product/comments", auth.optional, function (req, res, next) {
   var productSlug = req.params.product;
 
-  // <<<<<<< HEAD
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
     .then(function (user) {
+  
       Product.findOne({ slug: productSlug })
         .populate({
           path: "comments",
@@ -320,7 +325,7 @@ router.post(
       await User.findById(req.payload.id)
         .then(function (user) {
           if (!user) return res.sendStatus(401);
-
+          user.updateKarmaSave(5, user);
           //console.log(req.body)
           var comment = new Comment(req.body.comment);
           //console.log(comment)
@@ -353,7 +358,13 @@ router.delete(
   async function (req, res, next) {
     let idComment = req.params.comment;
     let productSlug = req.params.article;
-    try {
+
+    try{
+      User.findById(req.payload.id).then(function(user){
+        if (!user) { return res.sendStatus(401); }
+            user.updateKarmaSave(-5, user);
+      }).catch(next);
+
       await Comment.findById(idComment).then(function (comment) {
         if (!comment) return res.sendStatus(404);
         console.log(comment);
@@ -375,8 +386,9 @@ router.delete(
           res.sendStatus(403);
         }
 
-        //FI FUNCIÓ AMB EL COMENTARI
+          //FI FUNCIÓ AMB EL COMENTARI  
       });
+
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");

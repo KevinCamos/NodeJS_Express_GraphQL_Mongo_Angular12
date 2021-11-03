@@ -1,16 +1,26 @@
 <section class="container">
-  <h1>Editar Perfil</h1>
-  <form [formGroup]="settingsForm" (ngSubmit)="submitForm()">
+  <h1 class="text-center">Editar Perfil</h1>
+  <form class="d-flex justify-content-center" [formGroup]="settingsForm" (ngSubmit)="submitForm()">
     <fieldset [disabled]="isSubmitting">
-      <legend>   <img [src]="'../../../../assets/images/'+user.image"   [routerLink]="['/profile', user.username]"  class="image-user"   onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'"/>
+      <legend>   
+        <img [src]="'../../../../assets/images/'+user.image" [routerLink]="['/profile', user.username]"  class="rounded-circle w-25 h-25 mx-auto d-block"   onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'"/>
       </legend>
-      <input class="form-control" id="inputFile" accept="image/png,  image/jpeg" type="file"
-        placeholder="URL of profile picture" />
-      <input type="text" placeholder="Username" formControlName="username" />
-      <textarea rows="8" placeholder="Short bio about you" formControlName="bio"></textarea>
-      <input type="email" placeholder="Email" formControlName="email" />
-      <input type="password" placeholder="New Password" formControlName="password" />
-      <button type="submit">
+      <div class="form-group">
+        <input class="form-control" id="inputFile" accept="image/png,  image/jpeg" type="file" placeholder="URL of profile picture" />
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text" placeholder="Username" formControlName="username" />
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" rows="8" placeholder="Short bio about you" formControlName="bio"></textarea>
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="email" placeholder="Email" formControlName="email" />
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="password" placeholder="New Password" formControlName="password" />
+      </div>
+      <button class="btn btn-primary" type="submit">
         Modificar Datos
       </button>
     </fieldset>

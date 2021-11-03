@@ -13,14 +13,15 @@ const CategorySchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  icon: {
+    type: String
+  },
   name_category: {
     type: String,
     required: true,
   },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 });
-
-
 
 CategorySchema.plugin(uniqueValidator, { message: "is already taken" });
 
@@ -41,15 +42,13 @@ CategorySchema.methods.slugify = function () {
     slug(this.name_category);
 };
 
-
 CategorySchema.methods.toListJSONFor = function () {
   return {
     reference: this.reference,
     name_category: this.name_category,
     slug: this.slug,
+    icon: this.icon
   };
 };
-
-
 
 module.exports = mongoose.model("Category", CategorySchema);

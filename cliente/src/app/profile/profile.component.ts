@@ -63,7 +63,6 @@ console.log(this.profile.valoration)
         (data) => {
           this.profile = data;
           this.isUser = this.currentUser.username === this.profile.username;
-
           this.cd.markForCheck();
         },
         (error) => {

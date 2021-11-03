@@ -37,6 +37,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AuthModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     // Toastr
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

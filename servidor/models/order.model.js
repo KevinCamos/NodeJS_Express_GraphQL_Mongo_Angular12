@@ -15,6 +15,7 @@ const OrderSchema = mongoose.Schema({
     default: Date.now(),
   },
 });
+
 OrderSchema.methods.createOrder = function (product, userBuyer) {
   console.log(product.author._id);
   if (userBuyer._id === product.author._id) {

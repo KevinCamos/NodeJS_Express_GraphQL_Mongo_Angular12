@@ -70,7 +70,6 @@ const ProductSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
@@ -130,7 +129,7 @@ ProductSchema.methods.toJSONFor = function (user) {
     favorited: user ? user.isFavorite(this._id) : false,
     creationDate: this.creationDate,
     updateDate: this.updateDate,
-    /* author: this.author.toProfileJSONFor(user) */
+/*     author: this.author.toProfileJSONFor(id_user) */
   };
 };
 

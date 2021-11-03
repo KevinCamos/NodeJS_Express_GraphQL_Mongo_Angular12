@@ -34,6 +34,7 @@ const UserSchema = mongoose.Schema(
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    karma: {type: Number, default: 0}
   },
   { timestamps: true }
 );
@@ -78,6 +79,65 @@ UserSchema.methods.generateJWT = function () {
   );
 };
 
+/* Favorite */
+UserSchema.methods.favorite = function (id) {
+  if (this.favorites.indexOf(id) === -1) {
+    this.favorites.push(id);
+  }
+  return this.save();
+};
+
+UserSchema.methods.unfavorite = function (id) {
+  this.favorites.remove(id);
+  return this.save();
+};
+
+UserSchema.methods.isFavorite = function (id) {
+  return this.favorites.some(function (favoriteId) {
+    return favoriteId.toString() === id.toString();
+  });
+};
+
+/* Follow */
+UserSchema.methods.follow = function (id, userFollow) {
+  if (userFollow.followers.indexOf(this._id) === -1) {
+    userFollow.followers.push(this._id);
+  }
+  userFollow.save();
+  
+  if (this.following.indexOf(id) === -1) {
+    this.following.push(id);
+  }
+  return this.save();
+};
+
+UserSchema.methods.unfollow = function (id, userFollowed) {
+
+  userFollowed.followers.remove(this._id);
+  userFollowed.save();
+  
+  this.following.remove(id);
+  return this.save();
+};
+
+UserSchema.methods.isFollowing = function (id) {
+  return this.following.some(function (followId) {
+    return followId.toString() === id.toString();
+  });
+};
+
+/* Karma */
+UserSchema.methods.updateKarma = function (qty, userKarma) {
+  userKarma.karma = userKarma.karma + qty;
+};
+
+UserSchema.methods.updateKarmaSave = function (qty, userKarma) {
+  userKarma.karma = userKarma.karma + qty;
+  return userKarma.save();
+};
+
+/* toJSONFor  */
+
 UserSchema.methods.toAuthJSON = function () {
   return {
     username: this.username,
@@ -106,7 +166,7 @@ UserSchema.methods.toProfileJSONFor = function (user) {
   };
 };
 
-UserSchema.methods.toProfileJSONFollowers = function (users,valoration, user) {
+UserSchema.methods.toProfileJSONFollowers = function (users, valoration, user) {
   var followers = new Array();
   users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor()));
   console.log(this.followers);
@@ -123,59 +183,16 @@ UserSchema.methods.toProfileJSONFollowers = function (users,valoration, user) {
     following: users,
     followers: this.followers,
     isFollow: user ? user.isFollowing(this._id) : false,
-    valoration:valoration
+    valoration: valoration,
+    karma: this.karma
   };
 };
 
-/* Favorite */
-UserSchema.methods.favorite = function (id) {
-  if (this.favorites.indexOf(id) === -1) {
-    this.favorites.push(id);
-  }
-  return this.save();
-};
-
-UserSchema.methods.unfavorite = function (id) {
-  this.favorites.remove(id);
-  return this.save();
-};
-
-UserSchema.methods.isFavorite = function (id) {
-  return this.favorites.some(function (favoriteId) {
-    return favoriteId.toString() === id.toString();
-  });
-};
-
-/* Follow */
-UserSchema.methods.follow = function (id, userFollow) {
-  /*   console.log(userFollow);
-  console.log(userFollow.followers.indexOf(this._id) === -1, 1); */
-  if (userFollow.followers.indexOf(this._id) === -1) {
-    userFollow.followers.push(this._id);
-  }
-  userFollow.save();
-  /*   console.log(userFollow);
-  console.log(this.following.indexOf(id) === -1, 1); */
-  if (this.following.indexOf(id) === -1) {
-    this.following.push(id);
-  }
-  return this.save();
-};
-
-UserSchema.methods.unfollow = function (id, userFollowed) {
-  console.log(this.id);
-  // console.log(userFollowed,"eh")
-  userFollowed.followers.remove(this._id);
-  // userFollowed.following.remove(id)
-  userFollowed.save();
-  this.following.remove(id);
-  return this.save();
-};
-
-UserSchema.methods.isFollowing = function (id) {
-  return this.following.some(function (followId) {
-    return followId.toString() === id.toString();
-  });
+UserSchema.methods.toProfileJSONForFollow = function (user) {
+  return {
+    username: this.username,
+    image: this.image || "bbyoda.png",
+  };
 };
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,108 +1,104 @@
-<section class="container">
-  <div class="profileUser">
-    <fieldset>
-      <legend><img [src]="'../../assets/images/'+profile.image" class="image-user"
-          onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
-      </legend>
+¡
+<div class="container-m-nx container-m-ny theme-bg-white mb-4">
+  <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
+    <img [src]="'../../assets/images/'+profile.image" alt="" class="d-block ui-w-100 rounded-circle">
+    <div class="media-body ml-5">
+      <h4 class="font-weight-bold mb-4">{{profile.username | uppercase}}</h4>
 
-      <div class="name">
-        <h1>{{profile.username | uppercase}}
-          <p>
-            <app-rating [value]="profile.valoration" [update]="false"></app-rating>
-          </p>
-          <p>
-            <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
-            </fa-icon>
-          </p>
-
-          <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)">
-          </app-follow>
-        </h1>
-
+      <div class="text-muted mb-4">
+        {{profile.bio }}
       </div>
+      
+      <a href="javascript:void(0)" class="d-inline-block text-body">
+        <strong>{{profile.followers.length}}</strong>
+        <span class="text-muted"> followers</span>
+      </a>
+      <a href="javascript:void(0)" class="d-inline-block text-body ml-3">
+        <strong>{{profile.following.length}}</strong>
+        <span class="text-muted"> following</span>
+      </a>
+      
+      &nbsp;
 
-      <div class="bio"><label>{{profile.bio }}</label></div>
-    </fieldset>
+      <app-rating [value]="profile.valoration" [update]="false"></app-rating>
 
+      <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
+      </fa-icon>
+      
+      <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)">
+      </app-follow>
+    </div>
   </div>
-</section>
+  <hr class="m-0">
+</div>
 
-<section class="container">
-  <div class="profileUser">
-    <fieldset>
-      <legend><img [src]="'../../assets/images/'+profile.image" class="image-user"
-          onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
-      </legend>
-
-      <div class="name">
-        <h2>{{profile.following.length+" FOLLOWING"}}</h2>
+<div class="profile-content">
+  <h4>Following</h4>
+  <div class="row">
+      <div class="col-xl-12">
+          <div class="tab-content p-0">
+              <div class="tab-pane fade active show" id="profile-followers">
+                  <div class="list-group" *ngFor="let follow of profile.following">
+                      <div class="list-group-item d-flex align-items-center">
+                          <img [src]="'../../assets/images/'+follow.image" [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
+                          <div class="flex-fill pl-3 pr-3">
+                              <div><a class="text-dark font-weight-600" [routerLink]="['/profile', follow.username]">{{follow.username}}</a></div>
+                          </div>
+                          <app-follow [profile]="follow" (toggle)="onToggleFollowing($event)"></app-follow>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
-
-
-      <ul id="list">
-        <label>{{profile.following.length+" FOLLOWING"}}</label>
-        <li *ngFor="let follow of profile.following " class="list-item">
-          <div>
-            <img [src]="'../../assets/images/'+follow.image" class="list-item-image"
-              [routerLink]="['/profile', follow.username]">
-          </div>
-          <div class="list-item-content">
-            <h4 [routerLink]="['/profile', follow.username]">{{follow.username}}</h4>
-
-          </div>
-        </li>
-      </ul>
-
-    </fieldset>
-
   </div>
-</section>
-
-
-<section class="container">
-  <div class="profileUser">
-    <fieldset>
-      <legend><img [src]="'../../assets/images/'+profile.image" class="image-user"
-          onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
-      </legend>
-
-      <div class="name">
-        <h2>{{profile.followers.length+" FOLLOWERS"}}</h2>
-      </div>
-
-
-
-      <ul id="list">
-        <label>{{profile.followers.length+" FOLLOWERS"}}</label>
-        <li *ngFor="let follow of profile.followers " class="list-item">
-          <div>
-            <img [src]="'../../assets/images/'+follow.image" class="list-item-image"
-              [routerLink]="['/profile', follow.username]"
-              onerror="this.src='https://imagenes.lainformacion.com/files/image_606_387/uploads/imagenes/2019/12/17/5df8c3ce1b117.jpeg'" />
-          </div>
-
-
-          <div class="list-item-content">
-            <h4 [routerLink]="['/profile', follow.username]">{{follow.username}}</h4>
-
-          </div>
-        </li>
-      </ul>
-
-
-    </fieldset>
-
-  </div>
-</section>
+</div>
 
 <br>
-<a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-  [routerLink]="['/profile', profile.username]">
-  My Products
-</a>
-<a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-  [routerLink]="['/profile', profile.username, 'favorites']">
-  My Favorite Products
-</a>
+
+<div class="profile-content">
+  <h4>Followers</h4>
+  <div class="row">
+      <div class="col-xl-12">
+          <div class="tab-content p-0">
+              <div class="tab-pane fade active show" id="profile-followers">
+                  <div class="list-group" *ngFor="let follow of profile.followers">
+                      <div class="list-group-item d-flex align-items-center">
+                          <img [src]="'../../assets/images/'+follow.image" [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
+                          <div class="flex-fill pl-3 pr-3">
+                              <div><a class="text-dark font-weight-600" [routerLink]="['/profile', follow.username]">{{follow.username}}</a></div>
+                          </div>
+                          <app-follow [profile]="follow" (toggle)="onToggleFollowing($event)"></app-follow>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<br>
+
+<div class="profile-content mb-3">
+  <div class="row">
+    <div class="col-6 d-flex justify-content-center">
+      <a class="nav-link text-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="['/profile', profile.username]">
+        My Products
+      </a>
+    </div>
+    <div class="col-6 d-flex justify-content-center">
+      <a class="nav-link text-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="['/profile', profile.username, 'favorites']">
+        My Favorite Products
+      </a>
+    </div>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
+
+
+

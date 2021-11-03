@@ -12,7 +12,7 @@ export class FiltersComponent {
   name: string;
   location: string;
   priceMin: number | undefined;
-  priceMax: number;
+  priceMax: number | undefined;
   ref_category: number;
   routeFilters: string | null;
   filters: Filters;
@@ -22,26 +22,22 @@ export class FiltersComponent {
   @Input() listCategories: Category[];
   @Output() filterEvent: EventEmitter<Filters> = new EventEmitter();
 
-  constructor(private aRouter: ActivatedRoute, private fb: FormBuilder) {
+  constructor(
+    private aRouter: ActivatedRoute, 
+    private fb: FormBuilder
+  ) {
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');
-  //   this.filterForm = this.fb.group({
-  //     mySelect: [
-  //   //     this.listCategories[0].reference,
-  //   //     [
-  //   //       /* Validators here */
-  //   //     ],
-  //   //   ],
-  //   });
   }
 
   public whatsPrice(priceMin: number, priceMax: number) {
     if (typeof priceMin == 'number' && typeof priceMax == 'number') {
-      if (priceMin >= priceMax && priceMax !== 0) {
-        priceMin = priceMax;
-        priceMax = priceMin + 10;
+      if(priceMin > priceMax){
+        this.priceMin = priceMin;
+        this.priceMax = undefined;
+      }else{
+        this.priceMin = priceMin;
+        this.priceMax = priceMax;
       }
-      this.priceMin = priceMin;
-      this.priceMax = priceMax;
     }
   }
 
@@ -55,6 +51,7 @@ export class FiltersComponent {
       if (filters === this.filters) this.searchEmit();
     }, 200);
   }
+
   public changeEvent(value: any) {
     if (this.routeFilters) {
       this.filters = JSON.parse(atob(this.routeFilters));
@@ -75,13 +72,13 @@ export class FiltersComponent {
     }
 
     this.filters.priceMin = this.priceMin ? this.priceMin : undefined;
-    this.filters.priceMax = this.priceMax == 0 ? undefined : this.priceMax;
+    this.filters.priceMax = this.priceMax == 0 || this.priceMax == null ? undefined : this.priceMax;
     // this.filters.category = this.ref_category ? this.ref_category : undefined;
-    //console.log(this.filters);
     this.filters.offset = 0;
 
     this.checkTime(this.filters);
   }
+  
   searchEmit() {
     this.filterEvent.emit(this.filters);
   }

@@ -8,6 +8,7 @@ export class Filters {
   category?: number;
   favorited?: string;
   author?: string;
+  
   constructor(
     limit?: number,
     offset?: number,
@@ -19,7 +20,7 @@ export class Filters {
     favorited?: string,
     author?: string
   ) {
-    this.limit = limit || 1;
+    this.limit = limit || 3;
     this.offset = offset || 0;
     this.name = name;
     this.location = location;

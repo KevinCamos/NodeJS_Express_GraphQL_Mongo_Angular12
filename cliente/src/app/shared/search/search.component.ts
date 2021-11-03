@@ -28,11 +28,8 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.routeFilters);
-    // this.router.url.split("/")[1]
     this.filtersForRoute();
     this.searchValue = this.filters.name || undefined;
-    //console.log(this.searchValue);
   }
 
   getList() {
@@ -40,7 +37,7 @@ export class SearchComponent implements OnInit {
     this._productoService.getNamesForProducts(this.search).subscribe(
       (data) => {
         this.productList = data;
-        //console.log(data);
+        console.log(data);
       },
       (error) => {
         console.log(error);
@@ -58,29 +55,19 @@ export class SearchComponent implements OnInit {
     setTimeout(() => {
       if (writtingValue === this.search) {
         if (isShop === 'shop') {
-          //console.log(isShop);
-
-          //console.log('entra');
-          btoa(JSON.stringify(this.filters));
           this.notNamefilters();
-          this.location.replaceState(
-            '/shop/' + btoa(JSON.stringify(this.filters))
-          );
-
           this.searchEvent.emit(this.filters);
-        } else if (this.search.length != 0) {
-          this.getList();
-        }
+        } 
+        if (this.search.length != 0)  this.getList();
       }
     }, 200);
   }
 
   public keyEnterEvent(data: any): void {
     if (typeof data.searchValue === 'string') {
-      //console.log(data.searchValue);
       this.filters.name = data.searchValue;
       this.filters.offset = 0;
-      this.router.navigate(['/shop/' + btoa(JSON.stringify(this.filters))]);
+      this.searchEvent.emit(this.filters);
     }
   }
 

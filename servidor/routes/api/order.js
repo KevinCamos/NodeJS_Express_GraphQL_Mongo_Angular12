@@ -44,6 +44,9 @@ router.get("/", auth.required, async function (req, res, next) {
 
 /* COMPRAR UN PRODUCTE */
 router.post("/:slug", auth.required, async function (req, res, next) {
+  console.log("------------------------------");
+  console.log(req.product);
+  console.log("------------------------------");
   console.log(req.payload, req.product.author, req.product.status === true);
   // res.json(req.product);
   try {
