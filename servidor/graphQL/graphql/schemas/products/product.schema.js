@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Product {
-    id: Int!
+    id: String
     slug: String
     name: String!
     description: String
@@ -16,15 +16,14 @@ const typeDefs = gql`
     images: [String]
     favorites: Int
     favorited: Boolean
-    author: [Int]
-    Comment: [Int]
+    author: String
+    Comment: [String]
   }
   input newProductInput {
     name: String!
     id_category: Int!
     price: Int!
     location: String!
-
   }
 
   type Query {

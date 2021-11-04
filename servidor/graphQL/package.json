@@ -24,7 +24,7 @@
     "graphql": "^14.5.8",
     "mongoose": "^6.0.12",
     "mongoose-unique-validator": "^3.0.0",
-    "node-fetch": "^3.0.0",
+    "node-fetch": "^2.0.0",
     "nodemon": "^2.0.14",
     "slug": "^5.1.0"
   },

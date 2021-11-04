@@ -6,6 +6,7 @@ var auth = require("../auth");
 
 /* GET USER TOKEN (SETTINGS) */
 router.get("/user", auth.required, function (req, res, next) {
+  console.log(req.payload);
   User.findById(req.payload.id)
     .then(function (user) {
       if (!user) {
@@ -16,7 +17,19 @@ router.get("/user", auth.required, function (req, res, next) {
     })
     .catch(next);
 });
+/* Get desde el servidor GraphQL */
+router.get("/user-token-gql", auth.required, function (req, res, next) {
+  console.log(req.payload);
+  User.findById(req.payload.id)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
 
+      return res.json(user);
+    })
+    .catch(next);
+});
 /* UPDATE USER (SETTINGS) */
 router.put("/user", auth.required, function (req, res, next) {
   User.findById(req.payload.id)
@@ -24,7 +37,7 @@ router.put("/user", auth.required, function (req, res, next) {
       if (!user) {
         return res.sendStatus(401);
       }
-        /* MILLORA DE CODI  */
+      /* MILLORA DE CODI  */
       user.username = req.body.user.username || user.username;
       user.email = req.body.user.email || user.email;
       user.bio = req.body.user.bio || user.bio;
@@ -41,7 +54,6 @@ router.put("/user", auth.required, function (req, res, next) {
 /*LOGIN*/
 router.post("/users/login", async (req, res, next) => {
   try {
-
     if (!req.body.user.email) {
       await res.status(422).json({ errors: { email: "can't be blank" } });
     }
@@ -50,7 +62,10 @@ router.post("/users/login", async (req, res, next) => {
       await res.status(422).json({ errors: { password: "can't be blank" } });
     }
 
-    passport.authenticate("local", { session: false }, function (err, user, info) {
+    passport.authenticate(
+      "local",
+      { session: false },
+      function (err, user, info) {
         if (err) {
           console.log("err");
           return next(err);
