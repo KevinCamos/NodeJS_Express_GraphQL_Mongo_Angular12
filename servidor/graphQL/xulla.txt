@@ -24,27 +24,21 @@ ____________________________________
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-NO VA!
 mutation addProduct($input: newProductInput) {
   addProduct(product: $input) {
-   name
+    name
+    slug
+    price
+    
   }
 }
 
+
 {
   "input": {
-    "name": "GraphPrueba",
-    "id_category": "0"
+    "name": "GraphPrueba38",
+    "id_category":0,
+   "price": 5,
+    "location":"Ontinyent"
   }
 }

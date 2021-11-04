@@ -73,8 +73,7 @@ const ProductSchema = mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
-
-ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
+ ProductSchema.plugin(uniqueValidator, { message: "is already taken" });
 
 //https://mongoosejs.com/docs/middleware.html#pre schema.pre is a middleware function
 
@@ -94,6 +93,7 @@ ProductSchema.methods.slugify = function () {
     slug(this.name) +
     "-" +
     ((Math.random() * Math.pow(36, 6)) | 0).toString(36);
+
 };
 
 ProductSchema.methods.lowercase = function () {

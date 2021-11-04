@@ -5,13 +5,15 @@ const getAllProducts = () => Product.find({}).exec();
 
 const getAProduct = (root, { slug }, context) => Product.findOne({ slug: slug }).exec();
 
-const createNewProduct =async  (root, { product }) => {
-  new Product(product);
- await  Product.save();
- return Product
+const createNewProduct =async  (root, { product },context) => {
+  console.log(root,product,context)
+
+ let myproduct= new Product(product);
+ await  myproduct.save();
+ return myproduct
 };
 
-module.exports = {
+const resolvers= {
   Query: {
     products: getAllProducts,
     product: getAProduct,
@@ -20,6 +22,4 @@ module.exports = {
     addProduct: createNewProduct,
   },
 };
-// productsCount: Int!
-// products: [Product]!
-// product(slug: String!): Product
+module.exports= resolvers
