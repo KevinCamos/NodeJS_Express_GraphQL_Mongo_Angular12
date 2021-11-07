@@ -21,13 +21,10 @@ const server = new ApolloServer({
   context: async ({ req }) => {
 
     let user = null;
-  /*   console.log("Authorization content", req.headers.authorization)
-    console.log(typeof( req.headers.authorization)!=="undefined")
-    console.log("req.payload",req.payload) */
-    // if (req.payload) {
+   console.log("Authorization content", req.headers.authorization)
+ 
       if (typeof( req.headers.authorization)!=="undefined") {
-/*         console.log(req.payload)
- */        //nos conectamos al api rest pasando el token por headers para recojer la informacion de ese user.
+      //nos conectamos al api rest pasando el token por headers para recojer la informacion de ese user.
         user = await request.get_user_token(req.headers.authorization.split(' ')[1]);
 
     } // else do nothing and let user be null

@@ -26,10 +26,7 @@ router.param("slug", async (req, res, next, slug) => {
 router.get("/:slug", async (req, res) => {
   if (!req.product) {
     try {
-      console.log("No ha trobat res a 'param'-'slug' i ha entrat ací");
-
       let product = await Product.findOne({ slug: req.params.slug });
-
       if (!product) {
         res.status(404).json({ msg: "No existe el product" });
       }

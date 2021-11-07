@@ -12,27 +12,47 @@ const typeDefs = gql`
     price: Int!
     creationDate: String
     updateDate: String
-    id_user: String
     images: [String]
     favorites: Int
     favorited: Boolean
     author: String
     Comment: [String]
   }
+  type Delete {
+    data: Boolean
+  }
   input newProductInput {
-    name: String!
-    id_category: Int!
-    price: Int!
-    location: String!
+    name: String
+    description: String
+    id_category: Int
+    location: String
+    price: Int
+    creationDate: String
+    updateDate: String
+    images: [String]
   }
 
+
+  input updateProductInput {
+    slug: String!
+    name: String
+    description: String
+    id_category: Int
+    location: String
+    price: Int
+    creationDate: String
+    updateDate: String
+    images: [String]
+  }
   type Query {
-    products: [Product]
-    product(slug: String!): Product
+    getProducts: [Product]
+    getProduct(slug: String!): Product
   }
 
   type Mutation {
     addProduct(product: newProductInput): Product
+    updateProduct(product: updateProductInput): Product
+    deleteProduct(slug: String!): Boolean
   }
   
 `;
