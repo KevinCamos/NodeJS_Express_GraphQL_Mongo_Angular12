@@ -15,7 +15,7 @@ export class Product {
   updateDate?: Date;
   creationDate?: Date;
   slug?: string;
-  images: string[];
+  images?: string[];
   author?: Profile;
 
   constructor(

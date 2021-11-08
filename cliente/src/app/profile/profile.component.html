@@ -79,7 +79,7 @@
 
 <div class="profile-content mb-3">
   <div class="row">
-    <div class="col-6 d-flex justify-content-center">
+    <div class="col-4 d-flex justify-content-center">
       <a class="nav-link text-dark"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -87,12 +87,20 @@
         My Products
       </a>
     </div>
-    <div class="col-6 d-flex justify-content-center">
+    <div class="col-4 d-flex justify-content-center">
       <a class="nav-link text-dark"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         [routerLink]="['/profile', profile.username, 'favorites']">
         My Favorite Products
+      </a>
+    </div>
+    <div class="col-4 d-flex justify-content-center">
+      <a class="nav-link text-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLink]="['/profile', profile.username, 'newProduct']">
+        Create Product
       </a>
     </div>
   </div>

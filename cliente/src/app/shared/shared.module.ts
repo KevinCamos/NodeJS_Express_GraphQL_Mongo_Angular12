@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CategoriesComponent } from './categories/categories.component';
 import { ListProductsComponent } from './list-products/list-products.component';
@@ -21,8 +22,7 @@ import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites
 import { ProfileProductsComponent } from './profile-products/profile-products.component';
 import { BuyComponent } from './buy/buy.component';
 import { RatingComponent } from './rating/rating.component';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreateProductComponent } from './create-product/create-product.component';
 
 @NgModule({
   imports: [
@@ -51,6 +51,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommentsComponent,
     BuyComponent,
     RatingComponent,
+    CreateProductComponent,
   ],
   exports: [
     CategoriesComponent,
@@ -72,6 +73,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommentsComponent,
     BuyComponent,
     RatingComponent,
+    CreateProductComponent,
   ],
 })
 export class SharedModule {}

@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // importart toastr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+// importart bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +18,8 @@ import { CoreModule } from './core/core.module';
 import { FooterComponent, HeaderComponent, SharedModule } from './shared';
 import { AuthModule } from './auth/auth.module';
 import { PurchasedComponent } from './purchased/purchased.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GraphQLModule } from './graphql/graphql.module';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CoreModule,
     SharedModule,
+    GraphQLModule,
    //modulos que importamos al proyecto
     BrowserModule,
     AppRoutingModule,
