@@ -38,7 +38,7 @@ mutation addProduct($input: newProductInput) {
   "input": {
     "name": "GraphPrueba38",
     "id_category":0,
-   "price": 5,
+    "price": 5,
     "location":"Ontinyent"
   }
 }

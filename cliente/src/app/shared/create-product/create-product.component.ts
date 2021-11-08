@@ -20,12 +20,8 @@ export class CreateProductComponent implements OnInit {
   titulo = 'Crear producto';
   
   constructor(
-    private router: Router,
     private graphqlService: GraphqlService,
-    private userService: UserService,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef,
     private notifyService: NotificationService
   ) {
     this.productForm = this.fb.group({
@@ -57,7 +53,6 @@ export class CreateProductComponent implements OnInit {
   }
 
   addProduct() {
-
     const PRODUCT: Product = {
       name: this.productForm.get('product')?.value,
       id_category: this.productForm.get('id_category')?.value,
@@ -65,13 +60,8 @@ export class CreateProductComponent implements OnInit {
       price: this.productForm.get('price')?.value,
     };
 
-    console.log(PRODUCT);
-
     this.graphqlService.addProduct(PRODUCT).subscribe(
     (data) => {
-      console.log(data);
-      /* this.listProducts = data.data.product;
-      console.log(this.listProducts); */
       this.notifyService.showInfo('Este producto ha sido guardado con éxito', '¡Producto guardado!');
     },
     (error) => {
