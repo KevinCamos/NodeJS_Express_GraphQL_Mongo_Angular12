@@ -52,7 +52,9 @@ router.get("/:slug", auth.optional, async (req, res) => {
         product = await isFavorite(idUser, product);
         res.json(product);
       } else {
-        res.json(product.toDetailsJSONFor());
+        product.toDetailsJSONFor().then(function (productJSON) {
+          res.json(productJSON);
+        });
       }
     } catch (error) {
       console.log(error);
@@ -63,8 +65,11 @@ router.get("/:slug", auth.optional, async (req, res) => {
       product = await isFavorite(idUser, product);
       res.json(product);
     } else {
-      res.json(product.toDetailsJSONFor());
-    }
+      console.log("entra");
+      console.log(product.toDetailsJSONFor());
+      product.toDetailsJSONFor().then(function (productJSON) {
+        res.json(productJSON);
+      });    }
   }
 });
 
