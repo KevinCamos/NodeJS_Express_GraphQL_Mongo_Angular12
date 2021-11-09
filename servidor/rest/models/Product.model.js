@@ -129,12 +129,13 @@ ProductSchema.methods.toDetailsJSONFor =  async function (user) {
     { $group: { _id: "id_user_seller", media: { $avg: "$valoration" } } },
   ])
   console.log(valoration, "valoration")
+  console.log(this.author._id, "this.author")
     if (valoration[0]) {
       valoration = valoration[0].media ? valoration[0].media : 0;
     } else {
        valoration = 0;
     }
-
+console.log(valoration)
 
     /*  console.log(user); */
     return {
