@@ -30,7 +30,7 @@ export class FollowComponent {
 
   toggleFollowing() {
     this.isSubmitting = true;
-    console.log(this.profile.isFollow.toString());
+    console.log(this.profile);
     this.userService.isAuthenticated
       .pipe(
         concatMap((authenticated) => {

@@ -1,4 +1,3 @@
-¡
 <div class="container-m-nx container-m-ny theme-bg-white mb-4">
   <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
     <img [src]="'../../assets/images/'+profile.image" alt="" class="d-block ui-w-100 rounded-circle">
@@ -28,11 +27,9 @@
       
       &nbsp;
 
-      <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
-      </fa-icon>
+      <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser"></fa-icon>
       
-      <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)">
-      </app-follow>
+      <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)"></app-follow>
     </div>
   </div>
   <hr class="m-0">

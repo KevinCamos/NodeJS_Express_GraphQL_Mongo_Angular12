@@ -62,6 +62,7 @@ export class ProfileComponent implements OnInit {
       this.profileService.get(profile.username).subscribe(
         (data) => {
           this.profile = data;
+          console.log(this.profile);
           this.isUser = this.currentUser.username === this.profile.username;
           this.cd.markForCheck();
         },

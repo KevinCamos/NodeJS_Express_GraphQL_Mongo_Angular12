@@ -148,10 +148,15 @@ UserSchema.methods.toAuthJSON = function () {
   };
 };
 
-UserSchema.methods.toProfileJSONSimpleFor = function () {
+UserSchema.methods.toProfileJSONSimpleFor = function (user) {
+  console.log("-----------------------------------");
+  console.log(user.isFollowing(this._id));
+  console.log(user.following);
+  console.log("-----------------------------------");
   return {
     username: this.username,
     image: this.image || "bbyoda.png",
+    isFollow: user ? user.isFollowing(this._id) : false
   };
 };
 
@@ -166,12 +171,12 @@ UserSchema.methods.toProfileJSONFor = function (user) {
   };
 };
 
-UserSchema.methods.toProfileJSONFollowers = function (users, valoration, user) {
+UserSchema.methods.toProfileJSONFollowers = function (users, valoration, userJWT) {
   var followers = new Array();
-  users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor()));
-  console.log(this.followers);
+  users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor(userJWT)));
+ /*  console.log(this.followers); */
   this.followers.map(
-    (follower, i) => (followers[i] = follower.toProfileJSONSimpleFor())
+    (follower, i) => (followers[i] = follower.toProfileJSONSimpleFor(userJWT))
   );
 
   // console.log(users);
@@ -182,7 +187,7 @@ UserSchema.methods.toProfileJSONFollowers = function (users, valoration, user) {
     favorites: this.favorites,
     following: users,
     followers: this.followers,
-    isFollow: user ? user.isFollowing(this._id) : false,
+    isFollow: userJWT ? userJWT.isFollowing(this._id) : false,
     valoration: valoration,
     karma: this.karma
   };

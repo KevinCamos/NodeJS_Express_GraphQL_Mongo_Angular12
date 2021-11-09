@@ -11,18 +11,21 @@ var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", auth.optional, async (req, res, next, slug) => {
+  
   await Product.findOne({ slug: slug })
     .populate("author")
     .then(function (product) {
       if (!product) {
         return res.sendStatus(404);
       }
+
       req.product = product;
       return next();
       // res.json(product);
     })
     .catch(next);
 });
+
 const isFavorite = (idUser, product) => {
   if (idUser) {
     console.log(idUser);
@@ -39,6 +42,7 @@ const isFavorite = (idUser, product) => {
 };
 router.get("/:slug", auth.optional, async (req, res) => {
   var idUser = req.payload ? req.payload.id : undefined;
+  
   if (!req.product) {
     try {
       let product = await Product.findOne({ slug: req.params.slug }).populate(
@@ -149,7 +153,7 @@ router.get("/", auth.optional, async (req, res) => {
 
     if (author) {
       const author1 = await User.findOne({ username: author });
-      query.id_user = { $in: author1._id };
+      query.author = { $in: author1._id };
     }
 
     console.log(query);
@@ -266,9 +270,10 @@ router.delete("/:id", async (req, res) => {
 /* Favorite */
 
 router.post("/:slug/favorite", auth.required, function (req, res, next) {
-  var productId = req.product._id;
-  /*   console.log(req.product);
-   */ User.findById(req.product.id_user)
+  /* var productId = req.product._id; */
+    console.log(req.product);
+
+   User.findById(req.product.author)
     .then(function (user) {
       if (!user) {
         return res.sendStatus(401);
