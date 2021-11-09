@@ -32,7 +32,7 @@ const isFavorite = (idUser, product) => {
         console.log("nooooooooooooooooooooo");
         return res.sendStatus(401);
       }
-      console.log(product.toDetailsJSONFor(user), "33333333333555555555");
+      console.log(product.toDetailsJSONFor(user));
       return product.toDetailsJSONFor(user);
     });
   }

@@ -120,26 +120,46 @@ ProductSchema.methods.favoriteCount = function () {
 //   });
 // };
 
-ProductSchema.methods.toDetailsJSONFor = function (user) {
-  /*  console.log(user); */
-  return {
-    slug: this.slug,
-    name: this.name,
-    images: this.images,
-    description: this.description,
-    status: this.status,
-    location: this.location,
-    id_category: this.id_category,
-    price: this.price,
-    view: this.view,
-    favorites: this.favorites,
-    favorited: user ? user.isFavorite(this._id) : false,
-    creationDate: this.creationDate,
-    updateDate: this.updateDate,
-    author: this.author.username,
-  };
-};
+ProductSchema.methods.toDetailsJSONFor =  async function (user) {
+  let Order = mongoose.model("Order");
 
+  let valoration =await  Order.aggregate([
+    { $project: { _id: 1, id_user_seller: 1, valoration: 1 } },
+    { $match: { id_user_seller: this.author._id } },
+    { $group: { _id: "id_user_seller", media: { $avg: "$valoration" } } },
+  ])
+  console.log(valoration, "valoration")
+    if (valoration[0]) {
+      valoration = valoration[0].media ? valoration[0].media : 0;
+    } else {
+       valoration = 0;
+    }
+
+
+    /*  console.log(user); */
+    return {
+      slug: this.slug,
+      name: this.name,
+      images: this.images,
+      description: this.description,
+      status: this.status,
+      location: this.location,
+      id_category: this.id_category,
+      price: this.price,
+      view: this.view,
+      favorites: this.favorites,
+      favorited: user ? user.isFavorite(this._id) : false,
+      creationDate: this.creationDate,
+      updateDate: this.updateDate,
+      
+      author: {
+        _id: this.author._id,
+        username: this.author.username,
+        valoration: valoration
+      },
+    };
+    
+};
 ProductSchema.methods.toJSONFor = function (user) {
   /*  console.log(user); */
   return {

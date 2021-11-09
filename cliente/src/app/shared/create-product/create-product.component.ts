@@ -18,7 +18,7 @@ export class CreateProductComponent implements OnInit {
   errors: Object = {};
   isSubmitting = false;
   titulo = 'Crear producto';
-  
+
   constructor(
     private graphqlService: GraphqlService,
     private fb: FormBuilder,
