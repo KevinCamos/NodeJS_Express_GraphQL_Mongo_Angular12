@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-var Product = mongoose.model("Product");
 
 const OrderSchema = mongoose.Schema({
   id_product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
