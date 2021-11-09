@@ -9,17 +9,17 @@
                 data-size="710x823">
                 <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
                   class="img-fluid z-depth-1">
-                  
+
               </a> -->
               <app-carousel [listImages]="images"></app-carousel>
             </figure>
           </div>
         </div>
       </div>
-  
+
       <div class="col-md-6">
-        <h2 class="mt-4">{{product.name}}</h2>
-        <p class="mb-2 text-muted text-uppercase small">{{product.id_category}}</p>
+        <h2 class="mt-4">{{product.name | uppercase}}</h2>
+        <!-- <p class="mb-2 text-muted text-uppercase small">{{product.id_category}}</p> -->
         <ul class="pagination">
           <li>
             <i class="fas fa-star fa-sm text-primary"></i>
@@ -59,7 +59,7 @@
             <tbody>
               <tr>
                 <th class="pl-0 w-25" scope="row"><strong>Author</strong></th>
-                <td><a [routerLink]="['/profile', product.id_user]">{{product.author}}</a></td>
+                <td><a [routerLink]="['/profile', product.author]">{{ product.author}}</a></td>
               </tr>
             </tbody>
           </table>

@@ -10,8 +10,9 @@ const Category = require("../../models/category.model");
 var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
-router.param("slug", async (req, res, next, slug) => {
+router.param("slug", auth.optional, async (req, res, next, slug) => {
   await Product.findOne({ slug: slug })
+    .populate("author")
     .then(function (product) {
       if (!product) {
         return res.sendStatus(404);
@@ -22,21 +23,48 @@ router.param("slug", async (req, res, next, slug) => {
     })
     .catch(next);
 });
-
-router.get("/:slug", async (req, res) => {
+const isFavorite = (idUser, product) => {
+  if (idUser) {
+    console.log(idUser);
+    console.log("ENTRA");
+    return User.findById(idUser).then(function (user) {
+      if (!user) {
+        console.log("nooooooooooooooooooooo");
+        return res.sendStatus(401);
+      }
+      console.log(product.toDetailsJSONFor(user), "33333333333555555555");
+      return product.toDetailsJSONFor(user);
+    });
+  }
+};
+router.get("/:slug", auth.optional, async (req, res) => {
+  var idUser = req.payload ? req.payload.id : undefined;
   if (!req.product) {
     try {
-      let product = await Product.findOne({ slug: req.params.slug });
+      let product = await Product.findOne({ slug: req.params.slug }).populate(
+        "author"
+      );
       if (!product) {
         res.status(404).json({ msg: "No existe el product" });
       }
-      res.json(product);
+
+      if (idUser) {
+        product = await isFavorite(idUser, product);
+        res.json(product);
+      } else {
+        res.json(product.toDetailsJSONFor());
+      }
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");
     }
   } else {
-    res.json(req.product);
+    if (idUser) {
+      product = await isFavorite(idUser, product);
+      res.json(product);
+    } else {
+      res.json(product.toDetailsJSONFor());
+    }
   }
 });
 
@@ -234,11 +262,15 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
-console.log(req.product);
-  User.findById(req.product.id_user).then(function(user){
-    if (!user) { return res.sendStatus(401); }
-        user.updateKarmaSave(10, user);
-  }).catch(next);
+  /*   console.log(req.product);
+   */ User.findById(req.product.id_user)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
+      user.updateKarmaSave(10, user);
+    })
+    .catch(next);
 
   User.findById(req.payload.id)
     .then(function (user) {
@@ -260,20 +292,28 @@ console.log(req.product);
 router.delete("/:slug/favorite", auth.required, function (req, res, next) {
   var productId = req.product._id;
 
-  User.findById(req.product.id_user).then(function(user){
-    if (!user) { return res.sendStatus(401); }
-        user.updateKarmaSave(-10, user);
-  }).catch(next);
+  User.findById(req.product.id_user)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
+      user.updateKarmaSave(-10, user);
+    })
+    .catch(next);
 
-  User.findById(req.payload.id).then(function(user){
-    if (!user) { return res.sendStatus(401); }
-  
-    return user.unfavorite(productId).then(function(){
-      return req.product.favoriteCount().then(function(product){
-        return res.json({product: product.toJSONFor(user)});
+  User.findById(req.payload.id)
+    .then(function (user) {
+      if (!user) {
+        return res.sendStatus(401);
+      }
+
+      return user.unfavorite(productId).then(function () {
+        return req.product.favoriteCount().then(function (product) {
+          return res.json({ product: product.toJSONFor(user) });
+        });
       });
-    });
-  }).catch(next);
+    })
+    .catch(next);
 });
 
 /* COMENTARIOS */
@@ -284,7 +324,6 @@ router.get("/:product/comments", auth.optional, function (req, res, next) {
 
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)
     .then(function (user) {
-  
       Product.findOne({ slug: productSlug })
         .populate({
           path: "comments",
@@ -301,8 +340,8 @@ router.get("/:product/comments", auth.optional, function (req, res, next) {
           return res.json({
             comments: product.comments.map(function (comment) {
               // console.log(comment.author)
-              console.log(comment.toJSONFor(comment.author));
-
+              /*               console.log(comment.toJSONFor(comment.author));
+               */
               return comment.toJSONFor(comment.author);
             }),
           });
@@ -356,21 +395,24 @@ router.delete(
     let idComment = req.params.comment;
     let productSlug = req.params.article;
 
-    try{
-      User.findById(req.payload.id).then(function(user){
-        if (!user) { return res.sendStatus(401); }
-            user.updateKarmaSave(-5, user);
-      }).catch(next);
+    try {
+      User.findById(req.payload.id)
+        .then(function (user) {
+          if (!user) {
+            return res.sendStatus(401);
+          }
+          user.updateKarmaSave(-5, user);
+        })
+        .catch(next);
 
       await Comment.findById(idComment).then(function (comment) {
         if (!comment) return res.sendStatus(404);
-        console.log(comment);
+        /*      
         //FUNCIÓ AMB EL COMENTARI
-        console.log(comment.author.toString());
-        console.log(req.payload.id.toString());
+    */
         if (comment.author.toString() === req.payload.id.toString()) {
-          console.log("Este usuario es el propietario");
-          Product.findOne({ slug: productSlug }).then(function (product) {
+          /*           console.log("Este usuario es el propietario");
+           */ Product.findOne({ slug: productSlug }).then(function (product) {
             if (!product) return res.sendStatus(404);
             /* Eliminem els comentaris de la taula product */
             product.comments.remove(idComment);
@@ -383,9 +425,8 @@ router.delete(
           res.sendStatus(403);
         }
 
-          //FI FUNCIÓ AMB EL COMENTARI  
+        //FI FUNCIÓ AMB EL COMENTARI
       });
-
     } catch (error) {
       console.log(error);
       res.status(500).send("Hubo un error");

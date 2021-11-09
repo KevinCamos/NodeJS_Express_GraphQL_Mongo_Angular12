@@ -94,6 +94,28 @@ ProductSchema.methods.lowercase = function () {
   this.description = this.description.toLowerCase();
 };
 
+
+// ProductSchema.methods.detailJSONFor = function (user) {
+//   /*  console.log(user); */
+//   return {
+//     slug: this.slug,
+//     name: this.name,
+//     images: this.images,
+//     description: this.description,
+//     status: this.status,
+//     location: this.location,
+//     id_category: this.id_category,
+//     price: this.price,
+//     view: this.view,
+//     favorites: this.favorites,
+//     favorited: user ? user.isFavorite(this._id) : false,
+//     creationDate: this.creationDate,
+//     updateDate: this.updateDate,
+//     author: this.author.username
+// /*     author: this.author.toProfileJSONFor(id_user) */
+//   };
+// };
+
 ProductSchema.methods.update = function (product) {
 
   if (product.name && product.name != this.name) this.name = product.name;

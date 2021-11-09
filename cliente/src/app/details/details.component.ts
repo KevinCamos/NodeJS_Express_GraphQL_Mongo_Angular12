@@ -53,6 +53,8 @@ export class DetailsComponent implements OnInit {
     if (typeof this.slug === 'string') {
       this._productoService.getProduct(this.slug).subscribe(
         (data) => {
+
+          console.log(data)
           this.product = data;
           this.images = data.images;
           /* console.log(this.images); */
@@ -70,7 +72,6 @@ export class DetailsComponent implements OnInit {
           this.router.navigate(['/']);
         }
       );
-
     }
   }
 

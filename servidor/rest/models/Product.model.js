@@ -113,6 +113,33 @@ ProductSchema.methods.favoriteCount = function () {
   );
 };
 
+// ProductSchema.methods.isFavorite = function (user, id) {
+//   console.log(user, "eGHEH")
+//   return user.some(function (favoriteId) {
+//     return favoriteId.toString() === id.toString();
+//   });
+// };
+
+ProductSchema.methods.toDetailsJSONFor = function (user) {
+  /*  console.log(user); */
+  return {
+    slug: this.slug,
+    name: this.name,
+    images: this.images,
+    description: this.description,
+    status: this.status,
+    location: this.location,
+    id_category: this.id_category,
+    price: this.price,
+    view: this.view,
+    favorites: this.favorites,
+    favorited: user ? user.isFavorite(this._id) : false,
+    creationDate: this.creationDate,
+    updateDate: this.updateDate,
+    author: this.author.username,
+  };
+};
+
 ProductSchema.methods.toJSONFor = function (user) {
   /*  console.log(user); */
   return {
@@ -129,7 +156,7 @@ ProductSchema.methods.toJSONFor = function (user) {
     favorited: user ? user.isFavorite(this._id) : false,
     creationDate: this.creationDate,
     updateDate: this.updateDate,
-/*     author: this.author.toProfileJSONFor(id_user) */
+    /*     author: this.author.toProfileJSONFor(id_user) */
   };
 };
 

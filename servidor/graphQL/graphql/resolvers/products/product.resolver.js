@@ -4,7 +4,7 @@ var Product = mongoose.model("Product");
 const getProducts = () => Product.find({}).exec();
 
 const getProduct = (root, { slug }, context) => {
-  return Product.findOne({ slug: slug }).exec();
+  return Product.findOne({ slug: slug }).populate('author').exec();
 };
 
 const addProduct = async (root, { product }, context) => {

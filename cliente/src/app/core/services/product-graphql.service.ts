@@ -4,8 +4,8 @@ import { Apollo, gql } from 'apollo-angular';
 import { Product } from '..';
 
 const PRODUCTS = gql`
-  query{
-    products{
+  query {
+    products {
       name
       slug
       status
@@ -14,8 +14,8 @@ const PRODUCTS = gql`
 `;
 
 const PRODUCT = gql`
-  query Product($slug: String!){
-    product(slug: $slug){
+  query Product($slug: String!) {
+    product(slug: $slug) {
       name
       slug
       status
@@ -24,24 +24,24 @@ const PRODUCT = gql`
 `;
 
 const ADD_PRODUCT = gql`
-mutation addProduct($input: newProductInput) {
-  addProduct(product: $input) {
-    slug
-    name
-    description
-    status
-    id_category
-    location
-    price
-    creationDate
-    updateDate
-    images
-    favorites
-    favorited
-    author
-    comments
+  mutation addProduct($input: newProductInput) {
+    addProduct(product: $input) {
+      slug
+      name
+      description
+      status
+      id_category
+      location
+      price
+      creationDate
+      updateDate
+      images
+      favorites
+      favorited
+      author
+      comments
+    }
   }
-}
 `;
 
 const UPDATE_PRODUCT = gql`
@@ -67,16 +67,14 @@ const UPDATE_PRODUCT = gql`
 
 const DELETE_PRODUCT = gql`
   mutation deleteProduct($slug: String!) {
-    deleteProduct(slug: $slug) 
+    deleteProduct(slug: $slug)
   }
 `;
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class GraphqlService {
-
   constructor(private apollo: Apollo) {}
 
   getProducts(): Observable<any> {
@@ -84,7 +82,7 @@ export class GraphqlService {
       query: PRODUCTS,
     }).valueChanges;
   }
-  
+
   getProduct(slug: string): Observable<any> {
     return this.apollo.watchQuery<any>({
       query: PRODUCT,
@@ -95,29 +93,29 @@ export class GraphqlService {
   }
 
   addProduct(product: Product): Observable<any> {
+    console.log(product.name, typeof product.name);
+    console.log(product.id_category, typeof product.id_category);
+    console.log(
+      Number(product.id_category),
+      typeof Number(product.id_category)
+    );
+    console.log(product.location, typeof product.location);
+    console.log(product.price, typeof product.price);
 
-/*     let productLet = { 
-      name: "trompeta", 
-      description: "trompeta de la marca yamaha nueva a estrenar", 
-      id_category: 0, 
-      location: "ontinyent", 
-      price: 20
-    }  */
-
-    let productLet = { 
-      name : product.name, 
-      description: "trompeta de la marca yamaha nueva a estrenar", 
-      id_category: product.id_category, 
-      location: product.location, 
-      price: product.price 
-    } 
+    let productLet = {
+      name: product.name,
+      /*       description: "trompeta de la marca yamaha nueva a estrenar", */
+      id_category: Number(product.id_category),
+      location: product.location,
+      price: product.price,
+    };
 
     console.log(productLet);
 
     return this.apollo.mutate({
       mutation: ADD_PRODUCT,
       variables: {
-        input: productLet /* no va esto!!!!!!!!!!!!!!!!!!!!!!!!! */
+        input: productLet /* no va esto!!!!!!!!!!!!!!!!!!!!!!!!! */,
       },
     });
   }
@@ -126,7 +124,7 @@ export class GraphqlService {
     return this.apollo.mutate({
       mutation: UPDATE_PRODUCT,
       variables: {
-        input: product
+        input: product,
       },
     });
   }
@@ -135,7 +133,7 @@ export class GraphqlService {
     return this.apollo.mutate({
       mutation: DELETE_PRODUCT,
       variables: {
-        slug: slug
+        slug: slug,
       },
     });
   }
