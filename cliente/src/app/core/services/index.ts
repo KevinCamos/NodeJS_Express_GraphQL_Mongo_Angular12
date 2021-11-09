@@ -1,5 +1,5 @@
 export * from './api.service';
-export * from './product.service';
+export * from './product-rest.service';
 export * from './categories.service';
 export * from './comments.service';
 export * from './notification.service';
@@ -10,3 +10,4 @@ export * from './jwt.service';
 export * from './guards/auth-guard.service';
 export * from './guards/no-auth-guard.service';
 export * from './order.service';
+export * from './product-graphql.service';

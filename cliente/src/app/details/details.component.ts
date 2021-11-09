@@ -7,7 +7,7 @@ import {
   Comment as Comments,
   CommentsService,
   UserService,
-
+  GraphqlService
 } from '../core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -35,7 +35,7 @@ export class DetailsComponent implements OnInit {
     private _productoService: ProductService,
     private commentsService: CommentsService,
     private userService: UserService,
-
+    private graphqlService: GraphqlService,
     private notifyService: NotificationService,
     private aRouter: ActivatedRoute,
     private router: Router,
@@ -49,13 +49,13 @@ export class DetailsComponent implements OnInit {
   }
 
   getProduct() {
-    console.log(this.slug);
+   /*  console.log(this.slug); */
     if (typeof this.slug === 'string') {
       this._productoService.getProduct(this.slug).subscribe(
         (data) => {
           this.product = data;
           this.images = data.images;
-          console.log(this.images);
+          /* console.log(this.images); */
           // Load the comments on this article
           this.populateComments();
           this.getMyUser();
@@ -73,16 +73,18 @@ export class DetailsComponent implements OnInit {
 
     }
   }
+
   getMyUser() {
     this.userService.currentUser.subscribe((userData: User) => {
       this.currentUser = userData;
-      console.log(userData);
+      /* console.log(userData); */
       this.canModify =
         this.currentUser.username ===
         /* this.product.author.username */ this.product.id_user;
       this.cd.markForCheck();
     });
   }
+
   populateComments() {
     if (this.product.slug) {
       this.commentsService.getAll(this.product.slug).subscribe((comments) => {
@@ -120,7 +122,7 @@ export class DetailsComponent implements OnInit {
     }
   }
 
-    onDeleteComment(comment:Comments) {
+  onDeleteComment(comment:Comments) {
       if (this.product.slug) {
 
       this.commentsService.destroy(comment.id, this.product.slug)
@@ -130,6 +132,21 @@ export class DetailsComponent implements OnInit {
             this.cd.markForCheck();
           }
         );
+    }
+  }
+
+  onDeleteProduct() {
+    if (this.product.slug) {
+      this.graphqlService.deleteProduct(this.product.slug).subscribe(
+        (data) => {
+          console.log(data);
+          this.notifyService.showInfo('Este producto ha sido eliminado con éxito', '¡Producto eliminado!');
+          this.router.navigateByUrl('/');
+        },
+        (error) => {
+          console.log(error);
+          this.notifyService.showWarning('Ha habido algún problema y no se ha elimindado el producto', 'Error al eliminar');
+        });
     }
   }
 
@@ -145,7 +162,8 @@ export class DetailsComponent implements OnInit {
       if (typeof this.product.favorites === 'number') {
         this.product.favorites--;
       }
-
     }
   }
+
+
 }

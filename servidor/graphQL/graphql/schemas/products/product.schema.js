@@ -16,22 +16,21 @@ const typeDefs = gql`
     favorites: Int
     favorited: Boolean
     author: String
-    Comment: [String]
+    comments: [String]
   }
+
   type Delete {
     data: Boolean
   }
+  
   input newProductInput {
     name: String
     description: String
     id_category: Int
     location: String
     price: Int
-    creationDate: String
-    updateDate: String
     images: [String]
   }
-
 
   input updateProductInput {
     slug: String!
@@ -40,10 +39,9 @@ const typeDefs = gql`
     id_category: Int
     location: String
     price: Int
-    creationDate: String
-    updateDate: String
     images: [String]
   }
+  
   type Query {
     getProducts: [Product]
     getProduct(slug: String!): Product

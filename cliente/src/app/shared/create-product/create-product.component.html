@@ -1,0 +1,65 @@
+<form [formGroup]="productForm" (ngSubmit)="addProduct()">
+    <fieldset class="form1">
+        <legend>{{ titulo | uppercase }}</legend>
+        <table>
+            <tr>
+            <td><label for="product">Producto:</label></td>
+            <td><label for="id_category">Categoría:</label></td>
+            </tr>
+            <tr>
+            <td><input type="text" id="product" formControlName="product" placeholder="Smart TV Samsung"></td>
+            <!-- <td><input type="text" id="id_category" formControlName="id_category" placeholder="Electrodomésticos"></td> -->
+            <div class="custom-select">
+                <select id="id_category" formControlName="id_category">
+                <option value="" >Selecciona una categoría</option>
+                <option value="0" >Otros</option>
+                <option value="1">Musica</option>
+                <option value="2">Hogar</option>
+                <option value="3">Eletronicos</option>
+                </select>
+            </div>
+            </tr>
+            <tr class="height-error">
+            <td>
+                <div class="text-danger" *ngIf="productForm.get('product')?.hasError('required') &&
+                    productForm.get('product')?.touched">
+                <span>El nombre del producto <strong>es obligatorio</strong></span>
+                </div>
+            </td>
+            <td>
+                <div class="text-danger" *ngIf="productForm.get('id_category')?.hasError('required') &&
+                    productForm.get('id_category')?.touched">
+                <span>La ubicación del producto <strong>es obligatoria</strong></span>
+                </div>
+            </td>
+    
+            </tr>
+            <tr>
+            <td><label for="location">Ubicación:</label></td>
+            <td><label for="price">Precio:</label></td>
+            </tr>
+            <tr>
+            <td><input type="text" id="location" formControlName="location" placeholder="Ontinyent"></td>
+            <td><input type="number" id="price" formControlName="price" min="1" step="any" placeholder="175.00">€</td>
+    
+            </tr>
+            <tr class="height-error">
+            <td>
+                <div class="text-danger" *ngIf="productForm.get('location')?.hasError('required') &&
+                    productForm.get('location')?.touched">
+                <span><strong>Es obligatorio</strong> un lugar</span>
+                </div>
+            </td>
+            <td>
+                <div class="text-danger" *ngIf="productForm.get('price')?.hasError('required') &&
+                    productForm.get('price')?.touched">
+                <span>El precio del producto <strong>es obligatoria</strong></span>
+                </div>
+            </td>
+    
+            </tr>
+        </table>
+        <button routerLink="/list-products">VOLVER</button>
+        <button type="submit" [disabled]="!productForm.valid">ACEPTAR</button>
+    </fieldset>
+</form>

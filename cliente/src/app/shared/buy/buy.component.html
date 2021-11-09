@@ -1,8 +1,8 @@
 <button
   [ngClass]="{
-               'button_buyed': !product.status,
-               'button_buy': product.status }"
+               'btn btn-danger btn-md mr-1 mb-2': !product.status,
+               'btn btn-primary btn-md mr-1 mb-2': product.status }"
   (click)="toggleBuy()">
-  {{ product.status ? 'Comprar' : 'Este producto ya se ha vendido' }}
+  <i class="fas fa-shopping-cart pr-2"></i> {{ product.status ? 'Comprar' : 'Este producto ya se ha vendido' }}
   <!-- {{ profile.username }} -->
 </button>

@@ -13,4 +13,5 @@ export * from './follow/follow.component'
 export * from './profile-favorites/profile-favorites.component'
 export * from './profile-products/profile-products.component'
 export * from './rating/rating.component'
+export * from './create-product/create-product.component'
 
