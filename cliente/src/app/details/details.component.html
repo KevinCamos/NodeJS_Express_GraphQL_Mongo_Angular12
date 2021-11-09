@@ -68,7 +68,10 @@
         <div class="d-flex align-content-center">
           <app-favorite [hidden]="canModify" [product]="product" (toggle)="onToggleFavorite($event)"> {{product.favorites}} </app-favorite>
           &nbsp;&nbsp;
+
+          <div *ngIf="currentUser.username && product.author ">
           <app-buy [hidden]="canModify" [product]="product"></app-buy>
+        </div>
           <button [hidden]="!canModify" [routerLink]="['/modify', product.slug ]" type="button" class="btn btn-primary btn-md mr-1 mb-2"><i class="fas fa-trash-alt pr-2"></i> Modificar producto</button>
           <button [hidden]="!canModify" (click)="onDeleteProduct()" type="button" class="btn btn-danger btn-md mr-1 mb-2"><i class="fas fa-trash-alt pr-2"></i> Eliminar producto</button>
         </div>

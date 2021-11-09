@@ -78,10 +78,12 @@ export class DetailsComponent implements OnInit {
   getMyUser() {
     this.userService.currentUser.subscribe((userData: User) => {
       this.currentUser = userData;
-      /* console.log(userData); */
-      this.canModify =
-        this.currentUser.username ===
-        /* this.product.author.username */ this.product.id_user;
+      // /* console.log(userData); */
+      // console.log(this.product.author)
+      // console.log(this.currentUser.username)
+
+  this.canModify =
+        String(this.currentUser.username) === String(this.product.author);
       this.cd.markForCheck();
     });
   }

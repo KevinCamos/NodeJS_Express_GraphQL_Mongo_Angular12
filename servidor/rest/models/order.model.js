@@ -18,7 +18,20 @@ const OrderSchema = mongoose.Schema({
 
 OrderSchema.methods.createOrder = function (product, userBuyer) {
   console.log(product.author._id);
-  if (userBuyer._id === product.author._id) {
+  console.log("---------------");
+  console.log("---------------");
+  console.log("---------------");
+  console.log(userBuyer._id);
+  console.log(product.author._id);
+  console.log(userBuyer._id == product.author._id);
+  console.log(typeof(userBuyer._id) , typeof(product.author._id));
+  console.log(String(userBuyer._id) , String(product.author._id));
+  console.log(String(userBuyer._id) == String(product.author._id));
+
+  console.log("---------------");
+  console.log("---------------");
+  console.log("---------------");
+  if (String(userBuyer._id) == String(product.author._id)) {
     console.log("el mateix usuari");
     return new Error("he buys himself");
   }
@@ -46,14 +59,13 @@ OrderSchema.methods.addValoration = function (valoration) {
 };
 
 OrderSchema.methods.toJSONfor = function (/* product, userBuyer */) {
- 
   return {
     id: this._id,
 
     id_product: this.toJSONForProduct(this.id_product),
     total_price: this.total_price,
     buy_date: this.buy_date,
-    valoration: this.valoration? this.valoration:false,
+    valoration: this.valoration ? this.valoration : false,
   };
 };
 
@@ -72,7 +84,6 @@ OrderSchema.methods.toJSONForProduct = function (product) {
     // updateDate: this.updateDate,
   };
 };
-
 
 //https://mongoosejs.com/docs/middleware.html#pre schema.pre is a middleware function
 
