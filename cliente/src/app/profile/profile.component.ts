@@ -37,8 +37,8 @@ export class ProfileComponent implements OnInit {
         concatMap((data: any) => {
           // console.log(data);
           this.profile = data.profile;
-          console.log(this.profile)
-          console.log(this.profile.valoration)
+          /* console.log(this.profile)
+          console.log(this.profile.valoration) */
           // Load the current user's data.
           return this.userService.currentUser.pipe(
             tap((userData: User) => {

@@ -22,7 +22,7 @@ import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites
 import { ProfileProductsComponent } from './profile-products/profile-products.component';
 import { BuyComponent } from './buy/buy.component';
 import { RatingComponent } from './rating/rating.component';
-import { CreateProductComponent } from './create-product/create-product.component';
+import { FormProductComponent } from './form-product/form-product.component';
 
 @NgModule({
   imports: [
@@ -51,7 +51,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
     CommentsComponent,
     BuyComponent,
     RatingComponent,
-    CreateProductComponent,
+    FormProductComponent,
   ],
   exports: [
     CategoriesComponent,
@@ -73,7 +73,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
     CommentsComponent,
     BuyComponent,
     RatingComponent,
-    CreateProductComponent,
+    FormProductComponent,
   ],
 })
 export class SharedModule {}

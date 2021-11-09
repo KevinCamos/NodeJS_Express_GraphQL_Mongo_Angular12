@@ -19,9 +19,7 @@ export class PurchasedResolver implements Resolve<Order> {
     state: RouterStateSnapshot
   ): Observable<any> {
 
-    return this.orderService.getProducts()
+  return this.orderService.getProducts()
       .pipe(catchError((err) => this.router.navigateByUrl('/')));
-
-
   }
 }

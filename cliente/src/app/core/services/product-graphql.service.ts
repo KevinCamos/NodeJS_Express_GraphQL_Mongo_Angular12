@@ -14,11 +14,13 @@ const PRODUCTS = gql`
 `;
 
 const PRODUCT = gql`
-  query Product($slug: String!) {
-    product(slug: $slug) {
+  query getProduct($slug: String!) {
+    getProduct(slug: $slug) {
       name
+      id_category
+      location
+      price
       slug
-      status
     }
   }
 `;
@@ -115,16 +117,28 @@ export class GraphqlService {
     return this.apollo.mutate({
       mutation: ADD_PRODUCT,
       variables: {
-        input: productLet /* no va esto!!!!!!!!!!!!!!!!!!!!!!!!! */,
+        input: productLet,
       },
     });
   }
 
-  updateProduct(product: Product): Observable<any> {
+  updateProduct(product: Product, slug: String): Observable<any> {
+
+    let productLet = {
+      name: product.name,
+      /*       description: "trompeta de la marca yamaha nueva a estrenar", */
+      id_category: Number(product.id_category),
+      location: product.location,
+      price: product.price,
+      slug: slug
+    };
+
+    console.log(productLet);
+
     return this.apollo.mutate({
       mutation: UPDATE_PRODUCT,
       variables: {
-        input: product,
+        input: productLet,
       },
     });
   }

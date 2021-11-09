@@ -3,7 +3,11 @@
   <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
     <img [src]="'../../assets/images/'+profile.image" alt="" class="d-block ui-w-100 rounded-circle">
     <div class="media-body ml-5">
-      <h4 class="font-weight-bold mb-4">{{profile.username | uppercase}}</h4>
+      <div class="d-inline-flex">
+        <h4 class="font-weight-bold mt-2 text-center">{{profile.username | uppercase}}</h4>
+        &nbsp;&nbsp;
+        <app-rating [value]="profile.valoration" [update]="false"></app-rating> 
+      </div>
 
       <div class="text-muted mb-4">
         {{profile.bio }}
@@ -17,10 +21,12 @@
         <strong>{{profile.following.length}}</strong>
         <span class="text-muted"> following</span>
       </a>
+      <a class="d-inline-block text-body ml-3">
+        <strong>{{profile.karma}}</strong>
+        <span class="text-muted"> Karma</span>
+      </a>
       
       &nbsp;
-
-      <app-rating [value]="profile.valoration" [update]="false"></app-rating>
 
       <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser">
       </fa-icon>
@@ -97,7 +103,7 @@
     </div>
     <div class="col-4 d-flex justify-content-center">
       <a class="nav-link text-dark"
-        routerLinkActive="active"
+        routerLinkActive="active" [hidden]="!isUser"
         [routerLinkActiveOptions]="{ exact: true }"
         [routerLink]="['/profile', profile.username, 'newProduct']">
         Create Product

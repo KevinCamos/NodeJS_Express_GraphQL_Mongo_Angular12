@@ -60,7 +60,7 @@
                 {{ currentUser.username }}
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownConfig">
-          <button ngbDropdownItem [routerLink]="['/create-products']">New product</button>
+          <button ngbDropdownItem [routerLink]="['/profile', currentUser.username, 'newProduct']">New product</button>
           <button ngbDropdownItem [routerLink]="['/settings']">Settings</button>
           <button ngbDropdownItem [routerLink]="['/profile', currentUser.username]">Profile</button>
           <button ngbDropdownItem [routerLink]="['/purchased']">Purchased</button>

@@ -1,0 +1,49 @@
+<form class="m-5 w-75" [formGroup]="productForm" (ngSubmit)="addProduct()">
+    <fieldset class="form1">
+        <legend>{{ titulo | uppercase }}</legend>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre:</label>
+                <input type="text" class="form-control w-220" id="product" formControlName="name" placeholder="Smart TV Samsung">
+                <div class="text-danger" *ngIf="productForm.get('product')?.hasError('required') &&
+                productForm.get('product')?.touched">
+                    <span>El nombre del producto <strong>es obligatorio</strong></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Categoría:</label>
+                <select class="custom-select"id="id_category" formControlName="id_category">
+                    <option value="" >Selecciona una categoría</option>
+                    <option value="0" >Otros</option>
+                    <option value="1">Musica</option>
+                    <option value="2">Hogar</option>
+                    <option value="3">Eletronicos</option>
+                </select>
+                <div class="text-danger" *ngIf="productForm.get('id_category')?.hasError('required') &&
+                    productForm.get('id_category')?.touched">
+                    <span>La ubicación del producto <strong>es obligatoria</strong></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">ubicación:</label>
+                <input type="text" id="location" class="form-control" id="product" formControlName="location" placeholder="Ontinyent">
+                <div class="text-danger" *ngIf="productForm.get('location')?.hasError('required') &&
+                    productForm.get('location')?.touched">
+                    <span><strong>Es obligatorio</strong> un lugar</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Precio:</label>
+                <input type="number" id="price" class="form-control" id="product" formControlName="price" min="1" step="any" placeholder="175.00">
+                <div class="text-danger" *ngIf="productForm.get('price')?.hasError('required') &&
+                productForm.get('price')?.touched">
+                    <span>El precio del producto <strong>es obligatoria</strong></span>
+                </div>
+            </div>
+        
+        <button class="btn btn-primary" type="submit" [disabled]="!productForm.valid">ACEPTAR</button>
+    </fieldset>
+</form>

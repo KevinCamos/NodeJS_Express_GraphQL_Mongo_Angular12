@@ -82,8 +82,7 @@ export class DetailsComponent implements OnInit {
       // console.log(this.product.author)
       // console.log(this.currentUser.username)
 
-  this.canModify =
-        String(this.currentUser.username) === String(this.product.author);
+      this.canModify = String(this.currentUser.username) === String(this.product.author?.username);
       this.cd.markForCheck();
     });
   }
@@ -144,7 +143,7 @@ export class DetailsComponent implements OnInit {
         (data) => {
           console.log(data);
           this.notifyService.showInfo('Este producto ha sido eliminado con éxito', '¡Producto eliminado!');
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/shop');
         },
         (error) => {
           console.log(error);
@@ -167,6 +166,5 @@ export class DetailsComponent implements OnInit {
       }
     }
   }
-
 
 }

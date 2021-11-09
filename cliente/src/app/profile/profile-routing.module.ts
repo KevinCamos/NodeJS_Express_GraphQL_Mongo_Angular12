@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileResolver } from './profile-resolver.service';
 import { ProfileComponent } from './profile.component';
-import { ProfileFavoritesComponent, ProfileProductsComponent, CreateProductComponent } from '../shared' 
+import { ProfileFavoritesComponent, ProfileProductsComponent, FormProductComponent } from '../shared' 
 
 const routes: Routes = [
   {
@@ -22,7 +22,11 @@ const routes: Routes = [
       },
       {
         path: 'newProduct',
-        component: CreateProductComponent
+        component: FormProductComponent
+      },
+      {
+        path: 'updateProduct/:slug',
+        component: FormProductComponent
       }
     ]
   },
