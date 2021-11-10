@@ -55,9 +55,11 @@ export class SearchComponent implements OnInit {
     setTimeout(() => {
       if (writtingValue === this.search) {
         if (isShop === 'shop') {
+          console.log("search");
           this.notNamefilters();
           this.searchEvent.emit(this.filters);
-        } 
+          this.location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
+        }
         if (this.search.length != 0)  this.getList();
       }
     }, 200);
@@ -67,11 +69,15 @@ export class SearchComponent implements OnInit {
     if (typeof data.searchValue === 'string') {
       this.filters.name = data.searchValue;
       this.filters.offset = 0;
-      this.searchEvent.emit(this.filters);
+      /* this.searchEvent.emit(this.filters); */
+      /* this.location.replaceState('/shop/' + JSON.stringify(this.filters)); */
+      this.router.navigate(['/shop/' + btoa(JSON.stringify(this.filters))]);
     }
   }
 
   public writtingEvent(writtingValue: any): void {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); 
+    console.log(this.routeFilters);
     this.search = writtingValue;
     this.checkTime(writtingValue);
   }
@@ -82,11 +88,12 @@ export class SearchComponent implements OnInit {
   public filtersForRoute() {
     if (this.routeFilters !== null) {
       this.filters = JSON.parse(atob(this.routeFilters));
-      //console.log(this.filters);
     }
   }
 
   public notNamefilters() {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');
+    console.log(this.routeFilters);
     if (this.routeFilters !== null) {
       this.filters = JSON.parse(atob(this.routeFilters));
     }

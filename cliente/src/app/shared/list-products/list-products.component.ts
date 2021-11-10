@@ -59,18 +59,16 @@ export class ListProductsComponent implements OnInit {
   }
 
   getProducts() {
-    if(this.router.url.split("/")[1] == "shop"){
+    if(this.router.url.split("/")[1] != "profile"){
       this.profile = false;
       this.getListForCategory();
-
       if (this.idCategory !== null) {
         //Para ejecutar este, necesita una lista, por lo que al entrar más tarde a "get ListForCategory y ver que existe this.idCategory, tras tener datos ejecutará la búsqueda"
-/*       } else if (this.routeFilters !== null) {
+      } else if (this.routeFilters !== null) {
         // console.log("son filtros")
-        this.refresRouteFilter()     ;
-
+        this.refresRouteFilter();
         // console.log(this.filters);
-        this.getListFiltered(this.filters); */
+        this.getListFiltered(this.filters);
       } else {
         this.getListFiltered(this.filters);
       }
@@ -118,12 +116,13 @@ export class ListProductsComponent implements OnInit {
       (data) => {
         this.listProducts = data.products;
         this.dataIsListProducts(data.products);
-        console.log(data);
         this.totalPages = Array.from(
           new Array(Math.ceil(data.productCount / this.limit)),
           (val, index) => index + 1
         );
-        console.log(this.totalPages.length);
+        if(this.filters.offset){
+          this.currentPage = (this.filters.offset+3) / 3;
+        }
         this.cd.markForCheck();
       },
       (error) => {
@@ -150,11 +149,15 @@ export class ListProductsComponent implements OnInit {
   setPageTo(pageNumber: number) {
     this.currentPage = pageNumber;
 
+    if (typeof this.routeFilters === 'string') {
+      this.refresRouteFilter();
+    }
+
     if (this.limit) {
       this.filters.limit = this.limit;
       this.filters.offset = this.limit * (this.currentPage - 1);
     }
-
+    this.location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
     this.getListFiltered(this.filters);
   }
 
@@ -162,6 +165,7 @@ export class ListProductsComponent implements OnInit {
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters'); //obtiene la 'id' del link
     if(typeof(this.routeFilters) =="string" ){
       this.filters = JSON.parse(atob(this.routeFilters));
+      console.log(this.filters);
     }else{
       this.filters = new Filters();
     }

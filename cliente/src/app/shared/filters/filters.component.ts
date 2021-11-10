@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Category, Filters } from '../../core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class FiltersComponent {
   name: string;
-  location: string;
+  locations: string;
   priceMin: number | undefined;
   priceMax: number | undefined;
   ref_category: number;
@@ -24,7 +25,8 @@ export class FiltersComponent {
 
   constructor(
     private aRouter: ActivatedRoute, 
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
   ) {
     this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');
   }
@@ -53,9 +55,13 @@ export class FiltersComponent {
   }
 
   public changeEvent(value: any) {
+    this.routeFilters = this.aRouter.snapshot.paramMap.get('filters');
     if (this.routeFilters) {
+      console.log("1");
+      this.filters = new Filters();
       this.filters = JSON.parse(atob(this.routeFilters));
     } else {
+      console.log("2");
       this.filters = new Filters();
     }
 
@@ -64,8 +70,8 @@ export class FiltersComponent {
     if (value.name) {
       this.filters.name = value.name;
     }
-    if (value.location) {
-      this.filters.location = value.location;
+    if (value.locations) {
+      this.filters.location = value.locations;
     }
     if (value.ref_category) {
       this.filters.category = value.ref_category;
@@ -80,6 +86,7 @@ export class FiltersComponent {
   }
   
   searchEmit() {
+    this.location.replaceState('/shop/' + btoa(JSON.stringify(this.filters)));
     this.filterEvent.emit(this.filters);
   }
 }

@@ -13,8 +13,8 @@ export class CardProductComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {  console.log(this.product)
-
+  ngOnInit(): void {  
+    /* console.log(this.product) */
   }
 
   onToggleFavorite(favorited: boolean) {
