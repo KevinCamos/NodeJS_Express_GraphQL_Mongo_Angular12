@@ -6,7 +6,7 @@
   <div class="album py-3 bg-light">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="listProducts.length != 0">
-        <div class="col" *ngFor="let product of listProducts">
+        <div class="col mb-4" *ngFor="let product of listProducts">
           <app-card-product [product]="product"></app-card-product>
         </div>
       </div>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <nav class="d-flex justify-content-center mt-4"  *ngIf="listProducts.length != 0 && totalPages.length != 1"> 
+    <nav class="d-flex justify-content-center mt-4"  *ngIf="listProducts.length != 0 && totalPages.length != 1">
       <ul class="pagination pg-blue">
         <li *ngIf="currentPage != 1" class="page-item" (click)="setPageTo(currentPage-1)">
           <span class="page-link">Previous</span>

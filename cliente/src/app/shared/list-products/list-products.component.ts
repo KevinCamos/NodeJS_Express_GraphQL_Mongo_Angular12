@@ -18,20 +18,20 @@ export class ListProductsComponent implements OnInit {
   idCategory: string | null;
   routeFilters: string | null;
 
-  limit: number = 3;
+  limit: number = 9;
   currentPage: number = 1;
   totalPages: Array<number> = [];
   query: Filters;
   filters = new Filters();
   profile: boolean;
-  
+
   @Input() set config(filters: Filters) {
     if (filters) {
       this.query = filters;
       this.currentPage = 1;
       this.getListFiltered(this.query);
       this.profile = true;
-    } 
+    }
   }
 
   // new Intl.NumberFormat se crea aquí un único objeto con los parámetros predefinidos,
@@ -95,7 +95,7 @@ export class ListProductsComponent implements OnInit {
       this.getListFiltered(this.filters);
     }
   }
-  
+
   getListForCategory() {
     this._categoriesService.getListCategory().subscribe(
       (data) => {
@@ -121,7 +121,7 @@ export class ListProductsComponent implements OnInit {
           (val, index) => index + 1
         );
         if(this.filters.offset){
-          this.currentPage = (this.filters.offset+3) / 3;
+          this.currentPage = (this.filters.offset+9) / 9;
         }
         this.cd.markForCheck();
       },

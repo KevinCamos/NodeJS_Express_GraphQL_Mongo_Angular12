@@ -125,7 +125,7 @@ router.get("/", auth.optional, async (req, res) => {
       return varQuery != "undefined" && varQuery ? varQuery : otherResult;
     };
 
-    let limit = transUndefined(req.query.limit, 3);
+    let limit = transUndefined(req.query.limit, 9);
     let offset = transUndefined(req.query.offset, 0);
     let name = transUndefined(req.query.name, "");
     let location = transUndefined(req.query.location, "");

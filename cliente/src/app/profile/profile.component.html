@@ -1,17 +1,17 @@
 <div class="container-m-nx container-m-ny theme-bg-white mb-4">
   <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
-    <img [src]="'../../assets/images/'+profile.image" alt="" class="d-block ui-w-100 rounded-circle">
+    <img [src]="'../../assets/images/'+profile.image" onerror="this.src='../../assets/images/bbyoda.png'"  class="d-block ui-w-100 rounded-circle">
     <div class="media-body ml-5">
       <div class="d-inline-flex">
         <h4 class="font-weight-bold mt-2 text-center">{{profile.username | uppercase}}</h4>
         &nbsp;&nbsp;
-        <app-rating [value]="profile.valoration" [update]="false"></app-rating> 
+        <app-rating [value]="profile.valoration" [update]="false"></app-rating>
       </div>
 
       <div class="text-muted mb-4">
         {{profile.bio }}
       </div>
-      
+
       <a href="javascript:void(0)" class="d-inline-block text-body">
         <strong>{{profile.followers.length}}</strong>
         <span class="text-muted"> followers</span>
@@ -24,11 +24,11 @@
         <strong>{{profile.karma}}</strong>
         <span class="text-muted"> Karma</span>
       </a>
-      
+
       &nbsp;
 
       <fa-icon [icon]="faUserEdit" class="userEdit" [routerLink]="['/settings']" [hidden]="!isUser"></fa-icon>
-      
+
       <app-follow [hidden]="isUser" [profile]="profile" (toggle)="onToggleFollowing($event)"></app-follow>
     </div>
   </div>
@@ -43,7 +43,7 @@
               <div class="tab-pane fade active show" id="profile-followers">
                   <div class="list-group" *ngFor="let follow of profile.following">
                       <div class="list-group-item d-flex align-items-center">
-                          <img [src]="'../../assets/images/'+follow.image" [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
+                          <img [src]="'../../assets/images/'+follow.image" onerror="this.src='../../assets/images/bbyoda.png'"  [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
                           <div class="flex-fill pl-3 pr-3">
                               <div><a class="text-dark font-weight-600" [routerLink]="['/profile', follow.username]">{{follow.username}}</a></div>
                           </div>
@@ -66,7 +66,7 @@
               <div class="tab-pane fade active show" id="profile-followers">
                   <div class="list-group" *ngFor="let follow of profile.followers">
                       <div class="list-group-item d-flex align-items-center">
-                          <img [src]="'../../assets/images/'+follow.image" [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
+                          <img [src]="'../../assets/images/'+follow.image" onerror="this.src='../../assets/images/bbyoda.png'"  [routerLink]="['/profile', follow.username]" alt="" width="50px" class="d-block ui-w-25 rounded-circle" />
                           <div class="flex-fill pl-3 pr-3">
                               <div><a class="text-dark font-weight-600" [routerLink]="['/profile', follow.username]">{{follow.username}}</a></div>
                           </div>

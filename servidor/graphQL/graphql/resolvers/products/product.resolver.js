@@ -8,13 +8,6 @@ const getProduct = (root, { slug }, context) => {
 };
 
 const addProduct = async (root, { product }, context) => {
-  console.log("-----------------------------------");
-  console.log(root);
-  console.log("-----------------------------------");
-  console.log(product);
-  console.log("-----------------------------------");
-  console.log(context);
-  console.log("-----------------------------------");
 
 
   if (context.user) {

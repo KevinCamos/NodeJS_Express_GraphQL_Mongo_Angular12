@@ -1,16 +1,10 @@
-  <!-- product -->
   <section class="mb-2">
     <div class="row">
       <div class="col-md-6 ">
         <div class="row product-gallery mx-1">
           <div class="col-12 mb-0">
             <figure class="view overlay rounded z-depth-1 main-img">
-              <!-- <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                data-size="710x823">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                  class="img-fluid z-depth-1">
 
-              </a> -->
               <app-carousel [listImages]="images"></app-carousel>
             </figure>
           </div>
@@ -19,24 +13,7 @@
 
       <div class="col-md-6">
         <h2 class="mt-4">{{product.name | uppercase}}</h2>
-        <!-- <p class="mb-2 text-muted text-uppercase small">{{product.id_category}}</p> -->
-        <!-- <ul class="pagination">
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="fas fa-star fa-sm text-primary"></i>
-          </li>
-          <li>
-            <i class="far fa-star fa-sm text-primary"></i>
-          </li>
-        </ul> -->
+
         <app-rating [value]=" product.author!.valoration" [update]="false" ></app-rating>
 
         <p><span class="mr-1"><strong>{{product.price}} €</strong></span></p>
@@ -47,10 +24,6 @@
               <tr>
                 <th class="pl-0 w-25" scope="row"><strong>Location</strong></th>
                 <td>{{product.location}}</td>
-              </tr>
-              <tr>
-                <th class="pl-0 w-25" scope="row"><strong>Slug</strong></th>
-                <td>{{product.slug}}</td>
               </tr>
             </tbody>
           </table>
@@ -64,12 +37,10 @@
 
                 <td>
                   <a [routerLink]="['/profile', product.author!.username]">
-                    <img [src]="'../../assets/images/'+product.author!.image" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img [src]="'../../assets/images/'+product.author!.image"  onerror="this.src='../../assets/images/bbyoda.png'"  width="32" height="32" class="rounded-circle">
                     &nbsp;&nbsp;{{ product.author!.username }}
                   </a>
                 </td>
-               <!--  <app-rating [value]="product.author.valoration" [update]="false"></app-rating> -->
-
               </tr>
             </tbody>
           </table>
@@ -86,7 +57,6 @@
     </div>
   </section>
   <!-- end product -->
-
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link active" aria-current="page">Comments</a>
@@ -103,7 +73,7 @@
       </app-comments>
 
       <div class="media g-mb-30 media-comment" *appShowAuthed="true">
-        <img  [routerLink]="['/profile', currentUser.username]" class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" [src]="'../../../assets/images/'+currentUser.image"  alt="Image Description">
+        <img  [routerLink]="['/profile', currentUser.username]" class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" [src]="'../../assets/images/'+currentUser.image" onerror="this.src='../../assets/images/bbyoda.png'" alt="Image Description">
         <div class="media-body u-shadow-v18 bg-primary g-pa-30">
           <form (ngSubmit)="addComment()">
             <fieldset [disabled]="isSubmitting">
