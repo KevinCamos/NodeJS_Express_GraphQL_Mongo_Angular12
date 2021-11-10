@@ -7,11 +7,12 @@ var Comment = mongoose.model("Comment");
 const User = require("../../models/user.model");
 const Product = require("../../models/product.model");
 const Category = require("../../models/category.model");
+const ProductModel = require("../../models/product.model");
 var auth = require("../auth");
 
 //açò va quan busquem un producte per "Slug"
 router.param("slug", auth.optional, async (req, res, next, slug) => {
-  
+
   await Product.findOne({ slug: slug })
     .populate("author")
     .then(function (product) {
@@ -42,7 +43,7 @@ const isFavorite = (idUser, product) => {
 };
 router.get("/:slug", auth.optional, async (req, res) => {
   var idUser = req.payload ? req.payload.id : undefined;
-  
+
   if (!req.product) {
     try {
       let product = await Product.findOne({ slug: req.params.slug }).populate(
@@ -73,7 +74,8 @@ router.get("/:slug", auth.optional, async (req, res) => {
       console.log(product.toDetailsJSONFor());
       product.toDetailsJSONFor().then(function (productJSON) {
         res.json(productJSON);
-      });    }
+      });
+    }
   }
 });
 
@@ -268,62 +270,97 @@ router.delete("/:id", async (req, res) => {
 });
 
 /* Favorite */
-
 router.post("/:slug/favorite", auth.required, function (req, res, next) {
-  /* var productId = req.product._id; */
-    console.log(req.product);
+  console.log(req.product, "req.product");
+  if (!req.product) {
+    Product.findOne({ slug: req.params.slug }).then(function (product) {
+      if (!product) res.status(404).json({ msg: "No existe el product" });
+      var productId = product._id;
 
-   User.findById(req.product.author)
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(401);
-      }
+      User.findById(product.author).then(function (user) {
+        if (!user) return res.sendStatus(401);
+        user.updateKarmaSave(10, user);
+      }).catch(next);
+
+      User.findById(req.payload.id).then(function (user) {
+        if (!user) return res.sendStatus(401);
+        return user.favorite(productId).then(function () {
+          return product.favoriteCount().then(function (product) {
+            return res.json({ product: product.toJSONFor(user) });
+          });
+        });
+      }).catch(next);
+    }).catch(function (err) {
+      console.log(err)
+      res.json(err)
+    });
+
+
+  } else {
+    var productId = req.product._id;
+
+    User.findById(req.product.author).then(function (user) {
+      if (!user) return res.sendStatus(401);
       user.updateKarmaSave(10, user);
     })
-    .catch(next);
-
-  User.findById(req.payload.id)
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(401);
-      }
+      .catch(next);
+    User.findById(req.payload.id).then(function (user) {
+      if (!user) return res.sendStatus(401);
 
       return user.favorite(productId).then(function () {
         return req.product.favoriteCount().then(function (product) {
           return res.json({ product: product.toJSONFor(user) });
         });
       });
-    })
-    .catch(next);
+    }).catch(next);
+  }
 });
 
 /* Unfavorite */
-
 router.delete("/:slug/favorite", auth.required, function (req, res, next) {
-  var productId = req.product._id;
+  console.log("req!", req.product)
+  if (!req.product) {
+    Product.findOne({ slug: req.params.slug }).then(function (product) {
+      if (!product) res.status(404).json({ msg: "No existe el product" });
+      var productId = product._id;
 
-  User.findById(req.product.id_user)
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(401);
-      }
+      User.findById(product.author).then(function (user) {
+        if (!user) return res.sendStatus(401);
+        user.updateKarmaSave(-10, user);
+      }).catch(next);
+
+      User.findById(req.payload.id).then(function (user) {
+        if (!user) return res.sendStatus(401);
+        return user.unfavorite(productId).then(function () {
+          return product.favoriteCount().then(function (product) {
+            return res.json({ product: product.toJSONFor(user) });
+          });
+        });
+      }).catch(next);
+    }).catch(function (err) {
+      console.log(err)
+      res.json(err)
+    });
+
+
+  } else {
+    var productId = req.product._id;
+    
+    User.findById(req.product.author).then(function (user) {
+      if (!user) return res.sendStatus(401);
       user.updateKarmaSave(-10, user);
-    })
-    .catch(next);
-
-  User.findById(req.payload.id)
-    .then(function (user) {
-      if (!user) {
-        return res.sendStatus(401);
-      }
+    })      .catch(next);
+    User.findById(req.payload.id).then(function (user) {
+      if (!user) return res.sendStatus(401);
 
       return user.unfavorite(productId).then(function () {
         return req.product.favoriteCount().then(function (product) {
           return res.json({ product: product.toJSONFor(user) });
         });
       });
-    })
-    .catch(next);
+    }).catch(next);
+  }
+
 });
 
 /* COMENTARIOS */
@@ -423,14 +460,14 @@ router.delete(
         if (comment.author.toString() === req.payload.id.toString()) {
           /*           console.log("Este usuario es el propietario");
            */ Product.findOne({ slug: productSlug }).then(function (product) {
-            if (!product) return res.sendStatus(404);
-            /* Eliminem els comentaris de la taula product */
-            product.comments.remove(idComment);
-            product.save();
-            comment.remove();
-            //El 204 No Contentcódigo de respuesta de estado de éxito HTTP indica que una solicitud se ha realizado correctamente, pero que el cliente no necesita salir de su página actual.
-            res.sendStatus(204);
-          });
+          if (!product) return res.sendStatus(404);
+          /* Eliminem els comentaris de la taula product */
+          product.comments.remove(idComment);
+          product.save();
+          comment.remove();
+          //El 204 No Contentcódigo de respuesta de estado de éxito HTTP indica que una solicitud se ha realizado correctamente, pero que el cliente no necesita salir de su página actual.
+          res.sendStatus(204);
+        });
         } else {
           res.sendStatus(403);
         }

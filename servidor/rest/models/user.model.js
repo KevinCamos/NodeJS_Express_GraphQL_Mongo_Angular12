@@ -149,10 +149,10 @@ UserSchema.methods.toAuthJSON = function () {
 };
 
 UserSchema.methods.toProfileJSONSimpleFor = function (user) {
-  console.log("-----------------------------------");
+/*   console.log("-----------------------------------");
   console.log(user.isFollowing(this._id));
   console.log(user.following);
-  console.log("-----------------------------------");
+  console.log("-----------------------------------"); */
   return {
     username: this.username,
     image: this.image || "bbyoda.png",
@@ -172,14 +172,13 @@ UserSchema.methods.toProfileJSONFor = function (user) {
 };
 
 UserSchema.methods.toProfileJSONFollowers = function (users, valoration, userJWT) {
-  var followers = new Array();
-  users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor(userJWT)));
- /*  console.log(this.followers); */
-  this.followers.map(
-    (follower, i) => (followers[i] = follower.toProfileJSONSimpleFor(userJWT))
-  );
+  // var followers = new Array();
 
-  // console.log(users);
+  users.map((user, i) => (users[i] = user.toProfileJSONSimpleFor(userJWT)));
+  this.followers.map(
+    (follower, i) => (this.followers[i] = follower.toProfileJSONSimpleFor(userJWT))
+  );
+ 
   return {
     username: this.username,
     bio: this.bio,

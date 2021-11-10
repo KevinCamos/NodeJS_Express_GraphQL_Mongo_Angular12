@@ -163,7 +163,8 @@ console.log(valoration)
     
 };
 ProductSchema.methods.toJSONFor = function (user) {
-  /*  console.log(user); */
+   console.log(user);
+
   return {
     slug: this.slug,
     name: this.name,

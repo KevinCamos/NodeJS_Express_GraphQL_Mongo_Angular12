@@ -30,7 +30,6 @@ export class FollowComponent {
 
   toggleFollowing() {
     this.isSubmitting = true;
-    console.log(this.profile);
     this.userService.isAuthenticated
       .pipe(
         concatMap((authenticated) => {
@@ -39,13 +38,16 @@ export class FollowComponent {
             this.router.navigateByUrl('/login');
             return of(null);
           }
-
+          // console.log(this.profile)
           // Follow this profile if we aren't already
           if (!this.profile.isFollow) {
+            console.log(this.profile, 'false');
+
             console.log(this.profile.username);
             return this.profilesService.follow(this.profile.username).pipe(
               tap(
                 (data) => {
+                  this.profile.isFollow = this.profile.isFollow ? false : true;
                   this.isSubmitting = false;
                   this.toggle.emit(true);
                 },
@@ -55,9 +57,13 @@ export class FollowComponent {
 
             // Otherwise, unfollow this profile
           } else {
+            console.log(this.profile, 'true');
+
             return this.profilesService.unfollow(this.profile.username).pipe(
               tap(
                 (data) => {
+                  this.profile.isFollow = this.profile.isFollow ? false : true;
+
                   this.isSubmitting = false;
                   this.toggle.emit(false);
                 },

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { concatMap ,  tap } from 'rxjs/operators'; 
+import { concatMap ,  tap } from 'rxjs/operators';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { Product, ProductService, UserService } from '../../core';
@@ -27,8 +27,10 @@ export class FavoriteComponent {
   faHeart  = faHeart;
 
   toggleFavorite() {
+
+    console.log(this.product)
     this.isSubmitting = true;
-    
+
     this.userService.isAuthenticated.pipe(concatMap(
       (authenticated) => {
         // Not authenticated? Push to login screen
@@ -36,7 +38,7 @@ export class FavoriteComponent {
           this.router.navigateByUrl('/login');
           return of(null);
         }
-        
+
         // Favorite the article if it isn't favorited yet
         if (!this.product.favorited) {
           return this.productService.favorite(this.product.slug)
