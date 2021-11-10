@@ -1,0 +1,191 @@
+[{
+  "_id": {
+    "$oid": "614de292b684d81524a65564"
+  },
+  "products": [],
+  "reference": 0,
+  "name_category": "Otros",
+  "slug": "otros",
+  "__v": 0,
+  "icon": "fa-align-center"
+},{
+  "_id": {
+    "$oid": "61534cf4872d86280c39a6ef"
+  },
+  "products": [],
+  "reference": 1,
+  "name_category": "Coches",
+  "slug": "coches",
+  "__v": 0,
+  "icon": "fa-car"
+},{
+  "_id": {
+    "$oid": "61534cfe872d86280c39a6f3"
+  },
+  "products": [],
+  "reference": 14,
+  "name_category": "Motos",
+  "slug": "motos",
+  "__v": 0,
+  "icon": "fa-motorcycle"
+},{
+  "_id": {
+    "$oid": "61534d21872d86280c39a6f7"
+  },
+  "products": [],
+  "reference": 3,
+  "name_category": "Motor y Accesorios",
+  "__v": 0,
+  "slug": "motor-y-accesorios",
+  "icon": "fa-tools"
+},{
+  "_id": {
+    "$oid": "61534d2c872d86280c39a6fb"
+  },
+  "products": [],
+  "reference": 4,
+  "name_category": "Moda y Accesorios",
+  "__v": 0,
+  "slug": "moda-y-accesorios",
+  "icon": "fa-tshirt"
+},{
+  "_id": {
+    "$oid": "61534d38872d86280c39a6ff"
+  },
+  "products": [],
+  "reference": 5,
+  "name_category": "Inmobiliaria",
+  "__v": 0,
+  "slug": "inmobiliaria",
+  "icon": "fa-home"
+},{
+  "_id": {
+    "$oid": "61534d4f872d86280c39a703"
+  },
+  "products": [],
+  "reference": 6,
+  "name_category": "TV, Audio y Foto",
+  "__v": 0,
+  "slug": "tv-audio-y-foto",
+  "icon": "fa-tv"
+},{
+  "_id": {
+    "$oid": "61534d69872d86280c39a707"
+  },
+  "products": [],
+  "reference": 7,
+  "name_category": "Moviles y Telefonia",
+  "__v": 0,
+  "slug": "moviles-y-telefonia",
+  "icon": "fa-mobile-alt"
+},{
+  "_id": {
+    "$oid": "61534d7e872d86280c39a70b"
+  },
+  "products": [],
+  "reference": 8,
+  "name_category": "Informatica y Electronica",
+  "__v": 0,
+  "slug": "informatica-y-electronica",
+  "icon": "fa-desktop"
+},{
+  "_id": {
+    "$oid": "61534d8b872d86280c39a70f"
+  },
+  "products": [],
+  "reference": 9,
+  "name_category": "Deporte y Ocio",
+  "__v": 0,
+  "slug": "deporte-y-ocio",
+  "icon": "fa-basketball-ball"
+},{
+  "_id": {
+    "$oid": "61534d93872d86280c39a713"
+  },
+  "products": [],
+  "reference": 10,
+  "name_category": "Bicicletas",
+  "__v": 0,
+  "slug": "bicicletas",
+  "icon": "fa-bicycle"
+},{
+  "_id": {
+    "$oid": "61534daa872d86280c39a717"
+  },
+  "products": [],
+  "reference": 11,
+  "name_category": "Consolas y Videojuegos",
+  "__v": 0,
+  "slug": "consolas-y-videojuegos",
+  "icon": "fa-gamepad"
+},{
+  "_id": {
+    "$oid": "61534db7872d86280c39a71b"
+  },
+  "products": [],
+  "reference": 12,
+  "name_category": "Hogar y Jardin",
+  "__v": 0,
+  "slug": "hogar-y-jardin",
+  "icon": "fa-couch"
+},{
+  "_id": {
+    "$oid": "61534dd0872d86280c39a71f"
+  },
+  "products": [],
+  "reference": 13,
+  "name_category": "Electrodomesticos",
+  "__v": 0,
+  "slug": "electrodomesticos",
+  "icon": "fa-blender-phone"
+},{
+  "_id": {
+    "$oid": "61534de4872d86280c39a723"
+  },
+  "products": [],
+  "reference": 2,
+  "name_category": "Cine, Libros y Musica",
+  "__v": 0,
+  "slug": "cine-libros-y-musica",
+  "icon": "fa-book"
+},{
+  "_id": {
+    "$oid": "61534df7872d86280c39a727"
+  },
+  "products": [],
+  "reference": 15,
+  "name_category": "Niños y Bebes",
+  "__v": 0,
+  "slug": "ninos-y-bebes",
+  "icon": "fa-baby-carriage"
+},{
+  "_id": {
+    "$oid": "61534e03872d86280c39a72b"
+  },
+  "products": [],
+  "reference": 16,
+  "name_category": "Coleccionismo",
+  "__v": 0,
+  "slug": "coleccionismo",
+  "icon": "fa-robot"
+},{
+  "_id": {
+    "$oid": "61534e15872d86280c39a72f"
+  },
+  "products": [],
+  "reference": 17,
+  "name_category": "Construccion y Reformas",
+  "__v": 0,
+  "slug": "construccion-y-reformas",
+  "icon": "fa-hard-hat"
+},{
+  "_id": {
+    "$oid": "61534e30872d86280c39a733"
+  },
+  "products": [],
+  "reference": 18,
+  "name_category": "Industrial y Agricultura",
+  "__v": 0,
+  "slug": "industrial-y-agricultura",
+  "icon": "fa-industry"
+}]

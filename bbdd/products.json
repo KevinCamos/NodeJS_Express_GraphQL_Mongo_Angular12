@@ -1,0 +1,446 @@
+[{
+  "_id": {
+    "$oid": "618c2174511753ebdddc72cd"
+  },
+  "name": "apple watch serie 42mm",
+  "description": "apple watch serie 42mm en perfecto estado con caja y cargador. entrega en mano en vigo o alrededores..",
+  "status": true,
+  "id_category": 7,
+  "location": "vigo",
+  "price": 150,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/watch1 (1)",
+    "/watch1 (2)",
+    "/watch1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c210e5a59cd3738edeece"
+  },
+  "comments": [
+    {
+      "$oid": "618c2d7a5a59cd3738edf301"
+    }
+  ],
+  "slug": "apple-watch-serie-42mm-u3chac",
+  "__v": 1,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c21c0511753ebdddc72d0"
+  },
+  "name": "bicileta bultaco brinco r",
+  "description": "vendo bultaco brinco r sin estrenar. regalo caballete",
+  "status": true,
+  "id_category": 10,
+  "location": "vigo",
+  "price": 2900,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/bici2 (1)",
+    "/bici2 (2)",
+    "/bici2 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c210e5a59cd3738edeece"
+  },
+  "comments": [],
+  "slug": "bicileta-bultaco-brinco-r-cv5wek",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c21d2511753ebdddc72d2"
+  },
+  "name": "iphone 12 mini 64gb negro",
+  "description": "perfecto estado , tal y como se ve en la foto se entrega con factura de compra y cargador completo y también con funda apple original en azul marino de silicona , cualquier duda no dudes en hablarme ..",
+  "status": true,
+  "id_category": 7,
+  "location": "vigo",
+  "price": 450,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/mobile1 (1)",
+    "/mobile1 (2)",
+    "/mobile1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c210e5a59cd3738edeece"
+  },
+  "comments": [],
+  "slug": "iphone-12-mini-64gb-negro-chgna",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c220a511753ebdddc72d4"
+  },
+  "name": "seat altea automático 140 caballos",
+  "description": "el coche se entrega en perfecto estado tanto de chapa como de mecanica e interior. lleva cambio automatico, sensores de aparcamiento, sensor de luces, pintura metalizada, elevalunas electrico.... 12 meses de garantia ya incluido en el precio.",
+  "status": true,
+  "id_category": 1,
+  "location": "bilbao",
+  "price": 5750,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/car1 (1)",
+    "/car1 (2)",
+    "/car1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c21e85a59cd3738edeefb"
+  },
+  "comments": [],
+  "slug": "seat-altea-automatico-140-caballos-55e6rn",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c22a2511753ebdddc72d7"
+  },
+  "name": "kia sportage 2019",
+  "description": "kia sportage 4x4 en badalona",
+  "status": true,
+  "id_category": 1,
+  "location": "badalona",
+  "price": 22000,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/car2 (1)",
+    "/car2 (2)",
+    "/car2 (3)"
+  ],
+  "favorites": 1,
+  "favorited": false,
+  "author": {
+    "$oid": "618c21e85a59cd3738edeefb"
+  },
+  "comments": [],
+  "slug": "kia-sportage-2019-mh7ewl",
+  "__v": 0,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c230b511753ebdddc72da"
+  },
+  "name": "ford fiesta 2003",
+  "description": "vendo ford fiesta con 59500 km reales. itv hasta mayo 2022 tiene hecha instalación parrot manos libres. se vende por no usar, se acepta prueba mecánica. ford fiesta en bilbao",
+  "status": true,
+  "id_category": 1,
+  "location": "bilbao",
+  "price": 2900,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/car3 (1)",
+    "/car3 (2)",
+    "/car3 (3)"
+  ],
+  "favorites": 1,
+  "favorited": false,
+  "author": {
+    "$oid": "618c21e85a59cd3738edeefb"
+  },
+  "comments": [],
+  "slug": "ford-fiesta-2003-p20w92",
+  "__v": 0,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c23d3511753ebdddc72dd"
+  },
+  "name": "bicicleta de montaña moma gtt 29.",
+  "description": "en muy buen estado. bicicleta moma bikes gtt 29. talla l.",
+  "status": true,
+  "id_category": 10,
+  "location": "barcelona",
+  "price": 150,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/bici1 (1)",
+    "/bici1 (2)",
+    "/bici1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c234d5a59cd3738edef40"
+  },
+  "comments": [
+    {
+      "$oid": "618c2d805a59cd3738edf317"
+    }
+  ],
+  "slug": "bicicleta-de-montana-moma-gtt-29-rwr1fa",
+  "__v": 1,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c23da511753ebdddc72df"
+  },
+  "name": "guitarra epiphone les paul",
+  "description": "epiphone original, pastillas humbucker, perfecto estado.",
+  "status": true,
+  "id_category": 2,
+  "location": "barcelona",
+  "price": 425,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/guitarra1 (1)",
+    "/guitarra1 (2)",
+    "/guitarra1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c234d5a59cd3738edef40"
+  },
+  "comments": [],
+  "slug": "guitarra-epiphone-les-paul-1sbtgu",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c2412511753ebdddc72e2"
+  },
+  "name": "guitarra electroacústica fenix young chang d-50m",
+  "description": "vendo guitarra electroacústica coreana fenix young chang d-50m, en perfectas condiciones. el año pasado un lutier la revisó a fondo y está como nueva. con cable y funda.",
+  "status": true,
+  "id_category": 2,
+  "location": "barcelona",
+  "price": 250,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/guitarra2 (1)",
+    "/guitarra2 (2)",
+    "/guitarra2 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c234d5a59cd3738edef40"
+  },
+  "comments": [],
+  "slug": "guitarra-electroacustica-fenix-young-chang-d-50m-grtrap",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c246d511753ebdddc72e4"
+  },
+  "name": "rebeldes (susan hilton)",
+  "description": "ed. alfaguara - serie roja visita mi perfil para comprar libros en pack",
+  "status": true,
+  "id_category": 2,
+  "location": "alicante",
+  "price": 5,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/book (1)",
+    "/book (2)"
+  ],
+  "favorites": 1,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "rebeldes-susan-hilton-3w2h2r",
+  "__v": 0,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c2474511753ebdddc72e6"
+  },
+  "name": "bermuda vaquera zara",
+  "description": "talla 34 , un solo uso",
+  "status": false,
+  "id_category": 4,
+  "location": "alicante",
+  "price": 18,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/pant"
+  ],
+  "favorites": 2,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "bermuda-vaquera-zara-boheqn",
+  "__v": 0,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c247a511753ebdddc72e8"
+  },
+  "name": "chaqueta elogy",
+  "description": "chaqueta sin mangas de la firma elogy, talla m/l/xl (52 de sisa y 72 cm de largo), en color taupe. tiene mucho estilo!!",
+  "status": true,
+  "id_category": 4,
+  "location": "alicante",
+  "price": 18,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/clot1 (1)",
+    "/clot1 (2)",
+    "/clot1 (3)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "chaqueta-elogy-6l5yzj",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c2482511753ebdddc72ea"
+  },
+  "name": "blusa de flores zara s nueva",
+  "description": "blusa floral de manga larga, de zara woman, nueva a estrenar, talla s/ talla 36. *entrego en madrid capital, no hago envíos*",
+  "status": true,
+  "id_category": 4,
+  "location": "alicante",
+  "price": 15,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/clot2 (1)",
+    "/clot2 (2)",
+    "/clot2 (3)"
+  ],
+  "favorites": 1,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "blusa-de-flores-zara-s-nueva-jbmykm",
+  "__v": 0,
+  "id_user": "undefined"
+},{
+  "_id": {
+    "$oid": "618c24c3511753ebdddc72ec"
+  },
+  "name": "samsung s7 edge color rosa",
+  "description": "en perfecto funcionamiento, unica usuaria. sin ninguna reparación. lo vendo por haber comprado un modelo nuevo.",
+  "status": true,
+  "id_category": 7,
+  "location": "lleida",
+  "price": 150,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/mobile2 (1)",
+    "/mobile2 (2)"
+  ],
+  "favorites": 0,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "samsung-s7-edge-color-rosa-gd06pr",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c24cc511753ebdddc72ee"
+  },
+  "name": "bicicleta infantil",
+  "description": "bicicleta infantil sense pedals. porta cistella i timbre però no funciona :(",
+  "status": true,
+  "id_category": 10,
+  "location": "lleida",
+  "price": 20,
+  "creationDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "updateDate": {
+    "$date": "2021-11-10T17:27:01.700Z"
+  },
+  "images": [
+    "/bici3"
+  ],
+  "favorites": 1,
+  "favorited": false,
+  "author": {
+    "$oid": "618c243f5a59cd3738edef83"
+  },
+  "comments": [],
+  "slug": "bicicleta-infantil-90fa84",
+  "__v": 0,
+  "id_user": "undefined"
+}]

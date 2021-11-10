@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "618c2d7a5a59cd3738edf301"
+  },
+  "body": "adsfdasfsa",
+  "author": {
+    "$oid": "618c210e5a59cd3738edeece"
+  },
+  "product": {
+    "$oid": "618c2174511753ebdddc72cd"
+  },
+  "createdAt": {
+    "$date": "2021-11-10T20:37:14.178Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-10T20:37:14.178Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618c2d805a59cd3738edf317"
+  },
+  "body": "asdfsadsa",
+  "author": {
+    "$oid": "618c210e5a59cd3738edeece"
+  },
+  "product": {
+    "$oid": "618c23d3511753ebdddc72dd"
+  },
+  "createdAt": {
+    "$date": "2021-11-10T20:37:20.207Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-10T20:37:20.207Z"
+  },
+  "__v": 0
+}]

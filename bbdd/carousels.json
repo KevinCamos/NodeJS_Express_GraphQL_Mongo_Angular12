@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "6154b508a946ec0864d578ad"
+  },
+  "description": "Descripción de la imagen",
+  "img": "https://phantom-elmundo.unidadeditorial.es/77a4ab35af86885f383b85a266dd226d/resize/473/f/webp/assets/multimedia/imagenes/2019/08/01/15646703207761.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6154b575a946ec0864d578bb"
+  },
+  "description": "Descripción de la imagen",
+  "img": "https://phantom-elmundo.unidadeditorial.es/77a4ab35af86885f383b85a266dd226d/resize/473/f/webp/assets/multimedia/imagenes/2019/08/01/15646703207761.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6154b5c3a946ec0864d578c4"
+  },
+  "description": "Descripción de la imagen 2",
+  "img": "https://fotos01.deia.eus/2020/03/06/690x278/wallapop.jpg",
+  "__v": 0
+}]

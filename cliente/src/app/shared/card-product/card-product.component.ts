@@ -9,12 +9,14 @@ import { Product } from 'src/app/core';
 export class CardProductComponent implements OnInit {
 
   @Input() product: Product;
-  images: String[] = [];
+  images: String;
 
   constructor() { }
 
   ngOnInit(): void {  
-    /* console.log(this.product) */
+    if(typeof this.product.images !== "undefined"){
+      this.images = this.product.images[0];
+    }
   }
 
   onToggleFavorite(favorited: boolean) {
