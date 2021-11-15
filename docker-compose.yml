@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  angular:
+    build: ./cliente
+    depends_on:
+      - graylog
+    ports:
+      - 4200:4200
+    networks:
+      - bualabob
+  graphql:
+    build: ./servidor/graphQL
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000
+    networks:
+      - bualabob
+  rest:
+    build: ./servidor/rest
+    depends_on:
+      - mongo
+    ports:
+      - 4000:4000
+    networks:
+      - bualabob
+  mongo:
+    image: mongo
+    volumes:
+    - ./dump:.
+    command: mongorestore .
+    ports:
+      - 27017:27017
+    networks:
+      - bualabob
+networks:
+  bualabob:
+    driver: bridge

@@ -32,8 +32,10 @@ const server = new ApolloServer({
     return { user, AuthenticationError };
 }
 });
-server.listen(process.env.PORT, () =>
+const port = process.env.PORT || 3000;
+
+server.listen(port, () =>
   console.log(
-    `🚀Corriendo aplicación graphQL en http://localhost:${process.env.PORT}/grapqhql`
+    `🚀Corriendo aplicación graphQL en http://localhost:${port}/grapqhql`
   )
 );
