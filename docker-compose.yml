@@ -1,10 +1,7 @@
 version: "3"
-
 services:
   angular:
     build: ./cliente
-    depends_on:
-      - graylog
     ports:
       - 4200:4200
     networks:
@@ -15,6 +12,9 @@ services:
       - mongo
     ports:
       - 3000:3000
+    environment:
+      DB_MONGO: mongodb://mongo:27017/bualabob
+      PORT: 3000 
     networks:
       - bualabob
   rest:
@@ -23,13 +23,16 @@ services:
       - mongo
     ports:
       - 4000:4000
+    environment:
+      DB_MONGO: mongodb://mongo:27017/bualabob 
     networks:
       - bualabob
   mongo:
     image: mongo
     volumes:
-    - ./dump:.
-    command: mongorestore .
+      - ./dump:/var/dump
+    command: mongorestore --host mongo:27017 --db bualabob /var/dump/bualabob
+
     ports:
       - 27017:27017
     networks:
