@@ -1,34 +1,38 @@
 version: "3"
 services:
   angular:
+    container_name: bualabob-angular
     build: ./cliente
     ports:
       - 4200:4200
     networks:
       - bualabob
   graphql:
+    container_name: bualabob-graphql
     build: ./servidor/graphQL
     depends_on:
       - mongo
     ports:
       - 3000:3000
     environment:
-      - DB_MONGO=mongodb://bualabob_mongo_1:27017/bualabob 
+      - DB_MONGO=mongodb://bualabob_mongo:27017/bualabob 
       - SECRET=3000
     networks:
       - bualabob
   rest:
+    container_name: bualabob-rest
     build: ./servidor/rest
     depends_on:
       - mongo
     ports:
       - 4000:4000
     environment:
-      - DB_MONGO=mongodb://bualabob_mongo_1:27017/bualabob 
+      - DB_MONGO=mongodb://bualabob_mongo:27017/bualabob 
       - SECRET=ejemplo123
     networks:
       - bualabob
   mongo:
+    container_name: bualabob-mongo
     image: mongo
     volumes:
       - ./dump:/var/dump
