@@ -13,8 +13,8 @@ services:
     ports:
       - 3000:3000
     environment:
-      DB_MONGO: mongodb://mongo:27017/bualabob
-      PORT: 3000 
+      - DB_MONGO=mongodb://bualabob_mongo_1:27017/bualabob 
+      - SECRET=3000
     networks:
       - bualabob
   rest:
@@ -24,15 +24,16 @@ services:
     ports:
       - 4000:4000
     environment:
-      DB_MONGO: mongodb://mongo:27017/bualabob 
+      - DB_MONGO=mongodb://bualabob_mongo_1:27017/bualabob 
+      - SECRET=ejemplo123
     networks:
       - bualabob
   mongo:
     image: mongo
     volumes:
       - ./dump:/var/dump
-    command: mongorestore --host mongo:27017 --db bualabob /var/dump/bualabob
-
+      - ./mongorestore.sh:/docker-entrypoint-initdb.d/mongorestore.sh
+    # command: mongorestore /var/dump, amb el "docker-entrypoint.... ja executa l'script"
     ports:
       - 27017:27017
     networks:

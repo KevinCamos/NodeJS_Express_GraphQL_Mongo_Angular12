@@ -3,7 +3,7 @@
 
 // JsonWebTokens es solo otra implementación de los tokens web json.
 var jwt = require("express-jwt");
-var secret = require("../config").secret;
+var secret =process.env.SECRET;
 
 function getTokenFromHeader(req) {
   if (
