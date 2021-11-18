@@ -20,7 +20,7 @@ export class Filters {
     favorited?: string,
     author?: string
   ) {
-    this.limit = limit || 3;
+    this.limit = limit || 9;
     this.offset = offset || 0;
     this.name = name;
     this.location = location;

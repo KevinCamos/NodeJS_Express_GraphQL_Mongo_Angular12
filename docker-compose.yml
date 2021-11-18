@@ -14,9 +14,10 @@ services:
       - mongo
     ports:
       - 3000:3000
+    env_file:
+      - .env
     environment:
-      - DB_MONGO=mongodb://bualabob_mongo:27017/bualabob 
-      - SECRET=3000
+      DB_MONGO: ${DB_MONGO}
     networks:
       - bualabob
   rest:
@@ -26,14 +27,16 @@ services:
       - mongo
     ports:
       - 4000:4000
+    env_file:
+      - .env
     environment:
-      - DB_MONGO=mongodb://bualabob_mongo:27017/bualabob 
-      - SECRET=ejemplo123
+      DB_MONGO: ${DB_MONGO}
+      SECRET: ${SECRET}
     networks:
       - bualabob
   mongo:
     container_name: bualabob-mongo
-    image: mongo
+    image: mongo:latest
     volumes:
       - ./dump:/var/dump
       - ./mongorestore.sh:/docker-entrypoint-initdb.d/mongorestore.sh
