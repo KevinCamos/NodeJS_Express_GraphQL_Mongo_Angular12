@@ -25,18 +25,25 @@ require('./config/passport');
 /**
  * Para ir al router.post/get.. de un objeto, se utiliza require('./carpetarouter')
  */
-/* require("./routes"); //es dirigeix a la carpeta routes! */ 
+/* require("./routes"); //es dirigeix a la carpeta routes! */
 app.use(require("./routes"));
 
 /// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error("Not Found");
-  err.status = 404;
-  next(err);
-});
+// app.use(function (req, res, next) {
+//   var err = new Error("Not Found");
+//   err.status = 404;
+//   next(err);
+// });
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+  console.log(`Bienvenido a Bualabob`);
 
-/// error handlers
-
+})
+// app.use(function (res) {
+//   console.log(`Bienvenido a Bualabob`);
+// // res.json({bualabob:"bualabob"})})
+// /// error handlers
+// })
 app.listen(port, "0.0.0.0", () => {
   //app.get('port')
   console.log(`El servidor está corriendo perfectamente en el puerto ${port}`);

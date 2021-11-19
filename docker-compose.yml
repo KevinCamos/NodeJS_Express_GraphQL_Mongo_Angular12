@@ -6,7 +6,7 @@ services:
     ports:
       - 4200:4200
     networks:
-      - bualabob
+      - api-network
   graphql:
     container_name: bualabob-graphql
     build: ./servidor/graphQL
@@ -19,7 +19,7 @@ services:
     environment:
       DB_MONGO: ${DB_MONGO}
     networks:
-      - bualabob
+      - api-network
   rest:
     container_name: bualabob-rest
     build: ./servidor/rest
@@ -33,7 +33,7 @@ services:
       DB_MONGO: ${DB_MONGO}
       SECRET: ${SECRET}
     networks:
-      - bualabob
+      - api-network
   mongo:
     container_name: bualabob-mongo
     image: mongo:latest
@@ -44,7 +44,7 @@ services:
     ports:
       - 27017:27017
     networks:
-      - bualabob
+      - api-network
 networks:
-  bualabob:
+  api-network:
     driver: bridge
