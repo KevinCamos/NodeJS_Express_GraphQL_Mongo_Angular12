@@ -2,6 +2,7 @@ const express = require("express");
 const conectarDB = require("./config/db");
 const cors = require("cors"); //http://www.vidamrr.com/2020/01/que-es-cors-y-como-usarlo-en-nodejs.html
 const passport = require('passport');
+let client = require('prom-client');
 
 const app = express();
 
@@ -9,6 +10,21 @@ conectarDB();
 
 //app.set ('port', process.env.PORT || 4000)
 const port = process.env.PORT || 4000;
+
+
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+
+const counterHomeEndpoint = new client.Counter({
+  name: 'counterHomeEndpoint',
+  help: 'The total number of processed requests'
+});
+
+const counterMessageEndpoint = new client.Counter({
+  name: 'counterMessageEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 
 app.use(cors());
 app.use(express.json());
@@ -22,28 +38,28 @@ require('./models/order.model');
 /* CARGAMOS CONFIGURACIÓN PASSPORT*/
 require('./config/passport');
 
+const gauge = new client.Gauge({ name: 'metric_name', help: 'metric_help' });
+
 /**
  * Para ir al router.post/get.. de un objeto, se utiliza require('./carpetarouter')
  */
 /* require("./routes"); //es dirigeix a la carpeta routes! */
-app.use(require("./routes"));
-
-/// catch 404 and forward to error handler
-// app.use(function (req, res, next) {
-//   var err = new Error("Not Found");
-//   err.status = 404;
-//   next(err);
-// });
 app.get('/', (req, res) => {
-  res.send('Hello World!')
   console.log(`Bienvenido a Bualabob`);
+  counterHomeEndpoint.inc();
+  gauge.inc(); // Increment 1
+
 
 })
-// app.use(function (res) {
-//   console.log(`Bienvenido a Bualabob`);
-// // res.json({bualabob:"bualabob"})})
-// /// error handlers
-// })
+app.get('/message', (req, res) => {
+  counterMessageEndpoint.inc();
+});
+
+app.get('/metrics', (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(client.register.metrics());
+});
+
 app.listen(port, "0.0.0.0", () => {
   //app.get('port')
   console.log(`El servidor está corriendo perfectamente en el puerto ${port}`);
