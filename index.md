@@ -257,14 +257,32 @@ docker-compose -f docker-compose.yml -f docker-compose1.yml up -d
 
 Entrandoremos en http://localhost:4200 para comprobar que la aplicacion funciona correctamente:
 
+![Bualabob](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(9).png)
+
 Entrandoremos en http://localhost:4000/metrics para comprobar que podemos ver las metricas:
+
+![metricas](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(1).png)
 
 Entrandoremos en http://localhost:9090 para comprobar que funciona Prometheus
 
-Por ultimo entraremos en http://localhost:3500 para comprobar que funciona Grafana y crearemos una dashboard para comprobar que los diferentes endpoints funcionan correctamente.
+![Prometheus](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(7).png)
 
-Nos dirigimos a Create -> Dashboard
+Por ultimo entraremos en http://localhost:3500 para comprobar que funciona Grafana y crearemos una dashboard para comprobar que los diferentes endpoints funcionan correctamente. Nos dirigimos a Create -> Dashboard
+
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(2).png)
 
 Seguidamente presionamos en añadir nuevo panel, y vamos a proceder a crear un panel con todos los endpoints
 
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(3).png)
+
 Para crear los diferentes endpoint nos dirigimos a Metrics y seleccionamos los endpoints.
+
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(4).png)
+
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(5).png)
+
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(6).png)
+
+Para finalizar guardaremos el dashboard pulsando el boton de save
+
+![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(10).png)
