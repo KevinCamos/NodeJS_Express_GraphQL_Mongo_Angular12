@@ -4,6 +4,13 @@ var User = mongoose.model("User");
 var Order = mongoose.model("Order");
 var auth = require("../auth");
 
+let client = require('prom-client');
+
+const counterProfileEndpoint = new client.Counter({
+  name: 'counterProfileEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 // Preload user profile on routes with ':username'
 router.param("username", function (req, res, next, username) {
   User.findOne({ username: username })
@@ -52,6 +59,7 @@ router.param("userfollow", function (req, res, next, username) {
 
 /* PROFILE */
 router.get("/:username", auth.optional, function (req, res, next) {
+  counterProfileEndpoint.inc();
   if (req.payload) {
     /* SI ESTÁS REGISTRAT HAS DE VEURE ELS SEUS FOLLOWINGS, ELS FOLLOWERS I SI LI FAS FOLLOW */
     User.findById(req.payload.id).then(function (user) {

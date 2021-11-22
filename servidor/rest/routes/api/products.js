@@ -10,6 +10,13 @@ const Category = require("../../models/category.model");
 const ProductModel = require("../../models/product.model");
 var auth = require("../auth");
 
+let client = require('prom-client');
+
+const counterProductsEndpoint = new client.Counter({
+  name: 'counterProductsEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 //açò va quan busquem un producte per "Slug"
 router.param("slug", auth.optional, async (req, res, next, slug) => {
 
@@ -42,6 +49,7 @@ const isFavorite = (idUser, product) => {
   }
 };
 router.get("/:slug", auth.optional, async (req, res) => {
+  counterProductsEndpoint.inc();
   var idUser = req.payload ? req.payload.id : undefined;
 
   if (!req.product) {
@@ -83,6 +91,7 @@ router.get("/:slug", auth.optional, async (req, res) => {
  * router.get /search/:search es una función para buscar productos slug
  */
 router.get("/list-search/:search", async (req, res) => {
+  counterProductsEndpoint.inc();
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
@@ -101,6 +110,7 @@ router.get("/list-search/:search", async (req, res) => {
 });
 
 router.get("/search/:search", async (req, res) => {
+  counterProductsEndpoint.inc();
   try {
     console.log("Ha entrat a search");
     let search = new RegExp(req.params.search);
@@ -119,6 +129,7 @@ router.get("/search/:search", async (req, res) => {
 });
 
 router.get("/", auth.optional, async (req, res) => {
+  counterProductsEndpoint.inc();
   try {
     let query = {};
     let transUndefined = (varQuery, otherResult) => {
@@ -367,6 +378,7 @@ router.delete("/:slug/favorite", auth.required, function (req, res, next) {
 
 // return an product comments
 router.get("/:product/comments", auth.optional, function (req, res, next) {
+  counterProductsEndpoint.inc();
   var productSlug = req.params.product;
 
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null)

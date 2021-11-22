@@ -2,6 +2,13 @@ var router = require("express").Router();
 
 const Category = require("../../models/category.model");
 
+let client = require('prom-client');
+
+const counterCategoriesEndpoint = new client.Counter({
+  name: 'counterCategoriesEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 /* CREAR UNA CATEGORIA */
 router.post("/", async (req, res) => {
   try {
@@ -18,6 +25,7 @@ router.post("/", async (req, res) => {
 
 /* CATEGORIAS */
 router.get("/", async (req, res) => {
+  counterCategoriesEndpoint.inc();
   try {
     const { offset, limit } = req.query;
     const categorys = await Category.find(
@@ -34,6 +42,7 @@ router.get("/", async (req, res) => {
 
 /* LISTAR CATEGORIAS PARA FILTERS */
 router.get("/list-categories", async (req, res) => {
+  counterCategoriesEndpoint.inc();
   try {
     const categorys = await Category.find({});
 
@@ -49,6 +58,7 @@ router.get("/list-categories", async (req, res) => {
 
 /* OBTENER PRODUCTOS DE UNA CATEGORIA */
 router.get("/:id", async (req, res) => {
+  counterCategoriesEndpoint.inc();
   try {
     // let category = await Category.findOne({name_category:req.params.name}).populate('products');
     let category = await Category.findOne({ slug: req.params.id }).populate(

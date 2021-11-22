@@ -4,8 +4,16 @@ var passport = require("passport");
 var User = mongoose.model("User");
 var auth = require("../auth");
 
+let client = require('prom-client');
+
+const counterUsersEndpoint = new client.Counter({
+  name: 'counterUsersEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 /* GET USER TOKEN (SETTINGS) */
 router.get("/user", auth.required, function (req, res, next) {
+  counterUsersEndpoint.inc();
   console.log(req.payload);
   User.findById(req.payload.id)
     .then(function (user) {
@@ -19,6 +27,7 @@ router.get("/user", auth.required, function (req, res, next) {
 });
 /* Get desde el servidor GraphQL */
 router.get("/user-token-gql", auth.required, function (req, res, next) {
+  counterUsersEndpoint.inc();
   console.log(req.payload);
   User.findById(req.payload.id)
     .then(function (user) {

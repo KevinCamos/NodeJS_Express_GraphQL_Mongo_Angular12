@@ -5,6 +5,13 @@ var Order = mongoose.model("Order");
 var Product = mongoose.model("Product");
 var auth = require("../auth");
 
+let client = require('prom-client');
+
+const counterOrdersEndpoint = new client.Counter({
+  name: 'counterOrdersEndpoint',
+  help: 'The total number of processed requests to get endpoint'
+});
+
 router.param("slug", async (req, res, next, slug) => {
   await Product.findOne({ slug: slug })
     .populate("author")
@@ -22,6 +29,7 @@ router.param("slug", async (req, res, next, slug) => {
 /* DAME MIS PRODUCTOS */
 router.get("/", auth.required, async function (req, res, next) {
   // console.log(req.payload);
+  counterOrdersEndpoint.inc();
 
   try {
     if (req.payload) {

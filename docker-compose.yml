@@ -48,3 +48,5 @@ services:
 networks:
   api-network:
     driver: bridge
+  bualabob_api-network:
+    external: true

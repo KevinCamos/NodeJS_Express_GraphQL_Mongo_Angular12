@@ -8,7 +8,7 @@ services:
     ports:
     - "9090:9090"
     volumes:
-    - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    - ./servidor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
     - --config.file=/etc/prometheus/prometheus.yml
     # depends_on:
@@ -22,7 +22,7 @@ services:
     - "3500:3000"
     # - "3500:3000"
     volumes:
-    - ../grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    - ./servidor/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
     - myGrafanaVol:/var/lib/grafana
     environment:
       GF_AUTH_DISABLE_LOGIN_FORM: "true"  #Deshabilitar el login de acceso a Grafana

@@ -15,16 +15,6 @@ const port = process.env.PORT || 4000;
 const collectDefaultMetrics = client.collectDefaultMetrics;
 collectDefaultMetrics({ timeout: 5000 });
 
-const counterHomeEndpoint = new client.Counter({
-  name: 'counterHomeEndpoint',
-  help: 'The total number of processed requests'
-});
-
-const counterMessageEndpoint = new client.Counter({
-  name: 'counterMessageEndpoint',
-  help: 'The total number of processed requests to get endpoint'
-});
-
 
 app.use(cors());
 app.use(express.json());
@@ -38,22 +28,7 @@ require('./models/order.model');
 /* CARGAMOS CONFIGURACIÓN PASSPORT*/
 require('./config/passport');
 
-const gauge = new client.Gauge({ name: 'metric_name', help: 'metric_help' });
-
-/**
- * Para ir al router.post/get.. de un objeto, se utiliza require('./carpetarouter')
- */
-/* require("./routes"); //es dirigeix a la carpeta routes! */
-app.get('/', (req, res) => {
-  console.log(`Bienvenido a Bualabob`);
-  counterHomeEndpoint.inc();
-  gauge.inc(); // Increment 1
-
-
-})
-app.get('/message', (req, res) => {
-  counterMessageEndpoint.inc();
-});
+app.use(require("./routes"));
 
 app.get('/metrics', (req, res) => {
   res.set('Content-Type', client.register.contentType);
