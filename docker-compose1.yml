@@ -4,7 +4,7 @@ services:
     image: prom/prometheus:v2.20.1
     container_name: prometheus_practica
     networks:
-    - bualabob_api-network
+    -  nodejs_express_mongo_angular12_api-network
     ports:
     - "9090:9090"
     volumes:
@@ -17,7 +17,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana_practica
     networks:
-    - bualabob_api-network
+    -  nodejs_express_mongo_angular12_api-network
     ports:
     - "3500:3000"
     # - "3500:3000"
@@ -34,5 +34,5 @@ services:
 volumes:
   myGrafanaVol:
 networks:
-  bualabob_api-network:
+   nodejs_express_mongo_angular12_api-network:
     external: true

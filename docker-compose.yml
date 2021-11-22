@@ -48,5 +48,5 @@ services:
 networks:
   api-network:
     driver: bridge
-  bualabob_api-network:
-    external: true
+  nodejs_express_mongo_angular12_api-network:
+    driver: bridge
