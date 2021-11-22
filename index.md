@@ -5,10 +5,11 @@
 Compose es una herramienta para definir y ejecutar aplicaciones Docker de múltiples contenedores. Con Compose, utilizaremos un archivo YAML para configurar los servicios de nuestra aplicación. A partir de aquí, con un solo comando, podremos crear e iniciar todos los servicios desde su configuración. El docker-compose.yml contendrá:
 
 - Lista de imágenes a utilizar para ejecutar contenedores.
-- La ruta de los ficheros Dockerfile que crearan las imágenes si fuese necesario.
+- La ruta de los ficheros Dockerfile que crearán las imágenes si fuese necesario.
 - Los puertos a exponer para acceder a dicho contenedor
 - Los volúmenes a utilizar
 - Las variables necesarias para ejecutar las aplicaciones
+- Networks externas para comunicar los contenedores entre sí desde contenedores tanto del mismo ".yaml" como de distintos.
 
 ## Kubernetes
 
@@ -21,19 +22,19 @@ Alguna de las características que ofrece Kubernetes para los equipos de desarro
 - Autocuración: reiniciar los contenedores que fallan, reemplazar y re-programarlos cuando los nodos mueran. Eliminar asimismo los contenedores que no responden y no publicarlos hasta que estén listos.
 - Ejecución de despliegues automatizados donde se implementan progresivamente los cambios en la aplicación o su configuración, mientras se monitorea su estado. De este modo, se asegura que no elimine todas sus instancias al mismo tiempo. Si algo sale mal, Kubernetes revertirá el cambio.
 
-Kubernetes es, en esencia, un cluster formado por dos tipos de unidades: el nodo Master y los nodos Worker (o simplemente Nodos).
+Kubernetes és, en esencia, un cluster formado por dos tipos de unidades: el nodo Master y los nodos Worker (o simplemente Nodos).
 - El Master coordina el cluster. Coordina todas las actividades de este como organizar (schedule) las aplicaciones, mantener el estado deseado de las aplicaciones, escalado, despliegue de actualizaciones, y demás.
 - Los Nodos son workers que ejecutan las aplicaciones. Cada nodo contiene un agente denominado Kubelet que gestiona el nodo y mantiene la comunicación con el Máster a través de la API de Kubernetes
 
 ## Crear fichero docker-compose.yml 
 
-Crearemos un fichero docker-compose.yml en el que estaran los servicios necesarios para el despliege de la aplicacion. El fichero esta formado por los siguientes servicio:
+Crearemos un fichero docker-compose.yml en el que estarán los servicios necesarios para el despliege de la aplicación. El fichero esta formado por los siguientes servicio:
   - Angular
   - Rest (Express JS)
   - Graphql 
   - MonngoDB
 
-Todos estos servicios estaran conectados por una network llamada api-network. Se expondran los puertos y se declararan las variables necesarias y algunos de ellos dependeran de otros. 
+Todos estos servicios estaran conectados por una network llamada api-network. Se expondran los puertos y se declararan las variables necesarias y algunos de ellos dependerán de otros. 
 
 ```
 version: "3"
@@ -161,7 +162,7 @@ datasources:
     editable: true
 ```
 
-Finalmente el fichero docker-compose.yml de los servicios de Prometheus y Grafana se quedara de la siguiente forma:
+Finalmente el fichero docker-compose.yml de los servicios de Prometheus y Grafana se quedará de la siguiente forma:
 
 ```
 version: "3"
@@ -210,9 +211,9 @@ Utilizaremos el siguiente comando para iniciar el docker-compose:
 docker-compose up
 ```
 
-### Añadir endpoints a la aplicacion
+### Añadir endpoints a la aplicación
 
-Seguidamente vamos ha modificar el codigo del servidor rest para que, al invocar a cada uno de los endpoints contara el numero total de solicitudes de los procesos get.
+Seguidamente vamos a modificar el código del servidor rest para que, al invocar a cada uno de los endpoints, contará el numero total de solicitudes de los procesos get.
 
 Primero de todo añadiremos en el archivo servidor/rest/index.js las siguientes lineas:
 
@@ -228,7 +229,7 @@ app.get('/metrics', (req, res) => {
 });
 ```
 
-Seguidamente vamos ha modificar el archivo servidor/rest/routes/api/products.js añadiendo el siguiente codigo para añadir el endpoint:
+Seguidamente vamos a modificar el archivo servidor/rest/routes/api/products.js añadiendo el siguiente código para añadir el endpoint:
 
 ```
 let client = require('prom-client');
@@ -247,7 +248,7 @@ Ahora localizamos los diferentes get y añadiremos el incrementador de endpoints
 
 Seguiremos los mismos pasos para los distintos endpoints.
 
-## Comprobacion del correcto funcionamiento de la aplicacion con Prometheus y Grafana
+## Comprobación del correcto funcionamiento de la aplicación con Prometheus y Grafana
 
 Una vez creado el docker-compose.yml y docker-compose1.yml realizaremos el docker-compose up. Para lanzar los dos docker-compose a la vez. Se realizara con el siguiente comando:
 
@@ -255,19 +256,19 @@ Una vez creado el docker-compose.yml y docker-compose1.yml realizaremos el docke
 docker-compose -f docker-compose.yml -f docker-compose1.yml up -d
 ```
 
-Entrandoremos en http://localhost:4200 para comprobar que la aplicacion funciona correctamente:
+Entraremos en http://localhost:4200 para comprobar que la aplicación funciona correctamente:
 
 ![Bualabob](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(9).png)
 
-Entrandoremos en http://localhost:4000/metrics para comprobar que podemos ver las metricas:
+Entraremos en http://localhost:4000/metrics para comprobar que podemos ver las métricas:
 
 ![metricas](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(1).png)
 
-Entrandoremos en http://localhost:9090 para comprobar que funciona Prometheus
+Entraremos en http://localhost:9090 para comprobar que funciona Prometheus
 
 ![Prometheus](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(7).png)
 
-Por ultimo entraremos en http://localhost:3500 para comprobar que funciona Grafana y crearemos una dashboard para comprobar que los diferentes endpoints funcionan correctamente. Nos dirigimos a Create -> Dashboard
+Por último entraremos en http://localhost:3500 para comprobar que funciona Grafana y crearemos una dashboard para comprobar que los diferentes endpoints funcionan correctamente. Nos dirigimos a Create -> Dashboard
 
 ![Grafana](https://github.com/KevinCamos/NodeJS_Express_Mongo_Angular12/blob/gh-pages/img/docker%20(2).png)
 
